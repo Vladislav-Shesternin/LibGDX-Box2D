@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">PinUp</string>
+    <string name="play">"Грати"</string>
+    <string name="options">Опції</string>
+    <string name="exit">Вихiд</string>
+</resources>
