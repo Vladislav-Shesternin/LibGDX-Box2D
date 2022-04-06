@@ -2,8 +2,7 @@ package com.veldan.pinup.actors.progressBar
 
 import com.badlogic.gdx.scenes.scene2d.ui.Image
 import com.veldan.pinup.actors.masks.normal.Mask
-import com.veldan.pinup.advanced.AbstractAdvancedGroup
-import com.veldan.pinup.layout.setBoundsFigmaY
+import com.veldan.pinup.advanced.group.AbstractAdvancedGroup
 import com.veldan.pinup.manager.assets.SpriteManager
 import com.veldan.pinup.utils.disable
 import com.veldan.pinup.layout.Layout.ProgressBar as LP

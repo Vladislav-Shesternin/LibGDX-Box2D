@@ -2,7 +2,7 @@ package com.veldan.pinup.actors.masks.inverted
 
 import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.graphics.g2d.Batch
-import com.veldan.pinup.advanced.AbstractAdvancedGroup
+import com.veldan.pinup.advanced.group.AbstractAdvancedGroup
 
 class InvertedMask(
     val texture: Texture,

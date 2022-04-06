@@ -7,7 +7,6 @@ import com.veldan.pinup.actors.label.LabelStyleUtil
 import com.veldan.pinup.advanced.AdvancedScreen
 import com.veldan.pinup.advanced.AdvancedStage
 import com.veldan.pinup.main.game
-import com.veldan.pinup.layout.setBoundsFigmaY
 import com.veldan.pinup.manager.assets.SpriteManager
 import com.veldan.pinup.layout.Layout.Splash as LS
 
@@ -44,7 +43,7 @@ class SplashScreen : AdvancedScreen() {
     private fun AdvancedStage.addProgress() {
        addActor(progressLabel)
        progressLabel.apply {
-           setBoundsFigmaY(LS.PROGRESS_X, LS.PROGRESS_Y, LS.PROGRESS_W, LS.PROGRESS_H)
+           setBounds(LS.PROGRESS_X, LS.PROGRESS_Y, LS.PROGRESS_W, LS.PROGRESS_H)
            setAlignment(Align.center)
        }
     }

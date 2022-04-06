@@ -7,18 +7,16 @@ import java.util.*
 
 object Language {
 
-    var locale: Locale? = null
+    var locale: Locale = Locale.getDefault()
 
 
 
     fun getLocaleStringResource(
         resourceId: Int,
-        requestedLocale: Locale? = locale,
+        requestedLocale: Locale = locale,
     ): String = with(game.activity) { Configuration(resources.configuration).run {
          setLocale(requestedLocale)
-         val s = createConfigurationContext(this).getText(resourceId).toString()
-        log("res - $s")
-        s
+         createConfigurationContext(this).getString(resourceId)
     } }
 
 }

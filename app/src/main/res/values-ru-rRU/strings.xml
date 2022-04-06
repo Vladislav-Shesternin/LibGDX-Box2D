@@ -4,4 +4,6 @@
     <string name="play">Играть</string>
     <string name="options">Опции</string>
     <string name="exit">Выход</string>
+    <string name="bet">СТАВКА</string>
+    <string name="spin">Пуск</string>
 </resources>

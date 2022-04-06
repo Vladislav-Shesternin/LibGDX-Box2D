@@ -3,7 +3,7 @@ package com.veldan.pinup.actors.label.scrolling
 import com.badlogic.gdx.scenes.scene2d.ui.Label
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane
 import com.badlogic.gdx.utils.Align
-import com.veldan.pinup.advanced.AbstractAdvancedGroup
+import com.veldan.pinup.advanced.group.AbstractAdvancedGroup
 
 class ScrollingLabel(
     val text         : String,
@@ -30,7 +30,6 @@ class ScrollingLabel(
     private fun addActorsOnGroup() {
         addScrollPane()
     }
-
 
     private fun addScrollPane() {
         addAndFillActor(scrollPane)

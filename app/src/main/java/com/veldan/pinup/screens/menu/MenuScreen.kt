@@ -6,8 +6,6 @@ import com.veldan.pinup.actors.label.LabelStyleUtil
 import com.veldan.pinup.actors.label.spinning.SpinningLabel
 import com.veldan.pinup.advanced.AdvancedScreen
 import com.veldan.pinup.advanced.AdvancedStage
-import com.veldan.pinup.layout.setBoundsFigmaY
-import com.veldan.pinup.main.game
 import com.veldan.pinup.manager.assets.SpriteManager
 import com.veldan.pinup.utils.language.Language
 import java.util.*
@@ -16,9 +14,9 @@ import com.veldan.pinup.layout.Layout.Menu as LM
 class MenuScreen : AdvancedScreen() {
     override val controller = MenuScreenController(this)
 
-    private val playButton   by lazy { ButtonClickable(ButtonClickable.Style.button_1) }
-    private val optionButton by lazy { ButtonClickable(ButtonClickable.Style.button_1) }
-    private val exitButton   by lazy { ButtonClickable(ButtonClickable.Style.button_1) }
+    private val playButton   = ButtonClickable(ButtonClickable.Style.button_1)
+    private val optionButton = ButtonClickable(ButtonClickable.Style.button_1)
+    private val exitButton   = ButtonClickable(ButtonClickable.Style.button_1)
     private val playLabel    by lazy { SpinningLabel(Language.getLocaleStringResource(R.string.play), LabelStyleUtil.white92)}
     private val optionsLabel by lazy { SpinningLabel(Language.getLocaleStringResource(R.string.options), LabelStyleUtil.white92)}
     private val exitLabel    by lazy { SpinningLabel(Language.getLocaleStringResource(R.string.exit), LabelStyleUtil.white92)}
@@ -43,33 +41,33 @@ class MenuScreen : AdvancedScreen() {
     private fun AdvancedStage.addPlay() {
         addActor(playButton)
         playButton.apply {
-            setBoundsFigmaY(LM.Button.X, LM.PLAY_Y, LM.Button.W, LM.Button.H)
+            setBounds(LM.Button.X, LM.PLAY_Y, LM.Button.W, LM.Button.H)
             setOnClickListener { this@MenuScreen.controller.playHandler() }
 
             addActor(playLabel)
-            playLabel.setBoundsFigmaY(LM.Button.TEXT_X, LM.Button.TEXT_Y, LM.Button.TEXT_W, LM.Button.TEXT_H, LM.Button.H)
+            playLabel.setBounds(LM.Button.TEXT_X, LM.Button.TEXT_Y, LM.Button.TEXT_W, LM.Button.TEXT_H)
         }
     }
 
     private fun AdvancedStage.addOptions() {
         addActor(optionButton)
         optionButton.apply {
-            setBoundsFigmaY(LM.Button.X, LM.OPTIONS_Y, LM.Button.W, LM.Button.H)
+            setBounds(LM.Button.X, LM.OPTIONS_Y, LM.Button.W, LM.Button.H)
             setOnClickListener { this@MenuScreen.controller.optionsHandler() }
 
             addActor(optionsLabel)
-            optionsLabel.setBoundsFigmaY(LM.Button.TEXT_X, LM.Button.TEXT_Y, LM.Button.TEXT_W, LM.Button.TEXT_H, LM.Button.H)
+            optionsLabel.setBounds(LM.Button.TEXT_X, LM.Button.TEXT_Y, LM.Button.TEXT_W, LM.Button.TEXT_H)
         }
     }
 
     private fun AdvancedStage.addExit() {
         addActor(exitButton)
         exitButton.apply {
-            setBoundsFigmaY(LM.Button.X, LM.EXIT_Y, LM.Button.W, LM.Button.H)
+            setBounds(LM.Button.X, LM.EXIT_Y, LM.Button.W, LM.Button.H)
             setOnClickListener { this@MenuScreen.controller.exitHandler() }
 
             addActor(exitLabel)
-            exitLabel.setBoundsFigmaY(LM.Button.TEXT_X, LM.Button.TEXT_Y, LM.Button.TEXT_W, LM.Button.TEXT_H, LM.Button.H)
+            exitLabel.setBounds(LM.Button.TEXT_X, LM.Button.TEXT_Y, LM.Button.TEXT_W, LM.Button.TEXT_H)
         }
     }
 

@@ -2,7 +2,7 @@ package com.veldan.pinup.actors.masks.normal
 
 import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.graphics.g2d.Batch
-import com.veldan.pinup.advanced.AbstractAdvancedGroup
+import com.veldan.pinup.advanced.group.AbstractAdvancedGroup
 
 class Mask(
     val mask: Texture? = null,

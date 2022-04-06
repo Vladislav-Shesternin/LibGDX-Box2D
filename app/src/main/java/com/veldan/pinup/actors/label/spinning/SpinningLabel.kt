@@ -5,7 +5,7 @@ import com.badlogic.gdx.utils.Align
 import com.veldan.pinup.actors.label.spinning.SpinningLabelController.Companion.TIME_DELAY
 import com.veldan.pinup.actors.label.spinning.SpinningLabelController.Companion.TIME_ROLL_CURRENT
 import com.veldan.pinup.actors.masks.normal.Mask
-import com.veldan.pinup.advanced.AbstractAdvancedGroup
+import com.veldan.pinup.advanced.group.AbstractAdvancedGroup
 
 class SpinningLabel(
     val text      : CharSequence,

@@ -4,4 +4,6 @@
     <string name="play">"Грати"</string>
     <string name="options">Опції</string>
     <string name="exit">Вихiд</string>
+    <string name="bet">СТАВКА</string>
+    <string name="spin">Пуск</string>
 </resources>

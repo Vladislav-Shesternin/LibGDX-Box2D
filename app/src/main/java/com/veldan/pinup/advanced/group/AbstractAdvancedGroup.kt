@@ -1,4 +1,4 @@
-package com.veldan.pinup.advanced
+package com.veldan.pinup.advanced.group
 
 import com.badlogic.gdx.utils.Disposable
 import com.veldan.pinup.utils.controller.GroupController

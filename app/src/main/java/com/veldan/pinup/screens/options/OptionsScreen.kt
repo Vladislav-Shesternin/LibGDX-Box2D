@@ -1,12 +1,10 @@
 package com.veldan.pinup.screens.options
 
-import android.content.Context
-import android.content.res.Configuration
 import com.badlogic.gdx.scenes.scene2d.ui.Image
 import com.veldan.pinup.actors.button.ButtonClickable
 import com.veldan.pinup.actors.checkbox.CheckBox
 import com.veldan.pinup.actors.progressBar.ProgressBar
-import com.veldan.pinup.advanced.AdvancedGroup
+import com.veldan.pinup.advanced.group.AdvancedGroup
 import com.veldan.pinup.advanced.AdvancedScreen
 import com.veldan.pinup.advanced.AdvancedStage
 import com.veldan.pinup.manager.AudioManager
@@ -18,11 +16,6 @@ import com.veldan.pinup.layout.Layout.Options as LO
 
 class OptionsScreen : AdvancedScreen() {
     override val controller by lazy { OptionsScreenController(this) }
-
-    companion object {
-        var progressSoundVolume = -1
-        var progressMusicVolume = -1
-    }
 
     private val soundProgressBar  = ProgressBar()
     private val musicProgressBar  = ProgressBar()
@@ -65,12 +58,14 @@ class OptionsScreen : AdvancedScreen() {
         addActor(soundProgressBar)
         soundProgressBar.apply {
             setPosition(LO.PROGRESS_BAR_SOUND_X, LO.PROGRESS_BAR_SOUND_Y)
-            if (progressSoundVolume == -1) progressSoundVolume = AudioManager.volumeLevelFrom_0_to_100
-            controller.setProgress(progressSoundVolume)
-            controller.progressBlock = {
-                progressSoundVolume = it
-                //SoundUtil.volumeLevel.value = (it / 100f)
-                log("sound p = $it")
+            with(OptionsScreenController) {
+                if (progressSoundVolume == -1) progressSoundVolume = AudioManager.volumeLevelFrom_0_to_100
+                controller.setProgress(progressSoundVolume)
+                controller.progressBlock = {
+                    progressSoundVolume = it
+                    //SoundUtil.volumeLevel.value = (it / 100f)
+                    log("sound p = $it")
+                }
             }
         }
     }
@@ -79,12 +74,14 @@ class OptionsScreen : AdvancedScreen() {
         addActor(musicProgressBar)
         musicProgressBar.apply {
             setPosition(LO.PROGRESS_BAR_MUSIC_X, LO.PROGRESS_BAR_MUSIC_Y)
-            if (progressMusicVolume == -1) progressMusicVolume = AudioManager.volumeLevelFrom_0_to_100
-            controller.setProgress(progressMusicVolume)
-            controller.progressBlock = {
-                progressMusicVolume = it
-               // MusicUtil.volumeLevel.value = it
-                log("music p = $it")
+            with(OptionsScreenController) {
+                if (progressMusicVolume == -1) progressMusicVolume = AudioManager.volumeLevelFrom_0_to_100
+                controller.setProgress(progressMusicVolume)
+                controller.progressBlock = {
+                    progressMusicVolume = it
+                    // MusicUtil.volumeLevel.value = it
+                    log("music p = $it")
+                }
             }
         }
     }
@@ -134,6 +131,8 @@ class OptionsScreen : AdvancedScreen() {
                     newX += LO.FlagCheckBoxGroup.CHECK_BOX_W + LO.FlagCheckBoxGroup.CHECK_BOX_SPACE_HORIZONTAL
                     checkBoxGroup = this@OptionsScreen.controller.checkBoxGroup
                     setOnCheckListener { isCheck -> if (isCheck) flag.block() }
+
+                    if (flag.tag == OptionsScreenController.checkedFlag) flag.checkBox.check()
                 }
             }
         }

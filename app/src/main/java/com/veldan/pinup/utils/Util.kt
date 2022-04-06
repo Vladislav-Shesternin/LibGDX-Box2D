@@ -112,9 +112,12 @@ fun Long.transformToBalanceFormat(): String {
     return balance.joinToString("")
 }
 
-fun probability(percent: Int, block: () -> Unit) {
+fun probability(percent: Int, block: () -> Unit = {}): Boolean {
     val randomNum = (1..(100 / percent)).random()
-    if (randomNum == 1) block()
+    return if (randomNum == 1) {
+        block()
+        true
+    } else false
 }
 
 fun List<Actor>.setFillParent() {

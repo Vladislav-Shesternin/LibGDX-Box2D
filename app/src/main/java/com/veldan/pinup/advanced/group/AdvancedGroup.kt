@@ -1,14 +1,15 @@
-package com.veldan.pinup.advanced
+package com.veldan.pinup.advanced.group
 
 import com.badlogic.gdx.scenes.scene2d.Actor
 import com.badlogic.gdx.scenes.scene2d.ui.Widget
 import com.badlogic.gdx.scenes.scene2d.ui.WidgetGroup
 import com.badlogic.gdx.utils.Disposable
+import com.veldan.pinup.advanced.group.util.ChainManager
 import com.veldan.pinup.utils.setFillParent
 
 open class AdvancedGroup: WidgetGroup(), Disposable {
 
-    private val chainList = mutableListOf<Actor>()
+    private val chainManager by lazy { ChainManager(this) }
 
 
 
@@ -30,31 +31,31 @@ open class AdvancedGroup: WidgetGroup(), Disposable {
         var newY = 0f
 
         when (alignmentHorizontal to alignmentVertical) {
-            AlignmentHorizontal.START to AlignmentVertical.CENTER -> {
+            AlignmentHorizontal.START to AlignmentVertical.CENTER  -> {
                 newY = (height / 2) - (actor.height / 2)
             }
             AlignmentHorizontal.START to AlignmentVertical.TOP     -> {
                 newY = height - actor.height
             }
-            AlignmentHorizontal.CENTER to AlignmentVertical.BOTTOM   -> {
+            AlignmentHorizontal.CENTER to AlignmentVertical.BOTTOM -> {
                 newX = (width / 2) - (actor.width / 2)
             }
             AlignmentHorizontal.CENTER to AlignmentVertical.CENTER -> {
                 newX = (width / 2) - (actor.width / 2)
                 newY = (height / 2) - (actor.height / 2)
             }
-            AlignmentHorizontal.CENTER to AlignmentVertical.TOP -> {
+            AlignmentHorizontal.CENTER to AlignmentVertical.TOP    -> {
                 newX = (width / 2) - (actor.width / 2)
                 newY = height - actor.height
             }
-            AlignmentHorizontal.END to AlignmentVertical.BOTTOM -> {
+            AlignmentHorizontal.END to AlignmentVertical.BOTTOM    -> {
                 newX = width - actor.width
             }
-            AlignmentHorizontal.END to AlignmentVertical.CENTER -> {
+            AlignmentHorizontal.END to AlignmentVertical.CENTER    -> {
                 newX = width - actor.width
                 newY = (height / 2) - (actor.height / 2)
             }
-            AlignmentHorizontal.END to AlignmentVertical.TOP    -> {
+            AlignmentHorizontal.END to AlignmentVertical.TOP       -> {
                 newX = width - actor.width
                 newY = height - actor.height
             }
@@ -88,44 +89,8 @@ open class AdvancedGroup: WidgetGroup(), Disposable {
         actors.forEach { addActor(it) }
     }
 
-    fun addActorChain(actor: Actor, style: ChainStyle, limit: Int, spaceX: Float, spaceY: Float) {
-        if (limit == 0) throw Exception("Limit must be > 0.")
-
-        when (style) {
-            ChainStyle.START_TOP_END_BOTTOM -> styleStartTopEndBottom(actor, limit, spaceX, spaceY)
-        }
-    }
-
-
-
-    private fun styleStartTopEndBottom(actor: Actor, limit: Int, spaceX: Float, spaceY: Float) {
-        val x: Float
-        val y: Float
-
-        if (chainList.isEmpty()) {
-            x = 0f
-            y = this.height - actor.height
-        } else {
-            val firstActor = chainList.first()
-            val lastActor = chainList.last()
-
-            if (chainList.size % limit == 0) {
-                x = firstActor.x
-                y = lastActor.y - spaceY - actor.height
-            } else {
-                x = lastActor.x + lastActor.width + spaceX
-                y = lastActor.y
-            }
-        }
-        actor.setPosition(x, y)
-        chainList.add(actor)
-        addActor(actor)
-    }
-
-
-
-    enum class ChainStyle {
-        START_TOP_END_BOTTOM
+    fun addActorChain(actor: Actor, style: ChainManager.ChainStyle, limit: Int, spaceX: Float, spaceY: Float) {
+       chainManager.addActor(actor, style, limit, spaceX, spaceY)
     }
 
     enum class AlignmentHorizontal { START, CENTER, END, }

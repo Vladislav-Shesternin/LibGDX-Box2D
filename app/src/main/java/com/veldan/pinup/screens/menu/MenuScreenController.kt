@@ -1,6 +1,7 @@
 package com.veldan.pinup.screens.menu
 
 import com.veldan.pinup.manager.NavigationManager
+import com.veldan.pinup.screens.game.GameScreen
 import com.veldan.pinup.screens.menu.MenuScreen
 import com.veldan.pinup.screens.options.OptionsScreen
 import com.veldan.pinup.utils.controller.ScreenController
@@ -10,7 +11,7 @@ class MenuScreenController(
 ) : ScreenController {
 
     fun playHandler() {
-       // NavigationManager.navigate(GameScreen(), MenuScreen())
+        NavigationManager.navigate(GameScreen(), MenuScreen())
     }
 
     fun optionsHandler() {

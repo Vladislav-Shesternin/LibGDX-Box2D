@@ -8,9 +8,8 @@ import com.badlogic.gdx.scenes.scene2d.InputListener
 import com.badlogic.gdx.scenes.scene2d.Touchable
 import com.badlogic.gdx.scenes.scene2d.ui.Image
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable
-import com.veldan.pinup.advanced.AbstractAdvancedGroup
+import com.veldan.pinup.advanced.group.AbstractAdvancedGroup
 import com.veldan.pinup.manager.assets.SpriteManager
-import com.veldan.pinup.manager.assets.util.SoundUtil
 import com.veldan.pinup.manager.assets.util.playAdvanced
 
 class ButtonClickable(
@@ -132,50 +131,38 @@ class ButtonClickable(
         val disabled: Texture? = null,
     ) {
         companion object {
-           val button_1 get() = Style(
-               default = SpriteManager.MenuSprite.BUTTON_DEF_1.data.texture,
-               pressed = SpriteManager.MenuSprite.BUTTON_PRESS_1.data.texture,
-           )
-           val back get() = Style(
-               default = SpriteManager.OptionsSprite.BACK_DEF.data.texture,
-               pressed = SpriteManager.OptionsSprite.BACK_PRESS.data.texture,
-           )
-          // val spin = Style(
-          //     default  = SpriteManager.GameSprite.SPIN_DEF.data.texture,
-          //     pressed  = SpriteManager.GameSprite.SPIN_PRESS.data.texture,
-          //     disabled = SpriteManager.GameSprite.SPIN_DIS.data.texture,
-          // )
-          // val autospin = Style(
-          //     default  = SpriteManager.GameSprite.AUTOSPIN_DEF.data.texture,
-          //     pressed  = SpriteManager.GameSprite.AUTOSPIN_PRESS.data.texture,
-          //     disabled = SpriteManager.GameSprite.AUTOSPIN_DIS.data.texture,
-          // )
-          // val menu = Style(
-          //     default = SpriteManager.GameSprite.MENU_DEF.data.texture,
-          //     pressed = SpriteManager.GameSprite.MENU_PRESS.data.texture,
-          // )
-          // val plus = Style(
-          //     default  = SpriteManager.GameSprite.PLUS_DEF.data.texture,
-          //     pressed  = SpriteManager.GameSprite.PLUS_PRESS.data.texture,
-          //     disabled = SpriteManager.GameSprite.PLUS_DIS.data.texture,
-          // )
-          // val minus = Style(
-          //     default  = SpriteManager.GameSprite.MINUS_DEF.data.texture,
-          //     pressed  = SpriteManager.GameSprite.MINUS_PRESS.data.texture,
-          //     disabled = SpriteManager.GameSprite.MINUS_DIS.data.texture,
-          // )
-          // val done = Style(
-          //     default = SpriteManager.GameSprite.DONE_DEF.data.texture,
-          //     pressed = SpriteManager.GameSprite.DONE_PRESS.data.texture,
-          // )
-          // val balance = Style(
-          //     default = SpriteManager.GameSprite.BALANCE_DEF.data.texture,
-          //     pressed = SpriteManager.GameSprite.BALANCE_PRESS.data.texture,
-          // )
-          // val next = Style(
-          //     default = SpriteManager.GameSprite.NEXT_ARROW_DEF.data.texture,
-          //     pressed = SpriteManager.GameSprite.NEXT_ARROW_PRESS.data.texture,
-          // )
+            val button_1 get() = Style(
+                default = SpriteManager.MenuSprite.BUTTON_DEF_1.data.texture,
+                pressed = SpriteManager.MenuSprite.BUTTON_PRESS_1.data.texture,
+            )
+            val back get() = Style(
+                default = SpriteManager.OptionsSprite.BACK_DEF.data.texture,
+                pressed = SpriteManager.OptionsSprite.BACK_PRESS.data.texture,
+            )
+            val plus get() = Style(
+                default  = SpriteManager.GameSprite.PLUS_DEF.data.texture,
+                pressed  = SpriteManager.GameSprite.PLUS_PRESS.data.texture,
+                disabled = SpriteManager.GameSprite.PLUS_DIS.data.texture,
+            )
+            val minus get() = Style(
+                default  = SpriteManager.GameSprite.MINUS_DEF.data.texture,
+                pressed  = SpriteManager.GameSprite.MINUS_PRESS.data.texture,
+                disabled = SpriteManager.GameSprite.MINUS_DIS.data.texture,
+            )
+            val menu get() = Style(
+                default = SpriteManager.GameSprite.MENU_DEF.data.texture,
+                pressed = SpriteManager.GameSprite.MENU_PRESS.data.texture,
+            )
+            val autoSpin get() = Style(
+                default  = SpriteManager.GameSprite.AUTO_SPIN_DEF.data.texture,
+                pressed  = SpriteManager.GameSprite.AUTO_SPIN_PRESS.data.texture,
+                disabled = SpriteManager.GameSprite.AUTO_SPIN_DIS.data.texture,
+            )
+            val spin get() = Style(
+                default  = SpriteManager.GameSprite.SPIN_DEF.data.texture,
+                pressed  = SpriteManager.GameSprite.SPIN_PRESS.data.texture,
+                disabled = SpriteManager.GameSprite.SPIN_DIS.data.texture,
+            )
         }
     }
 

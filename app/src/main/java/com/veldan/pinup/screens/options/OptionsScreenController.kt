@@ -18,34 +18,46 @@ class OptionsScreenController(
     override val screen: OptionsScreen
 ): ScreenController {
 
+    companion object {
+        var progressSoundVolume = -1
+        var progressMusicVolume = -1
+        var checkedFlag: FlagTag? = null
+    }
+
     val checkBoxGroup = CheckBoxGroup()
 
     val flagList = listOf<Flag>(
-        Flag(screen.usImage, screen.usCheckBox, getFlagBlockByTag(FlagTag.US)),
-        Flag(screen.ruImage, screen.ruCheckBox, getFlagBlockByTag(FlagTag.RU)),
-        Flag(screen.ukImage, screen.ukCheckBox, getFlagBlockByTag(FlagTag.UK)),
+        Flag(FlagTag.US, screen.usImage, screen.usCheckBox, getFlagBlockByTag(FlagTag.US)),
+        Flag(FlagTag.RU, screen.ruImage, screen.ruCheckBox, getFlagBlockByTag(FlagTag.RU)),
+        Flag(FlagTag.UK, screen.ukImage, screen.ukCheckBox, getFlagBlockByTag(FlagTag.UK)),
     )
 
 
 
-    private fun getFlagBlockByTag(tag: FlagTag): () -> Unit = when (tag) {
-        FlagTag.US -> {{
-            log("us")
-            Language.locale = Locale("us")
-        }}
-        FlagTag.RU -> {{
-            log("ru")
-            Language.locale = Locale("ru")
-        }}
-        FlagTag.UK -> {{
-            log("uk")
-            Language.locale = Locale("uk")
-        }}
+    private fun getFlagBlockByTag(tag: FlagTag): () -> Unit {
+        return when (tag) {
+            FlagTag.US -> { {
+                log("us")
+                Language.locale = Locale("us")
+                checkedFlag = tag
+            } }
+            FlagTag.RU -> { {
+                log("ru")
+                Language.locale = Locale("ru")
+                checkedFlag = tag
+            } }
+            FlagTag.UK -> { {
+                log("uk")
+                Language.locale = Locale("uk")
+                checkedFlag = tag
+            } }
+        }
     }
 
 
 
     data class Flag(
+        val tag     : FlagTag,
         val image   : Image,
         val checkBox: CheckBox,
         val block   : () -> Unit,

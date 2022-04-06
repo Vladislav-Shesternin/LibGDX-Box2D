@@ -8,12 +8,10 @@ import com.badlogic.gdx.scenes.scene2d.InputListener
 import com.badlogic.gdx.scenes.scene2d.Touchable
 import com.badlogic.gdx.scenes.scene2d.ui.Image
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable
-import com.veldan.pinup.advanced.AbstractAdvancedGroup
+import com.veldan.pinup.advanced.group.AbstractAdvancedGroup
 import com.veldan.pinup.manager.assets.SpriteManager
-import com.veldan.pinup.manager.assets.util.SoundUtil
 import com.veldan.pinup.manager.assets.util.playAdvanced
 import com.veldan.pinup.utils.cancelCoroutinesAll
-import com.veldan.pinup.utils.log
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -79,15 +77,8 @@ class CheckBox(
 
         override fun touchUp(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int) {
             if (isWithin) {
-                if(checkBoxGroup != null){
-                    with(checkBoxGroup!!) {
-                        currentCheckedCheckBox?.uncheckAndEnabled()
-                        currentCheckedCheckBox = this@CheckBox
-                    }
-                    checkAndDisable()
-                } else {
-                    if (checkFlow.value.not()) check() else uncheck()
-                }
+                if(checkBoxGroup != null) checkAndDisable()
+                else { if (checkFlow.value.not()) check() else uncheck() }
             }
         }
     }
@@ -95,6 +86,11 @@ class CheckBox(
 
 
     fun check() {
+        checkBoxGroup?.run {
+            currentCheckedCheckBox?.uncheckAndEnabled()
+            currentCheckedCheckBox = this@CheckBox
+        }
+
         defaultImage.isVisible = false
         checkImage.isVisible   = true
         checkFlow.value        = true
