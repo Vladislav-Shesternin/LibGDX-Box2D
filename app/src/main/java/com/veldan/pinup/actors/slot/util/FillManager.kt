@@ -1,12 +1,11 @@
 package com.veldan.pinup.actors.slot.util
 
 import com.veldan.pinup.actors.slot.slot.Slot
+import com.veldan.pinup.actors.slot.util.combination.CombinationRandom
 import com.veldan.pinup.utils.log
 import com.veldan.pinup.utils.probability
 
 class FillManager(val slotList: List<Slot>) {
-
-    private val slotItemContainer = SlotItemContainer()
 
     var fillResult: FillResult? = null
         private set
@@ -16,11 +15,11 @@ class FillManager(val slotList: List<Slot>) {
     private fun fillRandom(isUseWild: Boolean = true) {
         log("FILL_RANDOM")
 
-        val shuffledSlotItemList = slotItemContainer.list.shuffled().toMutableList()
+        val shuffledSlotItemList = SlotItemContainer.list.shuffled().toMutableList()
 
         if (isUseWild) probability(20) {
             log("FILL_RANDOM set WILD")
-            shuffledSlotItemList.add(slotItemContainer.wild)
+            shuffledSlotItemList.add(SlotItemContainer.wild)
         }
 
         // Создаем список списков по 3 рандомных элемента
@@ -36,32 +35,19 @@ class FillManager(val slotList: List<Slot>) {
         log("FILL_WIN")
         fillRandom(false)
 
-        val shuffledSlotItemList = slotItemContainer.list.shuffled()
-        val combinationMatrix    = CombinationMatrix.values().random()
+        val combinationMatrix = CombinationRandom.values().random().matrix
 
-        val winSlotItemSet = mutableSetOf<SlotItem>()
-        val winJointSet    = combinationMatrix.matrix.jointList.toSet()
-
-        slotList.onEachIndexed { slotIndex, slot ->
-            slot.slotItemWinList = mutableListOf<SlotItem>().apply {
-                combinationMatrix.matrix.slotList[slotIndex].onEach { slotItemIndex ->
-                    val slotItem: SlotItem = when (val index = slotItemIndex.toSlotItemIndex) {
-                        100              -> {
-                            winSlotItemSet.add(slotItemContainer.wild)
-                            slotItemContainer.wild
-                        }
-                        in winIndexArray -> {
-                            winSlotItemSet.add(shuffledSlotItemList[index])
-                            shuffledSlotItemList[index]
-                        }
-                        else             -> shuffledSlotItemList[index]
-                    }
-                    add(slotItem)
-                }
-            }
+        slotList.onEachIndexed { index, slot ->
+            slot.slotItemWinList = combinationMatrix.generateSlot(index)
         }
 
-        fillResult = FillResult(winSlotItemSet, winJointSet)
+        fillResult = with(combinationMatrix) {
+            if (intersectionList != null) FillResult(winSlotItemSet!!, intersectionList!!)
+            else null
+        }
+
+        log("res - $fillResult")
+
     }
 
     private fun fillSuper() {

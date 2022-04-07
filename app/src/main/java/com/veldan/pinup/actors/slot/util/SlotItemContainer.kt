@@ -3,14 +3,13 @@ package com.veldan.pinup.actors.slot.util
 import com.veldan.pinup.manager.assets.SpriteManager
 import com.veldan.pinup.manager.assets.SpriteManager.SpriteList.SLOT_ITEM
 
-class SlotItemContainer {
-    companion object {
-        private const val SLOT_ITEM_WILD_ID = 100
-    }
+object SlotItemContainer {
+    private const val SLOT_ITEM_WILD_ID = 100
 
-    val wild = SlotItem(SLOT_ITEM_WILD_ID, 3f, SpriteManager.GameSprite.WILD.data.texture)
 
-    val list = listOf<SlotItem>(
+    val wild get() = SlotItem(SLOT_ITEM_WILD_ID, 3f, SpriteManager.GameSprite.WILD.data.texture)
+
+    val list get() = listOf<SlotItem>(
         SlotItem(1, 1f  , SLOT_ITEM.dataList[0].texture),
         SlotItem(2, 1.1f, SLOT_ITEM.dataList[1].texture),
         SlotItem(3, 1.2f, SLOT_ITEM.dataList[2].texture),

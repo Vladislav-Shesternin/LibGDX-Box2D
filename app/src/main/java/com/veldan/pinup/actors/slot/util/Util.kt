@@ -1,6 +1,7 @@
 package com.veldan.pinup.actors.slot.util
 
 import com.badlogic.gdx.graphics.Texture
+import com.veldan.pinup.actors.slot.util.combination.Matrix3x3
 
 data class SpinResult(
     val winSlotItemSet: Set<SlotItem>?,
@@ -8,8 +9,8 @@ data class SpinResult(
 )
 
 data class FillResult(
-    val winSlotItemSet: Set<SlotItem>,
-    val winJointSet   : Set<Matrix3x3.Joint>
+    val winSlotItemSet  : Set<SlotItem>,
+    val intersectionList: List<Matrix3x3.Intersection>,
 )
 
 data class SlotItem(
