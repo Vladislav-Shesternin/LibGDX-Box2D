@@ -70,6 +70,14 @@ class SlotGroupController(override val group: SlotGroup) : GroupController {
         bonus = null
     }
 
+    private fun logCounter() {
+        log("""
+            
+            winSpinCounter = $spinWinCounter WIN_NUM = $winNumber
+            superGameSpinCounter = $spinSuperGameCounter SUPER_NUM = $superGameNumber
+        """)
+    }
+
 
 
     suspend fun spin() = coroutineScope<SpinResult> {
@@ -88,16 +96,6 @@ class SlotGroupController(override val group: SlotGroup) : GroupController {
             winSlotItemSet = null,
             bonus = null
         )
-    }
-
-
-
-    private fun logCounter() {
-        log("""
-            
-            winSpinCounter = $spinWinCounter WIN_NUM = $winNumber
-            superGameSpinCounter = $spinSuperGameCounter SUPER_NUM = $superGameNumber
-        """)
     }
 
 }

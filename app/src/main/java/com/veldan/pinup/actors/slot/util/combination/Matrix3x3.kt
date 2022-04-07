@@ -7,9 +7,10 @@ import com.veldan.pinup.utils.log
 /**
  * Матрица 3 на 3 - содержит 3 слота (a,b,c) по 3 элемента (0,1,2).
  * winItemList - содержит список победных Item.
+ * WILD не нужно добавлять к winItemList, если он есть в слотах он будет учтен.
  * */
 class Matrix3x3(
-    private val winItemList: List<Item>,
+    private val winItemList: List<Item>? = null,
 
     a0: Item,
     a1: Item,
@@ -46,14 +47,16 @@ class Matrix3x3(
      * */
     private fun generateIntersectionList(): List<Intersection>? {
         val intersectionList = mutableListOf<Intersection>().apply {
-            val winIndexList = winItemList.map { it.index } + Item.WILD.index
+            if (winItemList != null) {
+                val winIndexList = winItemList.map { it.index } + Item.WILD.index
 
-            slotList.onEachIndexed { slotIndex, slot -> slot.onEachIndexed { itemIndex, item ->
-                if (winIndexList.contains(item)) add(Intersection(
-                    slotIndex = slotIndex,
-                    rowIndex  = itemIndex
-                ))
-            } }
+                slotList.onEachIndexed { slotIndex, slot -> slot.onEachIndexed { itemIndex, item ->
+                    if (winIndexList.contains(item)) add(Intersection(
+                        slotIndex = slotIndex,
+                        rowIndex = itemIndex
+                    ))
+                } }
+            }
         }
         return if (intersectionList.isEmpty()) null else intersectionList
     }
