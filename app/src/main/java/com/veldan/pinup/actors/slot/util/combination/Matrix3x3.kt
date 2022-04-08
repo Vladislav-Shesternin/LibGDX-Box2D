@@ -2,7 +2,6 @@ package com.veldan.pinup.actors.slot.util.combination
 
 import com.veldan.pinup.actors.slot.util.SlotItem
 import com.veldan.pinup.actors.slot.util.SlotItemContainer
-import com.veldan.pinup.utils.log
 
 /**
  * Матрица 3 на 3 - содержит 3 слота (a,b,c) по 3 элемента (0,1,2).
@@ -34,7 +33,7 @@ class Matrix3x3(
     private val shuffledSlotItemList = SlotItemContainer.list.shuffled()
 
     val intersectionList: List<Intersection>? by lazy { generateIntersectionList() }
-    val winSlotItemSet  : Set<SlotItem>?      by lazy { generateWinSlotItemSet() }
+    val winSlotItemList : List<SlotItem>?      by lazy { generateWinSlotItemSet() }
 
 
     /** Генераторовать список пересечений:
@@ -61,24 +60,24 @@ class Matrix3x3(
         return if (intersectionList.isEmpty()) null else intersectionList
     }
 
-    /** Генерировать Set победных элементов слотов:
+    /** Генерировать список победных элементов слотов:
      *  return:
      *  если список пересечиний null -> null;
-     *  если список пересечений не пуст -> Set победных элементов слотов;
+     *  если список пересечений не пуст -> список победных элементов слотов;
      *
-     *  1. Полученаем set индексов элементов слотов со списка пересечений;
+     *  1. Полученаем список индексов элементов слотов со списка пересечений;
      *  2. Получаем элементы слотов с shuffledSlotItemList по индексам полученым в первом шаге
      *     если индекс == 100 получаем WILD.
      * */
-    private fun generateWinSlotItemSet(): Set<SlotItem>? {
+    private fun generateWinSlotItemSet(): List<SlotItem>? {
         return if (intersectionList == null) null
         else {
-            val winSlotItemIndexSet = mutableSetOf<Int>()
+            val winSlotItemIndexList = mutableListOf<Int>()
             var slotItem: SlotItem
 
-            mutableSetOf<SlotItem>().apply {
-                intersectionList!!.onEach { winSlotItemIndexSet.add(slotList[it.slotIndex][it.rowIndex]) }
-                winSlotItemIndexSet.onEach { winSlotItemIndex ->
+            mutableListOf<SlotItem>().apply {
+                intersectionList!!.onEach { winSlotItemIndexList.add(slotList[it.slotIndex][it.rowIndex]) }
+                winSlotItemIndexList.onEach { winSlotItemIndex ->
                     slotItem = when (winSlotItemIndex) {
                         100  -> SlotItemContainer.wild
                         else -> shuffledSlotItemList[winSlotItemIndex]

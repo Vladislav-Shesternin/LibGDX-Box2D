@@ -36,7 +36,7 @@ class Slot : AbstractAdvancedGroup() {
 
     private fun addSlotItems() {
         controller.slotItemImageList.onEach { slotItemImage ->
-            slotItemImage.debug()
+           // slotItemImage.debug()
             addActorChain(slotItemImage, ChainManager.ChainStyle.START_TOP_END_BOTTOM, 1, 0f, LS.SLOT_ITEM_SPACE_VERTICAL)
         }
     }

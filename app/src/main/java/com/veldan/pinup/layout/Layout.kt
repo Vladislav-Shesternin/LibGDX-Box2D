@@ -185,12 +185,13 @@ object Layout {
     // Glow Group
     // ------------------------------------------------------------------------
     object Glow {
-        val W = 100f
-        val H = 592f
+        val W = 340f
+        val H = 706f
 
-        val GLOW_ITEM_SPACE_VERTICAL = 23f
-        val GLOW_ITEM_W = 100f
-        val GLOW_ITEM_H = 100f
+        val GLOW_ITEM_FIRST_Y = 364f
+        val GLOW_ITEM_SPACE_VERTICAL = -160f
+        val GLOW_ITEM_W = 340f
+        val GLOW_ITEM_H = 342f
     }
 
     // ------------------------------------------------------------------------
@@ -207,6 +208,10 @@ object Layout {
 
         val SLOT_FIRST_X = 5f
         val SLOT_SPACE_HORIZONTAL = 18f
+
+        val GLOW_FIRST_X = -11f
+        val GLOW_Y = -48f
+        val GLOW_SPACE_HORIZONTAL = -153f
     }
 
 }

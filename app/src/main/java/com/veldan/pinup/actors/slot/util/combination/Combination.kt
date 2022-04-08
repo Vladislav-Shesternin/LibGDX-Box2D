@@ -882,7 +882,7 @@ enum class CombinationWinIntersectingColorfulWithWild(
             winItemList = listOf(A, B, C),
 
             a0 = A, b0 = A, c0 = A,
-            a1 = B, b1 = WILD, c1 = F,
+            a1 = B, b1 = WILD, c1 = B,
             a2 = C, b2 = C, c2 = WILD,
         )
     ),

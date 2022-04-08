@@ -55,9 +55,12 @@ class SlotController(override val group: Slot) : GroupController {
         Gdx.app.postRunnable { with(group) {
             addAction(Actions.sequence(
                 Actions.moveTo(x, LS.END_Y, TIME_SPIN, Interpolation.pow4),
-                Actions.run { continuation.complete(true) }
+                Actions.run {
+                    reset()
+                    continuation.complete(true)
+                }
             ))
         } }
-    }
+    }.await()
 
 }

@@ -9,7 +9,7 @@ data class SpinResult(
 )
 
 data class FillResult(
-    val winSlotItemSet  : Set<SlotItem>,
+    val winSlotItemList : List<SlotItem>,
     val intersectionList: List<Matrix3x3.Intersection>,
 )
 
