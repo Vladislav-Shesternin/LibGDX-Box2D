@@ -284,9 +284,9 @@ enum class CombinationWinNonIntersectingColorful(
         Matrix3x3(
             winItemList = listOf(A, B),
 
-            a0 = F, b0 = B, c0 = C,
+            a0 = F, b0 = C, c0 = C,
             a1 = A, b1 = A, c1 = A,
-            a2 = A, b2 = A, c2 = A,
+            a2 = B, b2 = B, c2 = B,
         )
     ),
     _8(

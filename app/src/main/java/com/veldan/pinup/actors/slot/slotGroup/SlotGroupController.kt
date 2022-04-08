@@ -136,9 +136,11 @@ class SlotGroupController(override val group: SlotGroup) : GroupController {
                 fillManager.winFillResult?.checkBonus()
                 if (bonus == null) { fillManager.winFillResult?.showWin() }
 
+                val winSlotItemSet = if (bonus == null) fillManager.winFillResult?.winSlotItemList?.toSet() else null
+
                 continuation.complete(SpinResult(
-                    winSlotItemSet = fillManager.winFillResult?.winSlotItemList?.toSet()?.apply { resetWin() },
-                    bonus = bonus.apply { resetBonus() }
+                    winSlotItemSet = winSlotItemSet?.apply { resetWin() },
+                    bonus = bonus?.apply { resetBonus() }
                 ))
             }
         }

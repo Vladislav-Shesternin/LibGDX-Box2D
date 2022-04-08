@@ -77,10 +77,15 @@ object SpriteManager {
         SPIN_DEF(        TextureData("sprites/button/spin_def.png")       ),
         SPIN_PRESS(      TextureData("sprites/button/spin_press.png")     ),
         SPIN_DIS(        TextureData("sprites/button/spin_dis.png")       ),
+        BAG(             TextureData("sprites/bag.png")                   ),
     }
 
     enum class SpriteList(override val dataList: List<TextureData>): ISpriteList {
-        SLOT_ITEM(List(8) { TextureData("sprites/list/slot_item/${it.inc()}.png") })
+        SLOT_ITEM(List(8) { TextureData("sprites/list/slot_item/${it.inc()}.png") }),
+    }
+
+    enum class AnimationList(override val dataList: List<TextureData>): ISpriteList {
+        CLICK(List(15) { TextureData("sprites/animation/click/click (${it.inc()}).png") }),
     }
 
 

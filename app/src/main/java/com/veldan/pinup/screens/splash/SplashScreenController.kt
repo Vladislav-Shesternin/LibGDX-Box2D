@@ -94,6 +94,7 @@ class SplashScreenController(
             )
             loadListSpriteList = mutableListOf(
                 *SpriteManager.SpriteList.values(),
+                *SpriteManager.AnimationList.values(),
             )
             load(game.assetManager)
         }

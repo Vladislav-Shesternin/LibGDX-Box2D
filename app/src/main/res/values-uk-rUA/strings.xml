@@ -6,4 +6,6 @@
     <string name="exit">Вихiд</string>
     <string name="bet">СТАВКА</string>
     <string name="spin">Пуск</string>
+    <string name="time">ЧАС</string>
+    <string name="bonus">БОНУС</string>
 </resources>

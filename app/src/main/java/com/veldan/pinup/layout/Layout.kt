@@ -214,4 +214,47 @@ object Layout {
         val GLOW_SPACE_HORIZONTAL = -153f
     }
 
+    // ------------------------------------------------------------------------
+    // MiniGame Group
+    // ------------------------------------------------------------------------
+    object MiniGame {
+
+        object TopPanel {
+            val X = 0f
+            val Y = 1200f
+            val W = 700f
+            val H = 200f
+
+            val TIME_X = 0f
+            val TIME_Y = 125f
+            val TIME_W = 320f
+            val TIME_H = 75f
+
+            val TIME_TEXT_X = 0f
+            val TIME_TEXT_Y = 0f
+            val TIME_TEXT_W = 320f
+            val TIME_TEXT_H = 125f
+
+            val BONUS_X = 380f
+            val BONUS_Y = 125f
+            val BONUS_W = 320f
+            val BONUS_H = 75f
+
+            val BONUS_TEXT_X = 380f
+            val BONUS_TEXT_Y = 0f
+            val BONUS_TEXT_W = 320f
+            val BONUS_TEXT_H = 125f
+        }
+
+        val COUNT_DOWN_X = 90f
+        val COUNT_DOWN_Y = 309f
+        val COUNT_DOWN_W = 520f
+        val COUNT_DOWN_H = 781f
+
+        val BAG_X = 124f
+        val BAG_Y = 333f
+        val BAG_W = 453f
+        val BAG_H = 733f
+    }
+
 }

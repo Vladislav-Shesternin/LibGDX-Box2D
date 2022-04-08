@@ -2,7 +2,6 @@ package com.veldan.pinup.utils.language
 
 import android.content.res.Configuration
 import com.veldan.pinup.main.game
-import com.veldan.pinup.utils.log
 import java.util.*
 
 object Language {
@@ -11,11 +10,11 @@ object Language {
 
 
 
-    fun getLocaleStringResource(
+    fun getStringResource(
         resourceId: Int,
-        requestedLocale: Locale = locale,
+        locale: Locale = this.locale,
     ): String = with(game.activity) { Configuration(resources.configuration).run {
-         setLocale(requestedLocale)
+         setLocale(locale)
          createConfigurationContext(this).getString(resourceId)
     } }
 

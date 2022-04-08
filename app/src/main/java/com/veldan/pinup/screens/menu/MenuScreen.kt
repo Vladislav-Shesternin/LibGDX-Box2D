@@ -17,9 +17,9 @@ class MenuScreen : AdvancedScreen() {
     private val playButton   = ButtonClickable(ButtonClickable.Style.button_1)
     private val optionButton = ButtonClickable(ButtonClickable.Style.button_1)
     private val exitButton   = ButtonClickable(ButtonClickable.Style.button_1)
-    private val playLabel    by lazy { SpinningLabel(Language.getLocaleStringResource(R.string.play), LabelStyleUtil.white92)}
-    private val optionsLabel by lazy { SpinningLabel(Language.getLocaleStringResource(R.string.options), LabelStyleUtil.white92)}
-    private val exitLabel    by lazy { SpinningLabel(Language.getLocaleStringResource(R.string.exit), LabelStyleUtil.white92)}
+    private val playLabel    by lazy { SpinningLabel(Language.getStringResource(R.string.play), LabelStyleUtil.white92)}
+    private val optionsLabel by lazy { SpinningLabel(Language.getStringResource(R.string.options), LabelStyleUtil.white92)}
+    private val exitLabel    by lazy { SpinningLabel(Language.getStringResource(R.string.exit), LabelStyleUtil.white92)}
 
 
 

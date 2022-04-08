@@ -5,4 +5,6 @@
     <string name="exit">Exit</string>
     <string name="bet">BET</string>
     <string name="spin">Spin</string>
+    <string name="time">TIME</string>
+    <string name="bonus">BONUS</string>
 </resources>
