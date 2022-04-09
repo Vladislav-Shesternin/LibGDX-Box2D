@@ -300,7 +300,7 @@ enum class CombinationWinNonIntersectingColorful(
     ),
     _9(
         Matrix3x3(
-            winItemList = listOf(A, B),
+            winItemList = listOf(A),
 
             a0 = D, b0 = B, c0 = A,
             a1 = A, b1 = A, c1 = F,
@@ -336,7 +336,7 @@ enum class CombinationWinNonIntersectingColorful(
     ),
     _13(
         Matrix3x3(
-            winItemList = listOf(A, B),
+            winItemList = listOf(A),
 
             a0 = A, b0 = B, c0 = C,
             a1 = D, b1 = A, c1 = F,
@@ -345,7 +345,7 @@ enum class CombinationWinNonIntersectingColorful(
     ),
     _14(
         Matrix3x3(
-            winItemList = listOf(A, B),
+            winItemList = listOf(A),
 
             a0 = G, b0 = B, c0 = A,
             a1 = D, b1 = A, c1 = F,
@@ -372,7 +372,7 @@ enum class CombinationWinNonIntersectingColorful(
     ),
     _17(
         Matrix3x3(
-            winItemList = listOf(B),
+            winItemList = listOf(A, B),
 
             a0 = G, b0 = D, c0 = D,
             a1 = A, b1 = A, c1 = B,

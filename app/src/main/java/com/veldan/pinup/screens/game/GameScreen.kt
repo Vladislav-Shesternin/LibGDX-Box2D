@@ -21,7 +21,7 @@ class GameScreen: AdvancedScreen() {
     override val controller = GameScreenController(this)
 
     val gameGroup         = AdvancedGroup()
-    val miniGame          = MiniGame()
+    var miniGame          = MiniGame()
     val balancePanelGroup = AdvancedGroup()
     val balancePanelImage = Image(SpriteManager.GameSprite.BALANCE_PANEL.data.texture)
     val balanceTextLabel  = SpinningLabel("", LabelStyleUtil.amaranteWhite60)
@@ -48,20 +48,11 @@ class GameScreen: AdvancedScreen() {
 
     private fun AdvancedStage.addActorsOnStage() {
         addGameGroup()
-        addMiniGame()
     }
 
     private fun AdvancedStage.addGameGroup() {
         addAndFillActor(gameGroup)
         gameGroup.addActorsOnGroup()
-    }
-
-    private fun AdvancedStage.addMiniGame() {
-        addAndFillActor(miniGame)
-        miniGame.apply {
-            disable()
-            addAction(Actions.alpha(0f))
-        }
     }
 
     private fun AdvancedGroup.addActorsOnGroup() {
@@ -154,6 +145,19 @@ class GameScreen: AdvancedScreen() {
     private fun AdvancedGroup.addSlotGroup() {
         addActor(slotGroup)
         slotGroup.setPosition(LG.SLOT_GROUP_X, LG.SLOT_GROUP_Y)
+    }
+
+
+
+    fun addMiniGame() {
+        miniGame = MiniGame()
+        with(stage) {
+            addAndFillActor(miniGame)
+            miniGame.apply {
+                disable()
+                addAction(Actions.alpha(0f))
+            }
+        }
     }
 
 

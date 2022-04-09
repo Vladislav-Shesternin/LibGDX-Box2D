@@ -22,13 +22,14 @@ class GameScreenController(override val screen: GameScreen): ScreenController, D
         const val BET_MAX  = 1000L
 
         // seconds
+        const val TIME_SHOW_SCREEN = 1f
         const val TIME_HIDE_SCREEN = 1f
     }
 
-    private val coroutineBalance  = CoroutineScope(Dispatchers.Default)
-    private val coroutineBet      = CoroutineScope(Dispatchers.Default)
-    private val coroutineSpin     = CoroutineScope(Dispatchers.Default)
-    private val coroutineAutoSpin = CoroutineScope(Dispatchers.Default)
+    private val coroutineBalance        = CoroutineScope(Dispatchers.Default)
+    private val coroutineBet            = CoroutineScope(Dispatchers.Default)
+    private val coroutineSpin           = CoroutineScope(Dispatchers.Default)
+    private val coroutineAutoSpin       = CoroutineScope(Dispatchers.Default)
 
     private val betFlow           = MutableSharedFlow<Long>(replay = 1, onBufferOverflow = BufferOverflow.DROP_OLDEST)
     private val autoSpinStateFlow = MutableStateFlow(AutospinState.DEFAULT)
@@ -103,7 +104,8 @@ class GameScreenController(override val screen: GameScreen): ScreenController, D
         }
     }
 
-    private suspend fun startMiniGame(): Long {
+    private suspend fun startMiniGame() {
+        screen.addMiniGame()
         val completableAnimHideGame = CompletableDeferred<Boolean>()
 
         screen.gameGroup.addAction(Actions.sequence(
@@ -116,13 +118,32 @@ class GameScreenController(override val screen: GameScreen): ScreenController, D
 
         completableAnimHideGame.await()
 
+        val completableAnimShowGame = CompletableDeferred<Boolean>()
+
         screen.miniGame.apply {
             enable()
             addAction(Actions.alpha(1f))
-            controller.start()
+            controller.start(betFlow.first())
+
+            controller.doAfterFinish = { bonus ->
+                addAction(Actions.sequence(
+                    Actions.fadeOut(TIME_HIDE_SCREEN),
+                    Actions.removeActor()
+                ))
+
+                screen.gameGroup.addAction(Actions.sequence(
+                    Actions.fadeIn(TIME_SHOW_SCREEN),
+                    Actions.run {
+                        coroutineBalance.launch { DataStoreManager.updateBalance { it + bonus } }
+                        screen.gameGroup.enable()
+                        completableAnimShowGame.complete(true)
+                    },
+                ))
+
+            }
         }
 
-        return 0L
+        completableAnimShowGame.await()
     }
 
     private suspend fun startSuperGame(): Long {

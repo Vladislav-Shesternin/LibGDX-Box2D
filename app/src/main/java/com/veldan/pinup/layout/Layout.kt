@@ -215,6 +215,14 @@ object Layout {
     }
 
     // ------------------------------------------------------------------------
+    // ClickAnim Group
+    // ------------------------------------------------------------------------
+    object ClickAnim {
+        val W = 234f
+        val H = 327f
+    }
+
+    // ------------------------------------------------------------------------
     // MiniGame Group
     // ------------------------------------------------------------------------
     object MiniGame {
@@ -246,15 +254,57 @@ object Layout {
             val BONUS_TEXT_H = 125f
         }
 
-        val COUNT_DOWN_X = 90f
-        val COUNT_DOWN_Y = 309f
-        val COUNT_DOWN_W = 520f
-        val COUNT_DOWN_H = 781f
+        object GameGroup {
+            val COUNT_DOWN_X = 90f
+            val COUNT_DOWN_Y = 309f
+            val COUNT_DOWN_W = 520f
+            val COUNT_DOWN_H = 781f
 
-        val BAG_X = 124f
-        val BAG_Y = 333f
-        val BAG_W = 453f
-        val BAG_H = 733f
+            val BAG_X = 124f
+            val BAG_Y = 333f
+            val BAG_W = 453f
+            val BAG_H = 733f
+
+            val CLICK_ANIM_X = 233f
+            val CLICK_ANIM_Y = 373f
+        }
+
+        object ResultGroup{
+            val BET_PANEL_X = 130f
+            val BET_PANEL_Y = 896f
+            val BET_PANEL_W = 443f
+            val BET_PANEL_H = 100f
+
+            val BET_LABEL_X = 0f
+            val BET_LABEL_Y = 73f
+            val BET_LABEL_W = 443f
+            val BET_LABEL_H = 66f
+
+            val BET_TEXT_X = 0f
+            val BET_TEXT_Y = 12f
+            val BET_TEXT_W = 443f
+            val BET_TEXT_H = 77f
+
+            val MULTIPLICATION_X = 0f
+            val MULTIPLICATION_Y = 752f
+            val MULTIPLICATION_W = 700f
+            val MULTIPLICATION_H = 144f
+
+            val EQUALS_X = 0f
+            val EQUALS_Y = 509f
+            val EQUALS_W = 700f
+            val EQUALS_H = 144f
+
+            val BONUS_X = 0f
+            val BONUS_Y = 627f
+            val BONUS_W = 700f
+            val BONUS_H = 125f
+
+            val RESULT_X = 0f
+            val RESULT_Y = 364f
+            val RESULT_W = 700f
+            val RESULT_H = 145f
+        }
     }
 
 }

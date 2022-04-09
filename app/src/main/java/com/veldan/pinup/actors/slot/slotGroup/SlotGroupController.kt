@@ -21,7 +21,7 @@ class SlotGroupController(override val group: SlotGroup) : GroupController {
 
     private var winNumber       = (1..2).random()
     private var miniGameNumber  = (2..3).random()
-    private var superGameNumber = (3..4).random()
+   // private var superGameNumber = (3..4).random()
 
     private var spinWinCounter       = 0
     private var spinMiniGameCounter  = 0
@@ -35,11 +35,11 @@ class SlotGroupController(override val group: SlotGroup) : GroupController {
 
     private fun fillSlots() {
         when {
-            spinSuperGameCounter == superGameNumber -> {
-                fillManager.fill(FillStrategy.SUPER)
-                bonus = Bonus.SUPER_GAME
-            }
-            spinSuperGameCounter == miniGameNumber  -> {
+//            spinSuperGameCounter == superGameNumber -> {
+//                fillManager.fill(FillStrategy.SUPER)
+//                bonus = Bonus.SUPER_GAME
+//            }
+            spinMiniGameCounter == miniGameNumber  -> {
                 fillManager.fill(FillStrategy.MINI)
                 bonus = Bonus.MINI_GAME
             }
@@ -48,6 +48,7 @@ class SlotGroupController(override val group: SlotGroup) : GroupController {
             }
             else                                    -> {
                 fillManager.fill(FillStrategy.RANDOM)
+               // bonus = Bonus.MINI_GAME
             }
         }
     }
@@ -64,12 +65,12 @@ class SlotGroupController(override val group: SlotGroup) : GroupController {
         }
         fun resetSuperGame() {
             spinSuperGameCounter = 0
-            superGameNumber      = (3..4).random()
+        //    superGameNumber      = (3..4).random()
         }
 
         if (spinWinCounter == winNumber) resetWin()
         if (spinMiniGameCounter == miniGameNumber) resetMiniGame()
-        if (spinSuperGameCounter == superGameNumber) resetSuperGame()
+    //    if (spinSuperGameCounter == superGameNumber) resetSuperGame()
 
         bonus = null
     }
@@ -79,7 +80,7 @@ class SlotGroupController(override val group: SlotGroup) : GroupController {
             
             winSpinCounter = $spinWinCounter WIN_NUM = $winNumber
             miniGameSpinCounter = $spinMiniGameCounter MINI_NUM = $miniGameNumber
-            superGameSpinCounter = $spinSuperGameCounter SUPER_NUM = $superGameNumber
+            superGameSpinCounter = $spinSuperGameCounter SUPER_NUM = $/superGameNumber
         """)
     }
 
@@ -116,7 +117,7 @@ class SlotGroupController(override val group: SlotGroup) : GroupController {
     suspend fun spin() = CompletableDeferred<SpinResult>().also { continuation ->
         spinWinCounter++
         spinMiniGameCounter++
-        spinSuperGameCounter++
+       // spinSuperGameCounter++
 
         logCounter()
         fillSlots()
