@@ -3,6 +3,8 @@ package com.veldan.pinup.actors.superGame
 import com.badlogic.gdx.scenes.scene2d.actions.Actions
 import com.badlogic.gdx.utils.Disposable
 import com.veldan.pinup.actors.slot.slotGroup.boxGroup.BoxGroupController
+import com.veldan.pinup.manager.assets.util.SoundUtil
+import com.veldan.pinup.manager.assets.util.playAdvanced
 import com.veldan.pinup.utils.*
 import com.veldan.pinup.utils.controller.GroupController
 import kotlinx.coroutines.*
@@ -64,8 +66,12 @@ class SuperGameController(override val group: SuperGame) : GroupController, Disp
 
     fun boxHandler(boxPrize: BoxGroupController.BoxPrize) {
         when(boxPrize) {
-            is BoxGroupController.BoxPrize.WIN  -> bonusFlow.value += boxPrize.factor
+            is BoxGroupController.BoxPrize.WIN  -> {
+                SoundUtil.WIN.playAdvanced()
+                bonusFlow.value += boxPrize.factor
+            }
             is BoxGroupController.BoxPrize.Fail -> {
+                SoundUtil.FAIL.playAdvanced()
                 coroutineStart.launch {
                     group.gameGroup.disable()
                     delay(TIME_WAIT_RESULT.toDelay)

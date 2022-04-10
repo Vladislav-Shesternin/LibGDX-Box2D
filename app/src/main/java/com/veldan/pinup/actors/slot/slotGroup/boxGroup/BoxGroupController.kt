@@ -8,6 +8,7 @@ import com.veldan.pinup.actors.label.LabelStyleUtil
 import com.veldan.pinup.advanced.group.util.ChainManager
 import com.veldan.pinup.layout.Layout
 import com.veldan.pinup.manager.assets.SpriteManager
+import com.veldan.pinup.manager.assets.util.SoundUtil
 import com.veldan.pinup.utils.controller.GroupController
 import com.veldan.pinup.utils.listeners.toClickable
 import com.veldan.pinup.utils.log
@@ -45,7 +46,7 @@ class BoxGroupController(override val group: BoxGroup) : GroupController {
             Image(boxTexture).apply {
                 setSize(Layout.BoxGroup.BOX_W, Layout.BoxGroup.BOX_H)
                 group.addActorChain(this, ChainManager.ChainStyle.START_TOP_END_BOTTOM, 3, Layout.BoxGroup.BOX_SPACE_HORIZONTAL, Layout.BoxGroup.BOX_SPACE_VERTICAL)
-                toClickable().setOnClickListener {
+                toClickable().setOnClickListener(SoundUtil.WIN) {
                     addAction(Actions.fadeOut(1f))
                     boxPrizeActor.addAction(Actions.fadeIn(1f))
                     boxClickBlock(boxPrize)

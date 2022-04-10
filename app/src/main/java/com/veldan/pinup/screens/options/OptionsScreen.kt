@@ -10,6 +10,8 @@ import com.veldan.pinup.advanced.AdvancedStage
 import com.veldan.pinup.manager.AudioManager
 import com.veldan.pinup.manager.NavigationManager
 import com.veldan.pinup.manager.assets.SpriteManager
+import com.veldan.pinup.manager.assets.util.MusicUtil
+import com.veldan.pinup.manager.assets.util.SoundUtil
 import com.veldan.pinup.utils.log
 import java.util.*
 import com.veldan.pinup.layout.Layout.Options as LO
@@ -63,7 +65,7 @@ class OptionsScreen : AdvancedScreen() {
                 controller.setProgress(progressSoundVolume)
                 controller.progressBlock = {
                     progressSoundVolume = it
-                    //SoundUtil.volumeLevel.value = (it / 100f)
+                    SoundUtil.volumeLevel.value = (it / 100f)
                     log("sound p = $it")
                 }
             }
@@ -79,7 +81,7 @@ class OptionsScreen : AdvancedScreen() {
                 controller.setProgress(progressMusicVolume)
                 controller.progressBlock = {
                     progressMusicVolume = it
-                    // MusicUtil.volumeLevel.value = it
+                    MusicUtil.volumeLevel.value = it
                     log("music p = $it")
                 }
             }

@@ -4,6 +4,7 @@ import com.badlogic.gdx.audio.Sound
 import com.badlogic.gdx.scenes.scene2d.Actor
 import com.badlogic.gdx.scenes.scene2d.InputEvent
 import com.badlogic.gdx.scenes.scene2d.InputListener
+import com.veldan.pinup.manager.assets.util.SoundUtil
 import com.veldan.pinup.manager.assets.util.playAdvanced
 
 class ClickListener(private val actor: Actor) {
@@ -35,7 +36,7 @@ class ClickListener(private val actor: Actor) {
 
 
 
-    fun setOnClickListener(sound: Sound? = null, block: () -> Unit) {
+    fun setOnClickListener(sound: Sound? = SoundUtil.CLICK, block: () -> Unit) {
         onClickBlock = block
         with(actor) { addListener(getListener(sound)) }
     }

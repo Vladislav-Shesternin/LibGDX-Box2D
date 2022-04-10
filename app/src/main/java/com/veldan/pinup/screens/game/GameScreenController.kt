@@ -6,6 +6,7 @@ import com.badlogic.gdx.utils.Disposable
 import com.veldan.pinup.actors.slot.util.Bonus
 import com.veldan.pinup.actors.slot.util.SpinResult
 import com.veldan.pinup.manager.DataStoreManager
+import com.veldan.pinup.manager.assets.util.MusicUtil
 import com.veldan.pinup.utils.*
 import com.veldan.pinup.utils.controller.ScreenController
 import kotlinx.coroutines.*
@@ -105,6 +106,7 @@ class GameScreenController(override val screen: GameScreen): ScreenController, D
     }
 
     private suspend fun startMiniGame() {
+        with(MusicUtil) { currentMusic = MINI_GAME }
         screen.addMiniGame()
         val completableAnimHideGame = CompletableDeferred<Boolean>()
 
@@ -126,6 +128,7 @@ class GameScreenController(override val screen: GameScreen): ScreenController, D
             controller.start(betFlow.first())
 
             controller.doAfterFinish = { bonus ->
+                with(MusicUtil) { currentMusic = MAIN }
                 addAction(Actions.sequence(
                     Actions.fadeOut(TIME_HIDE_SCREEN),
                     Actions.removeActor()
@@ -147,6 +150,7 @@ class GameScreenController(override val screen: GameScreen): ScreenController, D
     }
 
     private suspend fun startSuperGame() {
+        with(MusicUtil) { currentMusic = SUPER_GAME }
         screen.addSuperGame()
         val completableAnimHideGame = CompletableDeferred<Boolean>()
 
@@ -168,6 +172,7 @@ class GameScreenController(override val screen: GameScreen): ScreenController, D
             controller.start(betFlow.first())
 
             controller.doAfterFinish = { bonus ->
+                with(MusicUtil) { currentMusic = MAIN }
                 addAction(Actions.sequence(
                     Actions.fadeOut(TIME_HIDE_SCREEN),
                     Actions.removeActor()

@@ -10,6 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable
 import com.veldan.pinup.advanced.group.AbstractAdvancedGroup
 import com.veldan.pinup.manager.assets.SpriteManager
+import com.veldan.pinup.manager.assets.util.SoundUtil
 import com.veldan.pinup.manager.assets.util.playAdvanced
 import com.veldan.pinup.utils.cancelCoroutinesAll
 import kotlinx.coroutines.CoroutineScope
@@ -125,7 +126,7 @@ class CheckBox(
         checkImage.drawable   = TextureRegionDrawable(style.checked)
     }
 
-    fun setOnCheckListener(sound: Sound? = null/*SoundUtil.CHECK*/, block: (Boolean) -> Unit) {
+    fun setOnCheckListener(sound: Sound? = SoundUtil.CHECK, block: (Boolean) -> Unit) {
         this.sound = sound
         onCheckBlock = block
     }

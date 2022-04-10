@@ -12,6 +12,7 @@ import com.veldan.pinup.actors.superGame.SuperGameController
 import com.veldan.pinup.advanced.group.AbstractAdvancedGroup
 import com.veldan.pinup.advanced.group.AdvancedGroup
 import com.veldan.pinup.manager.assets.SpriteManager
+import com.veldan.pinup.manager.assets.util.SoundUtil
 import com.veldan.pinup.utils.disable
 import com.veldan.pinup.utils.language.Language
 import com.veldan.pinup.utils.listeners.toClickable
@@ -136,7 +137,7 @@ class MiniGame : AbstractAdvancedGroup() {
             val scaleValue  = listOf(0.03f, -0.03f)
             val rotateValue = listOf(5f, -5f)
 
-            toClickable().setOnClickListener {
+            toClickable().setOnClickListener(SoundUtil.CLICK_BAG) {
                 setScale(scaleX - scaleValue.random())
                 rotation -= rotateValue.random()
                 controller.bonusFlow.value += 0.1f

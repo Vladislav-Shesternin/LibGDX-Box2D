@@ -1,5 +1,3 @@
-@file:Suppress("GDXKotlinStaticResource")
-
 package com.veldan.pinup.manager.assets.util
 
 import com.badlogic.gdx.Gdx
@@ -17,13 +15,12 @@ object MusicUtil: Disposable {
 
     private val coroutineVolumeLevel = CoroutineScope(Dispatchers.Default)
 
+
     val MAIN       get() = MusicManager.EnumMusic.MAIN.data.music
-    val ROULETTE   get() = MusicManager.EnumMusic.ROULETTE.data.music
-    val SPIN       get() = MusicManager.EnumMusic.SPIN.data.music
-    val SUPER_WIN  get() = MusicManager.EnumMusic.SUPER_WIN.data.music
+    val MINI_GAME  get() = MusicManager.EnumMusic.MINI_GAME.data.music
     val SUPER_GAME get() = MusicManager.EnumMusic.SUPER_GAME.data.music
 
-    val musicList get() = listOf(MAIN, ROULETTE, SPIN, SUPER_WIN, SUPER_GAME)
+    val musicList get() = listOf(MAIN, MINI_GAME, SUPER_GAME)
 
     val volumeLevel = MutableStateFlow(AudioManager.volumeLevelFrom_0_to_100)
 
@@ -55,6 +52,7 @@ object MusicUtil: Disposable {
 
 
     override fun dispose() {
+        previousMusic = null
         cancelCoroutinesAll(coroutineVolumeLevel)
     }
 

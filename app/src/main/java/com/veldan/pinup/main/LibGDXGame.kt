@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.utils.ScreenUtils
 import com.veldan.pinup.advanced.AdvancedGame
 import com.veldan.pinup.manager.NavigationManager
+import com.veldan.pinup.manager.assets.util.MusicUtil
 import com.veldan.pinup.screens.splash.SplashScreen
 
 lateinit var game: LibGDXGame private set
@@ -31,6 +32,7 @@ class LibGDXGame(val activity: AndroidLauncher) : AdvancedGame() {
 
     override fun dispose() {
         super.dispose()
+        MusicUtil.dispose()
         assetManager.dispose()
     }
 

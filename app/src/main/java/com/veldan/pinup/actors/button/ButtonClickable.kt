@@ -10,6 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable
 import com.veldan.pinup.advanced.group.AbstractAdvancedGroup
 import com.veldan.pinup.manager.assets.SpriteManager
+import com.veldan.pinup.manager.assets.util.SoundUtil
 import com.veldan.pinup.manager.assets.util.playAdvanced
 
 class ButtonClickable(
@@ -118,7 +119,7 @@ class ButtonClickable(
         unpress()
     }
 
-    fun setOnClickListener(sound: Sound? = null/*SoundUtil.CLICK*/, block: () -> Unit) {
+    fun setOnClickListener(sound: Sound? = SoundUtil.CLICK, block: () -> Unit) {
         this.sound = sound
         onClickBlock = block
     }

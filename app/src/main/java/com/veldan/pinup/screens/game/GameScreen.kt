@@ -14,6 +14,7 @@ import com.veldan.pinup.advanced.AdvancedScreen
 import com.veldan.pinup.advanced.AdvancedStage
 import com.veldan.pinup.manager.NavigationManager
 import com.veldan.pinup.manager.assets.SpriteManager
+import com.veldan.pinup.manager.assets.util.SoundUtil
 import com.veldan.pinup.utils.disable
 import com.veldan.pinup.utils.language.Language
 import com.veldan.pinup.layout.Layout.Game as LG
@@ -104,7 +105,7 @@ class GameScreen: AdvancedScreen() {
         addActor(betPlusButton)
         betPlusButton.apply { 
             setBounds(LG.BET_PLUS_X, LG.BET_PLUS_Y, LG.BET_PLUS_W, LG.BET_PLUS_H)
-            setOnClickListener { this@GameScreen.controller.betPlusHandler() }
+            setOnClickListener(SoundUtil.PLUS_MINUS) { this@GameScreen.controller.betPlusHandler() }
         }
     }
 
@@ -112,7 +113,7 @@ class GameScreen: AdvancedScreen() {
         addActor(betMinusButton)
         betMinusButton.apply {
             setBounds(LG.BET_MINUS_X, LG.BET_MINUS_Y, LG.BET_MINUS_W, LG.BET_MINUS_H)
-            setOnClickListener { this@GameScreen.controller.betMinusHandler() }
+            setOnClickListener(SoundUtil.PLUS_MINUS) { this@GameScreen.controller.betMinusHandler() }
         }
     }
 

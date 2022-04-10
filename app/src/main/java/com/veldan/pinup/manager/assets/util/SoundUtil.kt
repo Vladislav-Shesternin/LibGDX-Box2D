@@ -7,13 +7,14 @@ import com.veldan.pinup.manager.AudioManager
 import kotlinx.coroutines.flow.MutableStateFlow
 
 object SoundUtil {
-    val CLICK            get() = SoundManager.EnumSound.CLICK.data.sound
-    val CHECK            get() = SoundManager.EnumSound.CHECK.data.sound
-    val CLICK_BALANCE    get() = SoundManager.EnumSound.CLICK_BALANCE.data.sound
-    val CLICK_PLUS_MINUS get() = SoundManager.EnumSound.CLICK_PLUS_MINUS.data.sound
-    val WIN              get() = SoundManager.EnumSound.WIN.data.sound
+    val CLICK      get() = SoundManager.EnumSound.CLICK.data.sound
+    val CHECK      get() = SoundManager.EnumSound.CHECK.data.sound
+    val WIN        get() = SoundManager.EnumSound.WIN.data.sound
+    val FAIL       get() = SoundManager.EnumSound.FAIL.data.sound
+    val CLICK_BAG  get() = SoundManager.EnumSound.CLICK_BAG.data.sound
+    val PLUS_MINUS get() = SoundManager.EnumSound.PLUS_MINUS.data.sound
 
-    val soundList get() = listOf(CLICK, CHECK, CLICK_BALANCE, CLICK_PLUS_MINUS, WIN)
+    val soundList get() = listOf(CLICK, CHECK, CLICK, WIN, FAIL, CLICK_BAG, PLUS_MINUS,)
 
     val volumeLevel = MutableStateFlow(AudioManager.volumeLevelFrom_0_to_100 / 100f)
 

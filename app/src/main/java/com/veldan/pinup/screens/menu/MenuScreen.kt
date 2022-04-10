@@ -7,6 +7,7 @@ import com.veldan.pinup.actors.label.spinning.SpinningLabel
 import com.veldan.pinup.advanced.AdvancedScreen
 import com.veldan.pinup.advanced.AdvancedStage
 import com.veldan.pinup.manager.assets.SpriteManager
+import com.veldan.pinup.manager.assets.util.MusicUtil
 import com.veldan.pinup.utils.language.Language
 import java.util.*
 import com.veldan.pinup.layout.Layout.Menu as LM
@@ -25,7 +26,7 @@ class MenuScreen : AdvancedScreen() {
 
     override fun show() {
         super.show()
-        //with(MusicUtil) { currentMusic = MAIN }
+        with(MusicUtil) { currentMusic = MAIN }
         setBackgrounds(SpriteManager.MenuSprite.BACKGROUND.data.texture)
         stage.addActorsOnStage()
     }
@@ -64,7 +65,7 @@ class MenuScreen : AdvancedScreen() {
         addActor(exitButton)
         exitButton.apply {
             setBounds(LM.Button.X, LM.EXIT_Y, LM.Button.W, LM.Button.H)
-            setOnClickListener { this@MenuScreen.controller.exitHandler() }
+            setOnClickListener(null) { this@MenuScreen.controller.exitHandler() }
 
             addActor(exitLabel)
             exitLabel.setBounds(LM.Button.TEXT_X, LM.Button.TEXT_Y, LM.Button.TEXT_W, LM.Button.TEXT_H)

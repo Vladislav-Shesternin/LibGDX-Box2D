@@ -8,6 +8,8 @@ import com.veldan.pinup.manager.NavigationManager
 import com.veldan.pinup.manager.assets.FontTTFManager
 import com.veldan.pinup.manager.assets.FontTTFManager.AmaranteFont
 import com.veldan.pinup.manager.assets.FontTTFManager.NotoSansFont
+import com.veldan.pinup.manager.assets.MusicManager
+import com.veldan.pinup.manager.assets.SoundManager
 import com.veldan.pinup.manager.assets.SpriteManager
 import com.veldan.pinup.screens.menu.MenuScreen
 import com.veldan.pinup.utils.Once
@@ -42,8 +44,8 @@ class SplashScreenController(
     private fun initAssets() {
         SpriteManager.init(game.assetManager)
         FontTTFManager.init(game.assetManager)
-//        MusicManager.init(assetManager)
-//        SoundManager.init(assetManager)
+        MusicManager.init(game.assetManager)
+        SoundManager.init(game.assetManager)
     }
 
     private fun showProgress(progress: Float) {
@@ -103,16 +105,16 @@ class SplashScreenController(
             loadListFont = (AmaranteFont.values + NotoSansFont.values).toMutableList()
             load(game.assetManager)
         }
-//
-//        with(MusicManager) {
-//            loadListMusic = mutableListOf(*MusicManager.EnumMusic.values())
-//            load(assetManager)
-//        }
-//
-//        with(SoundManager) {
-//            loadListSound = mutableListOf(*SoundManager.EnumSound.values())
-//            load(assetManager)
-//        }
+
+        with(MusicManager) {
+            loadListMusic = mutableListOf(*MusicManager.EnumMusic.values())
+            load(game.assetManager)
+        }
+
+        with(SoundManager) {
+            loadListSound = mutableListOf(*SoundManager.EnumSound.values())
+            load(game.assetManager)
+        }
     }
 
 }
