@@ -7,6 +7,7 @@ import com.veldan.pinup.actors.button.ButtonClickable
 import com.veldan.pinup.actors.label.LabelStyleUtil
 import com.veldan.pinup.actors.label.spinning.SpinningLabel
 import com.veldan.pinup.actors.miniGame.MiniGame
+import com.veldan.pinup.actors.superGame.SuperGame
 import com.veldan.pinup.actors.slot.slotGroup.SlotGroup
 import com.veldan.pinup.advanced.group.AdvancedGroup
 import com.veldan.pinup.advanced.AdvancedScreen
@@ -22,6 +23,7 @@ class GameScreen: AdvancedScreen() {
 
     val gameGroup         = AdvancedGroup()
     var miniGame          = MiniGame()
+    var superGame         = SuperGame()
     val balancePanelGroup = AdvancedGroup()
     val balancePanelImage = Image(SpriteManager.GameSprite.BALANCE_PANEL.data.texture)
     val balanceTextLabel  = SpinningLabel("", LabelStyleUtil.amaranteWhite60)
@@ -154,6 +156,17 @@ class GameScreen: AdvancedScreen() {
         with(stage) {
             addAndFillActor(miniGame)
             miniGame.apply {
+                disable()
+                addAction(Actions.alpha(0f))
+            }
+        }
+    }
+
+    fun addSuperGame() {
+        superGame = SuperGame()
+        with(stage) {
+            addAndFillActor(superGame)
+            superGame.apply {
                 disable()
                 addAction(Actions.alpha(0f))
             }

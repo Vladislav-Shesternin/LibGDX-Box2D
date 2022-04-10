@@ -39,16 +39,16 @@ class SlotGroupController(override val group: SlotGroup) : GroupController {
 //                fillManager.fill(FillStrategy.SUPER)
 //                bonus = Bonus.SUPER_GAME
 //            }
-            spinMiniGameCounter == miniGameNumber  -> {
-                fillManager.fill(FillStrategy.MINI)
-                bonus = Bonus.MINI_GAME
-            }
-            spinWinCounter == winNumber             -> {
-                fillManager.fill(FillStrategy.WIN)
-            }
+        //  spinMiniGameCounter == miniGameNumber  -> {
+        //      fillManager.fill(FillStrategy.MINI)
+        //      bonus = Bonus.MINI_GAME
+        //  }
+        //  spinWinCounter == winNumber             -> {
+        //      fillManager.fill(FillStrategy.WIN)
+        //  }
             else                                    -> {
-                fillManager.fill(FillStrategy.RANDOM)
-               // bonus = Bonus.MINI_GAME
+                fillManager.fill(FillStrategy.SUPER)
+                bonus = Bonus.SUPER_GAME
             }
         }
     }

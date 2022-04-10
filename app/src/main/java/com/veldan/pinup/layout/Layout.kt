@@ -307,4 +307,86 @@ object Layout {
         }
     }
 
+    // ------------------------------------------------------------------------
+    // SuperGame Group
+    // ------------------------------------------------------------------------
+    object SuperGame {
+
+        object BonusGroup{
+            val BONUS_LABEL_X = 0f
+            val BONUS_LABEL_Y = 1325f
+            val BONUS_LABEL_W = 700f
+            val BONUS_LABEL_H = 75f
+
+            val BONUS_TEXT_X = 0f
+            val BONUS_TEXT_Y = 1200f
+            val BONUS_TEXT_W = 700f
+            val BONUS_TEXT_H = 125f
+        }
+
+        object GameGroup {
+            val BOX_GROUP_X = 28f
+            val BOX_GROUP_Y = 373f
+        }
+
+        object ResultGroup{
+            val BET_PANEL_X = 130f
+            val BET_PANEL_Y = 896f
+            val BET_PANEL_W = 443f
+            val BET_PANEL_H = 100f
+
+            val BET_LABEL_X = 0f
+            val BET_LABEL_Y = 73f
+            val BET_LABEL_W = 443f
+            val BET_LABEL_H = 66f
+
+            val BET_TEXT_X = 0f
+            val BET_TEXT_Y = 12f
+            val BET_TEXT_W = 443f
+            val BET_TEXT_H = 77f
+
+            val MULTIPLICATION_X = 0f
+            val MULTIPLICATION_Y = 752f
+            val MULTIPLICATION_W = 700f
+            val MULTIPLICATION_H = 144f
+
+            val EQUALS_X = 0f
+            val EQUALS_Y = 509f
+            val EQUALS_W = 700f
+            val EQUALS_H = 144f
+
+            val BONUS_X = 0f
+            val BONUS_Y = 627f
+            val BONUS_W = 700f
+            val BONUS_H = 125f
+
+            val RESULT_X = 0f
+            val RESULT_Y = 364f
+            val RESULT_W = 700f
+            val RESULT_H = 145f
+        }
+    }
+
+    // ------------------------------------------------------------------------
+    // Box Group
+    // ------------------------------------------------------------------------
+    object BoxGroup{
+        val W = 645f
+        val H = 654f
+
+        val BOX_PIZE_GROUP_X = 4f
+        val BOX_PIZE_GROUP_Y = 3f
+        val BOX_PIZE_GROUP_W = 637f
+        val BOX_PIZE_GROUP_H = 648f
+
+        val BOX_SPACE_HORIZONTAL = 10f
+        val BOX_SPACE_VERTICAL   = 18f
+        val BOX_W = 209f
+        val BOX_H = 206f
+
+        val PRIZE_SPACE_HORIZONTAL = 18f
+        val PRIZE_SPACE_VERTICAL   = 24f
+        val PRIZE_W = 200f
+        val PRIZE_H = 200f
+    }
 }

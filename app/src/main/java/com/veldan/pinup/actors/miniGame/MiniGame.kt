@@ -8,6 +8,7 @@ import com.veldan.pinup.R
 import com.veldan.pinup.actors.animation.click.ClickAnim
 import com.veldan.pinup.actors.label.LabelStyleUtil
 import com.veldan.pinup.actors.label.spinning.SpinningLabel
+import com.veldan.pinup.actors.superGame.SuperGameController
 import com.veldan.pinup.advanced.group.AbstractAdvancedGroup
 import com.veldan.pinup.advanced.group.AdvancedGroup
 import com.veldan.pinup.manager.assets.SpriteManager

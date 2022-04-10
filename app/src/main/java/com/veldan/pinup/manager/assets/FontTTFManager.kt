@@ -70,12 +70,16 @@ object FontTTFManager {
             size = 100
         })
 
+        val white_140 = FontTTFData("Amarante_140", getLoaderParameter(pathAmarante) {
+            size = 140
+        })
+
         val white_550 = FontTTFData("Amarante_550", getLoaderParameter(pathAmarante) {
             size = 550
         })
 
         override val values: List<FontTTFData>
-            get() = super.values + white_100 + white_550
+            get() = super.values + white_100 + white_140 + white_550
     }
 
     object NotoSansFont: IFont {

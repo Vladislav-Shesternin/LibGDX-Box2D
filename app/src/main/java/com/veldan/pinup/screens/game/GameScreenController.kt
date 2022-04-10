@@ -146,9 +146,46 @@ class GameScreenController(override val screen: GameScreen): ScreenController, D
         completableAnimShowGame.await()
     }
 
-    private suspend fun startSuperGame(): Long {
+    private suspend fun startSuperGame() {
+        screen.addSuperGame()
+        val completableAnimHideGame = CompletableDeferred<Boolean>()
 
-        return 0L
+        screen.gameGroup.addAction(Actions.sequence(
+            Actions.fadeOut(TIME_HIDE_SCREEN),
+            Actions.run {
+                screen.gameGroup.disable()
+                completableAnimHideGame.complete(true)
+            },
+        ))
+
+        completableAnimHideGame.await()
+
+        val completableAnimShowGame = CompletableDeferred<Boolean>()
+
+        screen.superGame.apply {
+            enable()
+            addAction(Actions.fadeIn(TIME_SHOW_SCREEN))
+            controller.start(betFlow.first())
+
+            controller.doAfterFinish = { bonus ->
+                addAction(Actions.sequence(
+                    Actions.fadeOut(TIME_HIDE_SCREEN),
+                    Actions.removeActor()
+                ))
+
+                screen.gameGroup.addAction(Actions.sequence(
+                    Actions.fadeIn(TIME_SHOW_SCREEN),
+                    Actions.run {
+                        coroutineBalance.launch { DataStoreManager.updateBalance { it + bonus } }
+                        screen.gameGroup.enable()
+                        completableAnimShowGame.complete(true)
+                    },
+                ))
+
+            }
+        }
+
+        completableAnimShowGame.await()
     }
 
 

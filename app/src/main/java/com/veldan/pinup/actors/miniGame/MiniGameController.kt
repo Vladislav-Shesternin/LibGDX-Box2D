@@ -3,6 +3,7 @@ package com.veldan.pinup.actors.miniGame
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.scenes.scene2d.actions.Actions
 import com.badlogic.gdx.utils.Disposable
+import com.veldan.pinup.actors.superGame.SuperGame
 import com.veldan.pinup.utils.*
 import com.veldan.pinup.utils.controller.GroupController
 import kotlinx.coroutines.*

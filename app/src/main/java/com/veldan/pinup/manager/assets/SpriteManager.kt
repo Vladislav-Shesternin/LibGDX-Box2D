@@ -78,6 +78,8 @@ object SpriteManager {
         SPIN_PRESS(      TextureData("sprites/button/spin_press.png")     ),
         SPIN_DIS(        TextureData("sprites/button/spin_dis.png")       ),
         BAG(             TextureData("sprites/bag.png")                   ),
+        BOX(             TextureData("sprites/box.png")                   ),
+        X(               TextureData("sprites/x.png")                     ),
     }
 
     enum class SpriteList(override val dataList: List<TextureData>): ISpriteList {
