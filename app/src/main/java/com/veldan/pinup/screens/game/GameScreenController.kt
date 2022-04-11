@@ -31,6 +31,8 @@ class GameScreenController(override val screen: GameScreen): ScreenController, D
     private val coroutineBet            = CoroutineScope(Dispatchers.Default)
     private val coroutineSpin           = CoroutineScope(Dispatchers.Default)
     private val coroutineAutoSpin       = CoroutineScope(Dispatchers.Default)
+    private val coroutineMiniGame       = CoroutineScope(Dispatchers.Default)
+    private val coroutineSuperGame      = CoroutineScope(Dispatchers.Default)
 
     private val betFlow           = MutableSharedFlow<Long>(replay = 1, onBufferOverflow = BufferOverflow.DROP_OLDEST)
     private val autoSpinStateFlow = MutableStateFlow(AutospinState.DEFAULT)
@@ -40,7 +42,7 @@ class GameScreenController(override val screen: GameScreen): ScreenController, D
 
 
     override fun dispose() {
-        cancelCoroutinesAll(coroutineBalance, coroutineBet, coroutineSpin, coroutineAutoSpin)
+        cancelCoroutinesAll(coroutineBalance, coroutineBet, coroutineSpin, coroutineAutoSpin, coroutineMiniGame, coroutineSuperGame)
     }
 
 
@@ -105,93 +107,109 @@ class GameScreenController(override val screen: GameScreen): ScreenController, D
         }
     }
 
-    private suspend fun startMiniGame() {
-        with(MusicUtil) { currentMusic = MINI_GAME }
-        screen.addMiniGame()
-        val completableAnimHideGame = CompletableDeferred<Boolean>()
+    private suspend fun startMiniGame() = CompletableDeferred<Boolean>().also { continuation ->
+        coroutineMiniGame.launch {
+            with(MusicUtil) { currentMusic = MINI_GAME }
+            screen.addMiniGame()
+            val completableAnimHideGame = CompletableDeferred<Boolean>()
 
-        screen.gameGroup.addAction(Actions.sequence(
-            Actions.fadeOut(TIME_HIDE_SCREEN),
-            Actions.run {
-                screen.gameGroup.disable()
-                completableAnimHideGame.complete(true)
-            },
-        ))
+            Gdx.app.postRunnable {
+                screen.gameGroup.addAction(
+                    Actions.sequence(
+                        Actions.fadeOut(TIME_HIDE_SCREEN),
+                        Actions.run {
+                            screen.gameGroup.disable()
+                            completableAnimHideGame.complete(true)
+                        },
+                    )
+                )
+            }
 
-        completableAnimHideGame.await()
+            completableAnimHideGame.await()
 
-        val completableAnimShowGame = CompletableDeferred<Boolean>()
+            screen.miniGame.apply {
+                enable()
+                addAction(Actions.alpha(1f))
+                controller.start(betFlow.first())
 
-        screen.miniGame.apply {
-            enable()
-            addAction(Actions.alpha(1f))
-            controller.start(betFlow.first())
+                controller.doAfterFinish = { bonus ->
+                    Gdx.app.postRunnable {
+                        with(MusicUtil) { currentMusic = MAIN }
+                        addAction(
+                            Actions.sequence(
+                                Actions.fadeOut(TIME_HIDE_SCREEN),
+                                Actions.removeActor()
+                            )
+                        )
 
-            controller.doAfterFinish = { bonus ->
-                with(MusicUtil) { currentMusic = MAIN }
-                addAction(Actions.sequence(
-                    Actions.fadeOut(TIME_HIDE_SCREEN),
-                    Actions.removeActor()
-                ))
+                        screen.gameGroup.addAction(
+                            Actions.sequence(
+                                Actions.fadeIn(TIME_SHOW_SCREEN),
+                                Actions.run {
+                                    coroutineBalance.launch { DataStoreManager.updateBalance { it + bonus } }
+                                    screen.gameGroup.enable()
+                                    continuation.complete(true)
+                                },
+                            )
+                        )
+                    }
+                }
+            }
 
-                screen.gameGroup.addAction(Actions.sequence(
-                    Actions.fadeIn(TIME_SHOW_SCREEN),
-                    Actions.run {
-                        coroutineBalance.launch { DataStoreManager.updateBalance { it + bonus } }
-                        screen.gameGroup.enable()
-                        completableAnimShowGame.complete(true)
-                    },
-                ))
+        }
+    }.await()
 
+    private suspend fun startSuperGame() = CompletableDeferred<Boolean>().also { continuation ->
+        coroutineSuperGame.launch {
+            with(MusicUtil) { currentMusic = SUPER_GAME }
+            screen.addSuperGame()
+            val completableAnimHideGame = CompletableDeferred<Boolean>()
+
+            Gdx.app.postRunnable {
+                screen.gameGroup.addAction(
+                    Actions.sequence(
+                        Actions.fadeOut(TIME_HIDE_SCREEN),
+                        Actions.run {
+                            screen.gameGroup.disable()
+                            completableAnimHideGame.complete(true)
+                        },
+                    )
+                )
+            }
+
+            completableAnimHideGame.await()
+
+            screen.superGame.apply {
+                enable()
+                addAction(Actions.fadeIn(TIME_SHOW_SCREEN))
+                controller.start(betFlow.first())
+
+                controller.doAfterFinish = { bonus ->
+                    Gdx.app.postRunnable {
+                        with(MusicUtil) { currentMusic = MAIN }
+                        addAction(
+                            Actions.sequence(
+                                Actions.fadeOut(TIME_HIDE_SCREEN),
+                                Actions.removeActor()
+                            )
+                        )
+
+                        screen.gameGroup.addAction(
+                            Actions.sequence(
+                                Actions.fadeIn(TIME_SHOW_SCREEN),
+                                Actions.run {
+                                    coroutineBalance.launch { DataStoreManager.updateBalance { it + bonus } }
+                                    screen.gameGroup.enable()
+                                    continuation.complete(true)
+                                },
+                            )
+                        )
+
+                    }
+                }
             }
         }
-
-        completableAnimShowGame.await()
-    }
-
-    private suspend fun startSuperGame() {
-        with(MusicUtil) { currentMusic = SUPER_GAME }
-        screen.addSuperGame()
-        val completableAnimHideGame = CompletableDeferred<Boolean>()
-
-        screen.gameGroup.addAction(Actions.sequence(
-            Actions.fadeOut(TIME_HIDE_SCREEN),
-            Actions.run {
-                screen.gameGroup.disable()
-                completableAnimHideGame.complete(true)
-            },
-        ))
-
-        completableAnimHideGame.await()
-
-        val completableAnimShowGame = CompletableDeferred<Boolean>()
-
-        screen.superGame.apply {
-            enable()
-            addAction(Actions.fadeIn(TIME_SHOW_SCREEN))
-            controller.start(betFlow.first())
-
-            controller.doAfterFinish = { bonus ->
-                with(MusicUtil) { currentMusic = MAIN }
-                addAction(Actions.sequence(
-                    Actions.fadeOut(TIME_HIDE_SCREEN),
-                    Actions.removeActor()
-                ))
-
-                screen.gameGroup.addAction(Actions.sequence(
-                    Actions.fadeIn(TIME_SHOW_SCREEN),
-                    Actions.run {
-                        coroutineBalance.launch { DataStoreManager.updateBalance { it + bonus } }
-                        screen.gameGroup.enable()
-                        completableAnimShowGame.complete(true)
-                    },
-                ))
-
-            }
-        }
-
-        completableAnimShowGame.await()
-    }
+    }.await()
 
 
     fun updateBalance() {
