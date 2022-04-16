@@ -7,7 +7,7 @@ android {
     compileSdk 31
 
     defaultConfig {
-        applicationId "com.veldan.pinup"
+        applicationId "com.veldan.kingsolomonslots"
         minSdk 21
         targetSdk 31
         versionCode 1
@@ -18,8 +18,8 @@ android {
 
     buildTypes {
         debug {
-            minifyEnabled true
-            shrinkResources true
+            minifyEnabled false
+            shrinkResources false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
         release {
@@ -136,5 +136,5 @@ task run(type: Exec) {
     }
 
     def adb = path + "/platform-tools/adb"
-    commandLine "$adb", 'shell', 'am', 'start', '-n', 'com.veldan.pinup/com.veldan.pinup.main.AndroidLauncher'
+    commandLine "$adb", 'shell', 'am', 'start', '-n', 'com.veldan.kingsolomonslots/com.veldan.kingsolomonslots.main.AndroidLauncher'
 }
