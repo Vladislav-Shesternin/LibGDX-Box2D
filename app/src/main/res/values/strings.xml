@@ -1,3 +1,4 @@
 <resources>
-    <string name="app_name" translatable="false">KingSolomonSlots</string>
+    <string name="app_name">KingSolomonSlots</string>
+    <string name="spin">Spin</string>
 </resources>

@@ -2,7 +2,7 @@
 //
 //import com.badlogic.gdx.Gdx
 //import com.badlogic.gdx.scenes.scene2d.actions.Actions
-//import com.veldan.pinup2.actors.slot.slot.SlotController
+//import com.veldan.kingsolomonslots.actors.slot.slot.SlotController
 //import com.veldan.pinup2.manager.assets.util.SoundUtil
 //import com.veldan.pinup2.manager.assets.util.playAdvanced
 //import com.veldan.pinup2.utils.controller.GroupController

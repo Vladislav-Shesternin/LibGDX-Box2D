@@ -18,34 +18,42 @@ object DataStoreManager {
 
 
 
-    // ------------------------------------------------------------------------
-    // Balance
-    // ------------------------------------------------------------------------
-    suspend fun collectBalance(block: suspend (Long) -> Unit) {
-        game.activity.dataStore.data.collect { block(it[BALANCE_KEY] ?: 10_000L) }
+    object Balance: DataStoreElement<Long> {
+        override suspend fun collect(block: suspend (Long) -> Unit) {
+            game.activity.dataStore.data.collect { block(it[BALANCE_KEY] ?: 10_000L) }
+        }
+
+        override suspend fun update(block: suspend (Long) -> Long) {
+            game.activity.dataStore.edit { it[BALANCE_KEY] = block(it[BALANCE_KEY] ?: 10_000L) }
+        }
+
+        override suspend fun get(): Long {
+            return game.activity.dataStore.data.first()[BALANCE_KEY] ?: 0L
+        }
     }
 
-    suspend fun updateBalance(block: suspend (Long) -> Long) {
-        game.activity.dataStore.edit { it[BALANCE_KEY] = block(it[BALANCE_KEY] ?: 10_000L) }
+    object Tutorial: DataStoreElement<Boolean?> {
+       override suspend fun collect(block: suspend (Boolean?) -> Unit) {
+            game.activity.dataStore.data.collect { block(it[TUTORIAL_KEY]) }
+        }
+
+        override suspend fun update(block: suspend (Boolean?) -> Boolean?) {
+            game.activity.dataStore.edit { it[TUTORIAL_KEY] = block(it[TUTORIAL_KEY]) ?: false }
+        }
+
+        override suspend fun get(): Boolean? {
+            return game.activity.dataStore.data.first()[TUTORIAL_KEY]
+        }
     }
 
-    suspend fun getBalance(): Long {
-        return game.activity.dataStore.data.first()[BALANCE_KEY] ?: 0L
-    }
 
-    // ------------------------------------------------------------------------
-    // Tutorial
-    // ------------------------------------------------------------------------
-    suspend fun collectTutorial(block: suspend (Boolean?) -> Unit) {
-        game.activity.dataStore.data.collect { block(it[TUTORIAL_KEY]) }
-    }
 
-    suspend fun updateTutorial(block: suspend (Boolean?) -> Boolean) {
-        game.activity.dataStore.edit { it[TUTORIAL_KEY] = block(it[TUTORIAL_KEY]) }
-    }
+    interface DataStoreElement<T>{
+        suspend fun collect(block: suspend (T) -> Unit)
 
-    suspend fun getTutorial(): Boolean? {
-        return game.activity.dataStore.data.first()[TUTORIAL_KEY]
+        suspend fun update(block: suspend (T) -> T)
+
+        suspend fun get(): T
     }
 
 }

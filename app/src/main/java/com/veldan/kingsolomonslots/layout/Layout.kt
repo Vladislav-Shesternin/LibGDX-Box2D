@@ -93,27 +93,27 @@ object Layout {
         val OPTIONS_W = 99f
         val OPTIONS_H = 99f
 
-        val AUTO_SPIN_X = 37f
-        val AUTO_SPIN_Y = 161f
-        val AUTO_SPIN_W = 106f
-        val AUTO_SPIN_H = 108f
+        val AUTO_SPIN_X = 1176f
+        val AUTO_SPIN_Y = 79f
+        val AUTO_SPIN_W = 133f
+        val AUTO_SPIN_H = 133f
 
-        val SPIN_X = 198f
-        val SPIN_Y = 62f
-        val SPIN_W = 304f
-        val SPIN_H = 304f
+        val SPIN_X = 1144f
+        val SPIN_Y = 253f
+        val SPIN_W = 195f
+        val SPIN_H = 195f
 
-        val SPIN_TEXT_X = 23f
-        val SPIN_TEXT_Y = 89f
-        val SPIN_TEXT_W = 258f
-        val SPIN_TEXT_H = 125f
+        val SPIN_TEXT_X = 14f
+        val SPIN_TEXT_Y = 57f
+        val SPIN_TEXT_W = 168f
+        val SPIN_TEXT_H = 80f
 
-        val SLOT_GROUP_X = 0f
-        val SLOT_GROUP_Y = 583f
+        val SLOT_GROUP_X = 265f
+        val SLOT_GROUP_Y = 43f
     }
 
     // ------------------------------------------------------------------------
-    // ProgressBar Group
+    // ProgressBar
     // ------------------------------------------------------------------------
     object ProgressBar {
         val W = 1118f
@@ -132,22 +132,22 @@ object Layout {
     }
 
     // ------------------------------------------------------------------------
-    // Slot Group
+    // Slot
     // ------------------------------------------------------------------------
     object Slot {
-        val W = 170f
-        val H = 18096f
+        val W = 132f
+        val H = 12786f
 
-        val START_Y = 7f
-        val END_Y   = -17557f
+        val START_Y = 88f
+        val END_Y   = -12327f
 
-        val SLOT_ITEM_SPACE_VERTICAL = 11f
-        val SLOT_ITEM_W = 170f
-        val SLOT_ITEM_H = 170f
+        val SLOT_ITEM_SPACE_VERTICAL = 14f
+        val SLOT_ITEM_W = 132f
+        val SLOT_ITEM_H = 114f
     }
 
     // ------------------------------------------------------------------------
-    // Glow Group
+    // Glow
     // ------------------------------------------------------------------------
     object Glow {
         val W = 340f
@@ -160,19 +160,19 @@ object Layout {
     }
 
     // ------------------------------------------------------------------------
-    // SlotGroup Group
+    // SlotGroup
     // ------------------------------------------------------------------------
     object SlotGroup {
-        val W = 700f
-        val H = 624f
+        val W = 870f
+        val H = 641f
 
-        val MASK_X = 74f
-        val MASK_Y = 34f
-        val MASK_W = 554f
-        val MASK_H = 547f
+        val MASK_X = 55f
+        val MASK_Y = 74f
+        val MASK_W = 751f
+        val MASK_H = 465f
 
         val SLOT_FIRST_X = 5f
-        val SLOT_SPACE_HORIZONTAL = 18f
+        val SLOT_SPACE_HORIZONTAL = 20f
 
         val GLOW_FIRST_X = -11f
         val GLOW_Y = -48f

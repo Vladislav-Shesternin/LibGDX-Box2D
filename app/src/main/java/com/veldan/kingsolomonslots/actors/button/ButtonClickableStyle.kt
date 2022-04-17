@@ -28,6 +28,16 @@ data class ButtonClickableStyle(
             pressed  = SpriteManager.GameRegion.MINUS_PRESS.region,
             disabled = SpriteManager.GameRegion.MINUS_DIS.region,
         )
+        val autoSpin get() = ButtonClickableStyle(
+            default  = SpriteManager.GameRegion.AUTOSPIN_DEF.region,
+            pressed  = SpriteManager.GameRegion.AUTOSPIN_PRESS.region,
+            disabled = SpriteManager.GameRegion.AUTOSPIN_DIS.region,
+        )
+        val spin get() = ButtonClickableStyle(
+            default  = SpriteManager.GameRegion.SPIN_DEF.region,
+            pressed  = SpriteManager.GameRegion.SPIN_PRESS.region,
+            disabled = SpriteManager.GameRegion.SPIN_DIS.region,
+        )
     }
     
 }

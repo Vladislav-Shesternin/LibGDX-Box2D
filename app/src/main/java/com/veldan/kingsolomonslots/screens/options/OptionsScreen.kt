@@ -14,9 +14,7 @@ import com.veldan.kingsolomonslots.manager.DataStoreManager
 import com.veldan.kingsolomonslots.manager.NavigationManager
 import com.veldan.kingsolomonslots.manager.assets.SpriteManager
 import com.veldan.kingsolomonslots.utils.log
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 import com.veldan.kingsolomonslots.layout.Layout.Options as LO
 
 class OptionsScreen : AdvancedScreen() {
@@ -113,8 +111,17 @@ class OptionsScreen : AdvancedScreen() {
             setBounds(LO.TUTORIAL_CHECK_BOX_X, LO.TUTORIAL_CHECK_BOX_Y, LO.TUTORIAL_CHECK_BOX_W, LO.TUTORIAL_CHECK_BOX_H)
 
             CoroutineScope(Dispatchers.IO).launch {
-                DataStoreManager.getTutorial()?.let { isTutorial -> if (isTutorial) controller.check() else controller.uncheck() }
+                DataStoreManager.Tutorial.get()?.let { isTutorial -> if (isTutorial) controller.check() else controller.uncheck() }
+                cancel()
             }
+
+            controller.setOnCheckListener { isCheck ->
+                CoroutineScope(Dispatchers.IO).launch {
+                    DataStoreManager.Tutorial.update { isCheck }
+                    cancel()
+                }
+            }
+
         }
     }
 

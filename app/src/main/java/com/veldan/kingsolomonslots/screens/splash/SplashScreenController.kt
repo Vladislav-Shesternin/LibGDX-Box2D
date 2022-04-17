@@ -95,9 +95,7 @@ class SplashScreenController(
 
     fun loadAssets() {
         with(SpriteManager) {
-            loadableAtlasList = mutableListOf(
-                EnumAtlas._1
-            )
+            loadableAtlasList = EnumAtlas.values().toMutableList()
             load(game.assetManager)
         }
 

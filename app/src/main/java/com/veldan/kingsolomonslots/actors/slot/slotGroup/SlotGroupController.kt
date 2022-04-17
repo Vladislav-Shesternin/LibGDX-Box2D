@@ -1,40 +1,37 @@
-//package com.veldan.pinup2.actors.slot.slotGroup
-//
-//import com.veldan.pinup2.actors.slot.util.*
-//import com.veldan.pinup2.utils.controller.GroupController
-//import com.veldan.pinup2.utils.log
-//import com.veldan.pinup2.utils.toDelay
-//import kotlinx.coroutines.*
-//import kotlinx.coroutines.flow.MutableSharedFlow
-//import kotlinx.coroutines.flow.collectIndexed
-//import kotlinx.coroutines.flow.take
-//
-//class SlotGroupController(override val group: SlotGroup) : GroupController {
-//
-//    companion object {
-//        const val SLOT_COUNT = 3
-//        const val GLOW_COUNT = SLOT_COUNT
-//
-//        // seconds
-//        const val TIME_SHOW_WIN = 2f
-//    }
-//
-//    private var winNumber       = (1..5).random()
-//    private var miniGameNumber  = (6..10).random()
-//    private var superGameNumber = (11..15).random()
-//
-//    private var spinWinCounter       = 0
-//    private var spinMiniGameCounter  = 0
-//    private var spinSuperGameCounter = 0
-//
-//    private val fillManager by lazy { FillManager(group.slotList) }
-//
-//    private var bonus: Bonus? = null
-//
-//
-//
-//    private fun fillSlots() {
-//        when {
+package com.veldan.kingsolomonslots.actors.slot.slotGroup
+
+import com.veldan.kingsolomonslots.actors.slot.util.Bonus
+import com.veldan.kingsolomonslots.actors.slot.util.SpinResult
+import com.veldan.kingsolomonslots.utils.controller.GroupController
+import com.veldan.kingsolomonslots.utils.log
+import kotlinx.coroutines.CompletableDeferred
+
+class SlotGroupController(override val group: SlotGroup) : GroupController {
+
+    companion object {
+        const val SLOT_COUNT = 5
+        const val GLOW_COUNT = SLOT_COUNT
+
+        // seconds
+        const val TIME_SHOW_WIN = 2f
+    }
+
+    private var winNumber       = (1..1).random()
+    private var miniGameNumber  = (2..2).random()
+    private var superGameNumber = (3..3).random()
+
+    private var spinWinCounter       = 0
+    private var spinMiniGameCounter  = 0
+    private var spinSuperGameCounter = 0
+
+    private val fillManager by lazy { FillManager(group.slotList) }
+
+    private var bonus: Bonus? = null
+
+
+
+    private fun fillSlots() {
+        when {
 //            spinSuperGameCounter == superGameNumber -> {
 //                fillManager.fill(FillStrategy.SUPER)
 //                bonus = Bonus.SUPER_GAME
@@ -49,40 +46,40 @@
 //            else                                    -> {
 //                fillManager.fill(FillStrategy.RANDOM)
 //            }
-//        }
-//    }
-//
-//    private fun resetWin() {
-//        spinWinCounter = 0
-//        winNumber      = (1..5).random()
-//    }
-//
-//    private fun resetBonus() {
-//        fun resetMiniGame() {
-//            spinMiniGameCounter = 0
-//            miniGameNumber      = (6..10).random()
-//        }
-//        fun resetSuperGame() {
-//            spinSuperGameCounter = 0
-//            superGameNumber      = (11..15).random()
-//        }
-//
-//        if (spinWinCounter == winNumber) resetWin()
-//        if (spinMiniGameCounter == miniGameNumber) resetMiniGame()
-//        if (spinSuperGameCounter == superGameNumber) resetSuperGame()
-//
-//        bonus = null
-//    }
-//
-//    private fun logCounter() {
-//        log("""
-//
-//            winSpinCounter = $spinWinCounter WIN_NUM = $winNumber
-//            miniGameSpinCounter = $spinMiniGameCounter MINI_NUM = $miniGameNumber
-//            superGameSpinCounter = $spinSuperGameCounter SUPER_NUM = $superGameNumber
-//        """)
-//    }
-//
+        }
+    }
+
+    private fun resetWin() {
+        spinWinCounter = 0
+        winNumber      = (1..5).random()
+    }
+
+    private fun resetBonus() {
+        fun resetMiniGame() {
+            spinMiniGameCounter = 0
+            miniGameNumber      = (6..10).random()
+        }
+        fun resetSuperGame() {
+            spinSuperGameCounter = 0
+            superGameNumber      = (11..15).random()
+        }
+
+        if (spinWinCounter == winNumber) resetWin()
+        if (spinMiniGameCounter == miniGameNumber) resetMiniGame()
+        if (spinSuperGameCounter == superGameNumber) resetSuperGame()
+
+        bonus = null
+    }
+
+    private fun logCounter() {
+        log("""
+
+            winSpinCounter = $spinWinCounter WIN_NUM = $winNumber
+            miniGameSpinCounter = $spinMiniGameCounter MINI_NUM = $miniGameNumber
+            superGameSpinCounter = $spinSuperGameCounter SUPER_NUM = $superGameNumber
+        """)
+    }
+
 //    private fun FillResult.checkBonus() {
 //        val wildCount = winSlotItemList.count { it.id == SlotItemContainer.wild.id }
 //        bonus = when(wildCount) {
@@ -91,7 +88,7 @@
 //            else -> bonus
 //        }
 //    }
-//
+
 //    private suspend fun FillResult.showWin() = CompletableDeferred<Boolean>().also { continuation ->
 //        val glowInCounterFlow = MutableSharedFlow<Boolean>(replay = intersectionList.size)
 //
@@ -110,17 +107,19 @@
 //        }
 //
 //    }.await()
-//
-//
-//
-//    suspend fun spin() = CompletableDeferred<SpinResult>().also { continuation ->
-//        spinWinCounter++
-//        spinMiniGameCounter++
-//        spinSuperGameCounter++
-//
-//        logCounter()
-//        fillSlots()
-//
+
+
+
+    suspend fun spin() = CompletableDeferred<SpinResult>().also { continuation ->
+        spinWinCounter++
+        spinMiniGameCounter++
+        spinSuperGameCounter++
+
+        logCounter()
+        fillSlots()
+
+        group.slotList.onEach { it.controller.spin() }
+
 //        val spinCounterFlow = MutableSharedFlow<Boolean>(replay = 3)
 //        val coroutineSpin   = CoroutineScope(Dispatchers.Default)
 //
@@ -144,6 +143,6 @@
 //                ))
 //            }
 //        }
-//    }.await()
-//
-//}
+    }.await()
+
+}

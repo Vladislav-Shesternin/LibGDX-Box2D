@@ -1,11 +1,12 @@
 package com.veldan.kingsolomonslots.screens.game
 
-import com.badlogic.gdx.scenes.scene2d.actions.Actions
 import com.badlogic.gdx.scenes.scene2d.ui.Image
+import com.veldan.kingsolomonslots.R
 import com.veldan.kingsolomonslots.actors.button.ButtonClickable
 import com.veldan.kingsolomonslots.actors.button.ButtonClickableStyle
 import com.veldan.kingsolomonslots.actors.label.LabelStyle
 import com.veldan.kingsolomonslots.actors.label.spinning.SpinningLabel
+import com.veldan.kingsolomonslots.actors.slot.slotGroup.SlotGroup
 import com.veldan.kingsolomonslots.advanced.AdvancedScreen
 import com.veldan.kingsolomonslots.advanced.AdvancedStage
 import com.veldan.kingsolomonslots.advanced.group.AdvancedGroup
@@ -31,14 +32,14 @@ class GameScreen: AdvancedScreen() {
     val betPlusButton     = ButtonClickable(ButtonClickableStyle.plus)
     val betMinusButton    = ButtonClickable(ButtonClickableStyle.minus)
     // options
-    val optionsButton        = ButtonClickable(ButtonClickableStyle.options)
-//    // autospin
-//    val autoSpinButton    = ButtonClickable(ButtonClickable.Style.autoSpin)
-//    // spin
-//    val spinButton        = ButtonClickable(ButtonClickable.Style.spin)
-//    val spinTextLabel     by lazy { SpinningLabel(Language.getStringResource(R.string.spin), LabelStyle.white96) }
-//    // slotGroup
-//    val slotGroup         = SlotGroup()
+    val optionsButton     = ButtonClickable(ButtonClickableStyle.options)
+    // autospin
+    val autoSpinButton    = ButtonClickable(ButtonClickableStyle.autoSpin)
+    // spin
+    val spinButton        = ButtonClickable(ButtonClickableStyle.spin)
+    val spinTextLabel     by lazy { SpinningLabel(Language.getStringResource(R.string.spin), LabelStyle.white_60) }
+    // slotGroup
+    val slotGroup         = SlotGroup()
 
 
     override fun show() {
@@ -64,9 +65,9 @@ class GameScreen: AdvancedScreen() {
         addBetPlusButton()
         addBetMinusButton()
         addMenuButton()
-//        addAutoSpinButton()
-//        addSpinButton()
-//        addSlotGroup()
+        addAutoSpinButton()
+        addSpinButton()
+        addSlotGroup()
     }
 
     private fun AdvancedGroup.addBalancePanel() {
@@ -123,11 +124,11 @@ class GameScreen: AdvancedScreen() {
         }
     }
 
-  /*  private fun AdvancedGroup.addAutoSpinButton() {
+    private fun AdvancedGroup.addAutoSpinButton() {
         addActor(autoSpinButton)
         autoSpinButton.apply {
             setBounds(LG.AUTO_SPIN_X, LG.AUTO_SPIN_Y, LG.AUTO_SPIN_W, LG.AUTO_SPIN_H)
-            setOnClickListener { this@GameScreen.controller.autoSpinHandler() }
+            controller.setOnClickListener { this@GameScreen.controller.autoSpinHandler() }
         }
     }
 
@@ -139,39 +140,13 @@ class GameScreen: AdvancedScreen() {
             addActor(spinTextLabel)
             spinTextLabel.setBounds(LG.SPIN_TEXT_X, LG.SPIN_TEXT_Y, LG.SPIN_TEXT_W, LG.SPIN_TEXT_H)
 
-            setOnClickListener { this@GameScreen.controller.spinHandler() }
+            controller.setOnClickListener { this@GameScreen.controller.spinHandler() }
         }
     }
 
     private fun AdvancedGroup.addSlotGroup() {
         addActor(slotGroup)
         slotGroup.setPosition(LG.SLOT_GROUP_X, LG.SLOT_GROUP_Y)
-    }*/
-
-
-
-//    fun addMiniGame() {
-//        miniGame = MiniGame()
-//        with(stage) {
-//            addAndFillActor(miniGame)
-//            miniGame.apply {
-//                disable()
-//                addAction(Actions.alpha(0f))
-//            }
-//        }
-//    }
-//
-//    fun addSuperGame() {
-//        superGame = SuperGame()
-//        with(stage) {
-//            addAndFillActor(superGame)
-//            superGame.apply {
-//                disable()
-//                addAction(Actions.alpha(0f))
-//            }
-//        }
-//    }
-
-
+    }
 
 }

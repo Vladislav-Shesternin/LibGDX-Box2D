@@ -1,20 +1,23 @@
 package com.veldan.kingsolomonslots.actors.slot.util
 
+import com.veldan.kingsolomonslots.manager.assets.SpriteManager
+
 object SlotItemContainer {
-    private const val SLOT_ITEM_WILD_ID = 100
+    const val SLOT_ITEM_WILD_ID    = 100
+    const val SLOT_ITEM_SCATTER_ID = 101
 
+    val wild    get() = SlotItem(SLOT_ITEM_WILD_ID   , 3f, SpriteManager.GameRegion.WILD.region)
+    val scatter get() = SlotItem(SLOT_ITEM_SCATTER_ID, 0f, SpriteManager.GameRegion.SCATTER.region)
 
-//    val wild get() = SlotItem(SLOT_ITEM_WILD_ID, 3f, SpriteManager.GameSprite.WILD.data.texture)
-//
-//    val list get() = listOf<SlotItem>(
-//        SlotItem(1, 1f  , SLOT_ITEM.dataList[0].texture),
-//        SlotItem(2, 1.1f, SLOT_ITEM.dataList[1].texture),
-//        SlotItem(3, 1.2f, SLOT_ITEM.dataList[2].texture),
-//        SlotItem(4, 1.3f, SLOT_ITEM.dataList[3].texture),
-//        SlotItem(5, 1.4f, SLOT_ITEM.dataList[4].texture),
-//        SlotItem(6, 1.5f, SLOT_ITEM.dataList[5].texture),
-//        SlotItem(7, 1.6f, SLOT_ITEM.dataList[6].texture),
-//        SlotItem(8, 1.7f, SLOT_ITEM.dataList[7].texture),
-//    )
+    val list get() = listOf<SlotItem>(
+        SlotItem(1, 1f  , SpriteManager.ListRegion.SLOT_ITEM.regionList[0]),
+        SlotItem(2, 1.1f, SpriteManager.ListRegion.SLOT_ITEM.regionList[1]),
+        SlotItem(3, 1.2f, SpriteManager.ListRegion.SLOT_ITEM.regionList[2]),
+        SlotItem(4, 1.3f, SpriteManager.ListRegion.SLOT_ITEM.regionList[3]),
+        SlotItem(5, 1.4f, SpriteManager.ListRegion.SLOT_ITEM.regionList[4]),
+        SlotItem(6, 1.5f, SpriteManager.ListRegion.SLOT_ITEM.regionList[5]),
+        SlotItem(7, 1.6f, SpriteManager.ListRegion.SLOT_ITEM.regionList[6]),
+        SlotItem(8, 1.7f, SpriteManager.ListRegion.SLOT_ITEM.regionList[7]),
+    )
 
 }

@@ -55,6 +55,7 @@ object FontTTFManager {
 
     object ReggaeOneFont: IFont {
         override val font_64 = FontTTFData("ReggaeOne_64", getLoaderParameter(pathReggaeOne) { size = 64 })
+        override val font_60 = FontTTFData("ReggaeOne_60", getLoaderParameter(pathReggaeOne) { size = 60 })
         override val font_50 = FontTTFData("ReggaeOne_50", getLoaderParameter(pathReggaeOne) { size = 50 })
 
         val font_40 = FontTTFData("ReggaeOne_40", getLoaderParameter(pathReggaeOne) { size = 40 })
@@ -65,6 +66,7 @@ object FontTTFManager {
 
     object NotoSansFont: IFont {
         override val font_64 = FontTTFData("NotoSans_64", getLoaderParameter(pathNotoSans) { size = 64 })
+        override val font_60 = FontTTFData("NotoSans_60", getLoaderParameter(pathNotoSans) { size = 60 })
         override val font_50 = FontTTFData("NotoSans_50", getLoaderParameter(pathNotoSans) { size = 50 })
     }
 
@@ -73,7 +75,8 @@ object FontTTFManager {
     interface IFont {
         val font_64: FontTTFData
         val font_50: FontTTFData
+        val font_60: FontTTFData
 
-        val values get() = listOf<FontTTFData>(font_64, font_50)
+        val values get() = listOf<FontTTFData>(font_64, font_50, font_60)
     }
 }

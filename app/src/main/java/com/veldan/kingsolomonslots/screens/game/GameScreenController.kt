@@ -3,6 +3,7 @@ package com.veldan.kingsolomonslots.screens.game
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.scenes.scene2d.actions.Actions
 import com.badlogic.gdx.utils.Disposable
+import com.veldan.kingsolomonslots.actors.slot.util.SpinResult
 import com.veldan.kingsolomonslots.manager.DataStoreManager
 import com.veldan.kingsolomonslots.utils.Once
 import com.veldan.kingsolomonslots.utils.cancelCoroutinesAll
@@ -47,7 +48,7 @@ class GameScreenController(override val screen: GameScreen): ScreenController, D
 
 
     private suspend fun checkBalance() = CompletableDeferred<Boolean>().also { continuation ->
-        DataStoreManager.updateBalance { balance ->
+        DataStoreManager.Balance.update { balance ->
             if ((balance - betFlow.first()) >= 0) {
                 // Достаточно средств для запуска
                 continuation.complete(true)
@@ -60,22 +61,22 @@ class GameScreenController(override val screen: GameScreen): ScreenController, D
         }
     }.await()
 
- /*   private suspend fun SpinResult.calculateAndSetResult() {
+    private suspend fun SpinResult.calculateAndSetResult() {
         val slotItemPriceFactor: Float = winSlotItemSet?.map { it.priceFactor }?.sum() ?: 0f
         val sumPrice = (betFlow.first() * slotItemPriceFactor).toLong()
-        DataStoreManager.updateBalance { it + sumPrice }
-    }*/
+        DataStoreManager.Balance.update { it + sumPrice }
+    }
 
- /*   private suspend fun spinAndSetResult() {
-        screen.slotGroup.controller.spin().apply {
-            when (bonus) {
-                Bonus.MINI_GAME  -> startMiniGame()
-                Bonus.SUPER_GAME -> startSuperGame()
-                else -> {}
-            }
-            calculateAndSetResult()
-        }
-    }*/
+    private suspend fun spinAndSetResult() {
+       screen.slotGroup.controller.spin()//.apply {
+       //    when (bonus) {
+       //        Bonus.MINI_GAME  -> startMiniGame()
+       //        Bonus.SUPER_GAME -> startSuperGame()
+       //        else -> {}
+       //    }
+       //    calculateAndSetResult()
+       //}
+    }
 
     /*private fun startAutospin() {
         coroutineAutoSpin.launch {
@@ -107,7 +108,7 @@ class GameScreenController(override val screen: GameScreen): ScreenController, D
     }*/
 
     fun updateBalance() {
-        coroutineBalance.launch { DataStoreManager.collectBalance { balance -> Gdx.app.postRunnable {
+        coroutineBalance.launch { DataStoreManager.Balance.collect { balance -> Gdx.app.postRunnable {
             screen.balanceTextLabel.controller.setText(balance.transformToBalanceFormat())
         } } }
     }
@@ -133,25 +134,23 @@ class GameScreenController(override val screen: GameScreen): ScreenController, D
         } }
     }
 
-    /*fun spinHandler() {
+    fun spinHandler() {
         with(screen) {
-            spinButton.pressAndDisable(false)
-            autoSpinButton.disable()
-            betPlusButton.disable()
-            betMinusButton.disable()
+            spinButton.controller.pressAndDisable(false)
+            autoSpinButton.controller.disable()
+            betPlusButton.controller.disable()
+            betMinusButton.controller.disable()
 
             coroutineSpin.launch {
-                if (checkBalance()) {
-                    spinAndSetResult()
+                if (checkBalance()) spinAndSetResult()
 
-                    spinButton.enable()
-                    autoSpinButton.enable()
-                    betPlusButton.enable()
-                    betMinusButton.enable()
-                }
+                spinButton.controller.enable()
+                autoSpinButton.controller.enable()
+                betPlusButton.controller.enable()
+                betMinusButton.controller.enable()
             }
         }
-    }*/
+    }
 
     fun autoSpinHandler() {
         autoSpinStateFlow.apply {
