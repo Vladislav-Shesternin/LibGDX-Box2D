@@ -1,8 +1,11 @@
-package com.veldan.pinup2.actors.slot.util
+package com.veldan.kingsolomonslots.actors.slot.util
 
 import com.veldan.kingsolomonslots.actors.slot.slot.Slot
-import com.veldan.kingsolomonslots.actors.slot.util.FillResult
+import com.veldan.kingsolomonslots.actors.slot.slot.SlotController
+import com.veldan.kingsolomonslots.actors.slot.util.combination.Combination
+import com.veldan.kingsolomonslots.actors.slot.util.combination.CombinationMatrixEnum
 import com.veldan.kingsolomonslots.utils.log
+import com.veldan.kingsolomonslots.utils.probability
 
 class FillManager(val slotList: List<Slot>) {
 
@@ -16,8 +19,8 @@ class FillManager(val slotList: List<Slot>) {
 
         val combinationMatrixEnum: CombinationMatrixEnum = if (isUseWild && probability(20)) {
             log("FILL_RANDOM use WILD")
-            CombinationRandomWithWild.values().random()
-        } else CombinationRandom.values().random()
+            Combination.RandomWithWild.values().random()
+        } else Combination.Random.values().random()
 
         combinationMatrixEnum.logCombinationMatrixEnum()
 
@@ -30,17 +33,22 @@ class FillManager(val slotList: List<Slot>) {
         log("FILL_WIN")
 
         val combinationMatrixEnum = listOf<CombinationMatrixEnum>(
-            *CombinationWinNonIntersectingColorful.values(),
-            *CombinationWinIntersectingMonochrome.values(),
-            *CombinationWinIntersectingMonochromeWithWild.values(),
-            *CombinationWinIntersectingColorfulWithWild.values(),
+            *Combination.WinMonochrome.values(),
+            *Combination.WinColorfulDisjoint.values(),
         ).random()
         combinationMatrixEnum.logCombinationMatrixEnum()
-        val combinationMatrix = combinationMatrixEnum.matrix
+        val combinationMatrix = combinationMatrixEnum.matrix.init()
 
         slotList.onEachIndexed { index, slot ->
             slot.slotItemWinList = combinationMatrix.generateSlot(index)
         }
+
+        log("""
+            
+            scheme = ${combinationMatrix.scheme}
+            slotIndex = ${combinationMatrix.intersectionList?.map { it.slotIndex }}
+            rowIndex = ${combinationMatrix.intersectionList?.map { it.rowIndex }}
+        """.trimIndent())
 
         winFillResult = with(combinationMatrix) {
             if (winSlotItemList != null) FillResult(winSlotItemList!!, intersectionList!!)
@@ -90,13 +98,11 @@ class FillManager(val slotList: List<Slot>) {
 
     private fun CombinationMatrixEnum.logCombinationMatrixEnum() {
         val combinationEnumName = when (this) {
-            is CombinationRandom                            -> "Комбинация Рандом { Рандом } $name"
-            is CombinationRandomWithWild                    -> "Комбинация Рандом { Рандом | WILD } $name"
-            is CombinationWinNonIntersectingColorful        -> "Комбинация Победы { Не пересекающаяся | Разноцветная } $name"
-            is CombinationWinIntersectingMonochrome         -> "Комбинация Победы { Пересекающаяся | Одноцветная } $name"
-            is CombinationWinIntersectingMonochromeWithWild -> "Комбинация Победы { Пересекающаяся | Одноцветная | WILD } $name"
-            is CombinationWinIntersectingColorfulWithWild   -> "Комбинация Победы { Пересекающаяся | Разноцветная | WILD } $name"
-            else                                            -> "Noname"
+            is Combination.Random              -> "Комбинация Рандом $name"
+            is Combination.RandomWithWild      -> "Комбинация Рандом WILD $name"
+            is Combination.WinMonochrome       -> "Комбинация Победа Одноцветная $name"
+            is Combination.WinColorfulDisjoint -> "Комбинация Победа Разноцветная Непересекающаяся $name"
+            else                               -> "Noname"
         }
         log(combinationEnumName)
     }

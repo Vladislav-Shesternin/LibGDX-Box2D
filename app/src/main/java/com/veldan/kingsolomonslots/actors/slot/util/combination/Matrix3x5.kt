@@ -2,6 +2,7 @@ package com.veldan.kingsolomonslots.actors.slot.util.combination
 
 import com.veldan.kingsolomonslots.actors.slot.util.SlotItem
 import com.veldan.kingsolomonslots.actors.slot.util.SlotItemContainer
+import com.veldan.kingsolomonslots.utils.log
 
 /**
  * Матрица 3 на 5 - содержит 5 слотов (a,b,c,d,e) по 3 элемента (0,1,2).
@@ -10,6 +11,7 @@ import com.veldan.kingsolomonslots.actors.slot.util.SlotItemContainer
  * */
 class Matrix3x5(
     private val winItemList: List<Item>? = null,
+    val scheme: String = "",
 
     a0: Item,
     a1: Item,
@@ -40,62 +42,55 @@ class Matrix3x5(
 
     private val slotList = listOf(slotA, slotB, slotC, slotD, slotE)
 
-    private val shuffledSlotItemList = SlotItemContainer.list.shuffled()
+    private var shuffledSlotItemList = SlotItemContainer.list.shuffled()
 
-    val intersectionList: List<Intersection>? by lazy { generateIntersectionList() }
-    val winSlotItemList : List<SlotItem>?     by lazy { generateWinSlotItemList()  }
+    var intersectionList: List<Intersection>? = null
+        private set
+    var winSlotItemList: List<SlotItem>?      = null
+        private set
 
 
-    /** Генераторовать список пересечений:
-     *  Проверяет содержатся ли в слотах матрицы, элементы определенные в winItemList или Item.WILD,
-     *  если содержаться -> добавляет в список пересечений, Пересечение с индексом слота и индексом ряда на котором находиться этот победный элемент;
-     *  если не содержаться -> ничего не происходит;
-     *  return:
-     *  если список переечений пуст -> null;
-     *  если список пересечений не пуст -> етот список пересечений;
+
+    /**
+     * Заполняет: [intersectionList, winSlotItemList] если [winItemList != null].
      * */
-    private fun generateIntersectionList(): List<Intersection>? {
-        val intersectionList = mutableListOf<Intersection>().apply {
-            if (winItemList != null) {
-                val tmpWinItemList = winItemList + Item.WILD
+    private fun generateAndSetData() {
+        val tmpIntersectionList = mutableListOf<Intersection>()
+        val tmpWinSlotItemList  = mutableListOf<SlotItem>()
 
-                slotList.onEachIndexed { slotIndex, slot -> slot.onEachIndexed { itemIndex, item ->
-                    if (tmpWinItemList.contains(item)) add(Intersection(
-                        slotIndex = slotIndex,
-                        rowIndex  = itemIndex
-                    ))
-                } }
-            }
-        }
-        return if (intersectionList.isEmpty()) null else intersectionList
-    }
+        winItemList?.let { winList ->
 
-    /** Генерировать список победных элементов слотов:
-     *  return:
-     *  если список пересечиний null -> null;
-     *  если список пересечений не пуст -> список победных элементов слотов;
-     *
-     *  1. Получаем список элементов со списка слотов матрицы по идексам со списка Пересечений;
-     *  2. Получаем элементы слотов с shuffledSlotItemList по индексам с полученых элементов в первом шаге,
-     *     если элемент == WILD получаем WILD.
-     * */
-    private fun generateWinSlotItemList(): List<SlotItem>? {
-        return if (intersectionList == null) null
-        else {
-            val itemList = mutableListOf<Item>()
-            var slotItem: SlotItem
+            val tmpWinItemList = winList + Item.WILD
 
-            mutableListOf<SlotItem>().apply {
-                intersectionList!!.onEach { itemList.add(slotList[it.slotIndex][it.rowIndex]) }
-                itemList.onEach { item ->
-                    slotItem = when (item) {
-                        Item.WILD -> SlotItemContainer.wild
-                        else      -> shuffledSlotItemList[item.index]
+            slotList.onEachIndexed { slotIndex, slot ->
+                slot.onEachIndexed { itemIndex, item ->
+
+                    if (tmpWinItemList.contains(item)) {
+                        tmpIntersectionList.add(Intersection(
+                            slotIndex = slotIndex,
+                            rowIndex  = itemIndex,
+                        ))
                     }
-                    add(slotItem)
+
+                    when {
+                        winList.contains(item) -> tmpWinSlotItemList.add(shuffledSlotItemList[item.index])
+                        item == Item.WILD      -> tmpWinSlotItemList.add(SlotItemContainer.wild)
+                    }
                 }
             }
         }
+
+        intersectionList = if (tmpIntersectionList.isNotEmpty()) tmpIntersectionList else null
+        winSlotItemList  = if (tmpWinSlotItemList.isNotEmpty()) tmpWinSlotItemList else null
+
+    }
+
+
+
+    fun init(): Matrix3x5 {
+        shuffledSlotItemList = SlotItemContainer.list.shuffled()
+        generateAndSetData()
+        return this
     }
 
 

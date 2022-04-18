@@ -1,10 +1,13 @@
 package com.veldan.kingsolomonslots.actors.slot.slotGroup
 
 import com.veldan.kingsolomonslots.actors.slot.util.Bonus
+import com.veldan.kingsolomonslots.actors.slot.util.FillManager
+import com.veldan.kingsolomonslots.actors.slot.util.FillStrategy
 import com.veldan.kingsolomonslots.actors.slot.util.SpinResult
 import com.veldan.kingsolomonslots.utils.controller.GroupController
 import com.veldan.kingsolomonslots.utils.log
-import kotlinx.coroutines.CompletableDeferred
+import com.veldan.kingsolomonslots.utils.toDelay
+import kotlinx.coroutines.*
 
 class SlotGroupController(override val group: SlotGroup) : GroupController {
 
@@ -13,7 +16,8 @@ class SlotGroupController(override val group: SlotGroup) : GroupController {
         const val GLOW_COUNT = SLOT_COUNT
 
         // seconds
-        const val TIME_SHOW_WIN = 2f
+        const val TIME_SHOW_WIN     = 2f
+        const val TIME_BETWEEN_SPIN = 0.3f
     }
 
     private var winNumber       = (1..1).random()
@@ -43,9 +47,9 @@ class SlotGroupController(override val group: SlotGroup) : GroupController {
 //            spinWinCounter == winNumber             -> {
 //                fillManager.fill(FillStrategy.WIN)
 //            }
-//            else                                    -> {
-//                fillManager.fill(FillStrategy.RANDOM)
-//            }
+            else                                    -> {
+                fillManager.fill(FillStrategy.WIN)
+            }
         }
     }
 
@@ -74,20 +78,12 @@ class SlotGroupController(override val group: SlotGroup) : GroupController {
     private fun logCounter() {
         log("""
 
+
             winSpinCounter = $spinWinCounter WIN_NUM = $winNumber
             miniGameSpinCounter = $spinMiniGameCounter MINI_NUM = $miniGameNumber
             superGameSpinCounter = $spinSuperGameCounter SUPER_NUM = $superGameNumber
         """)
     }
-
-//    private fun FillResult.checkBonus() {
-//        val wildCount = winSlotItemList.count { it.id == SlotItemContainer.wild.id }
-//        bonus = when(wildCount) {
-//            2 -> Bonus.MINI_GAME
-//            3 -> Bonus.SUPER_GAME
-//            else -> bonus
-//        }
-//    }
 
 //    private suspend fun FillResult.showWin() = CompletableDeferred<Boolean>().also { continuation ->
 //        val glowInCounterFlow = MutableSharedFlow<Boolean>(replay = intersectionList.size)
@@ -118,31 +114,27 @@ class SlotGroupController(override val group: SlotGroup) : GroupController {
         logCounter()
         fillSlots()
 
-        group.slotList.onEach { it.controller.spin() }
-
-//        val spinCounterFlow = MutableSharedFlow<Boolean>(replay = 3)
-//        val coroutineSpin   = CoroutineScope(Dispatchers.Default)
-//
-//        group.slotList.onEach { coroutineSpin.launch {
-//            it.controller.spin().apply { spinCounterFlow.emit(true) }
-//        } }
-//
-//        spinCounterFlow.take(3).collectIndexed { index, _ ->
-//            if (index == 2 ) {
-//                coroutineSpin.cancel()
-//                spinCounterFlow.resetReplayCache()
-//
-//                fillManager.winFillResult?.checkBonus()
-//                if (bonus == null) { fillManager.winFillResult?.showWin() }
-//
-//                val winSlotItemSet = if (bonus == null) fillManager.winFillResult?.winSlotItemList?.toSet() else null
-//
-//                continuation.complete(SpinResult(
-//                    winSlotItemSet = winSlotItemSet?.apply { resetWin() },
-//                    bonus = bonus?.apply { resetBonus() }
-//                ))
-//            }
+        val completableSpinList = List(SLOT_COUNT) { CompletableDeferred<Boolean>() }
+        group.slotList.onEachIndexed { slotIndex, slot ->
+            CoroutineScope(Dispatchers.Default).launch {
+                slot.controller.spin()
+                completableSpinList[slotIndex].complete(true)
+                cancel()
+            }
+            delay(TIME_BETWEEN_SPIN.toDelay)
+        }
+        completableSpinList.onEach { it.await() }
+//        if (bonus == null) {
+//            fillManager.winFillResult?.showWin()
 //        }
+//
+//        val winSlotItemSet = if (bonus == null) fillManager.winFillResult?.winSlotItemList?.toSet() else null
+
+        continuation.complete(SpinResult(
+            winSlotItemSet = null,// winSlotItemSet?.apply { resetWin() },
+            bonus = bonus?.apply { resetBonus() }
+        ))
+
     }.await()
 
 }

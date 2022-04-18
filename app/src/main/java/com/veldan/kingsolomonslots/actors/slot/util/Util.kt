@@ -1,6 +1,7 @@
 package com.veldan.kingsolomonslots.actors.slot.util
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion
+import com.veldan.kingsolomonslots.actors.slot.util.combination.Matrix3x5
 
 data class SpinResult(
     val winSlotItemSet: Set<SlotItem>?,
@@ -9,7 +10,7 @@ data class SpinResult(
 
 data class FillResult(
     val winSlotItemList : List<SlotItem>,
-    val intersectionList: List<Matrix3x3.Intersection>,
+    val intersectionList: List<Matrix3x5.Intersection>,
 )
 
 data class SlotItem(
