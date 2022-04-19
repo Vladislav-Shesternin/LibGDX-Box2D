@@ -3,17 +3,18 @@ package com.veldan.kingsolomonslots.screens.game
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.scenes.scene2d.actions.Actions
 import com.badlogic.gdx.utils.Disposable
+import com.veldan.kingsolomonslots.actors.miniGame.boxGroup.util.BoxPrize
+import com.veldan.kingsolomonslots.actors.slot.util.Bonus
 import com.veldan.kingsolomonslots.actors.slot.util.SpinResult
 import com.veldan.kingsolomonslots.manager.DataStoreManager
-import com.veldan.kingsolomonslots.utils.Once
-import com.veldan.kingsolomonslots.utils.cancelCoroutinesAll
+import com.veldan.kingsolomonslots.utils.*
 import com.veldan.kingsolomonslots.utils.controller.ScreenController
-import com.veldan.kingsolomonslots.utils.transformToBalanceFormat
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.first
+import kotlin.coroutines.coroutineContext
 
 class GameScreenController(override val screen: GameScreen): ScreenController, Disposable {
 
@@ -23,8 +24,9 @@ class GameScreenController(override val screen: GameScreen): ScreenController, D
         const val BET_MAX  = 1000L
 
         // seconds
-        const val TIME_SHOW_SCREEN = 1f
-        const val TIME_HIDE_SCREEN = 1f
+        const val TIME_WAIT_AFTER_AUTOSPIN = 1f
+        const val TIME_SHOW_SCREEN         = 1f
+        const val TIME_HIDE_SCREEN         = 1f
     }
 
     private val coroutineBalance        = CoroutineScope(Dispatchers.Default)
@@ -68,44 +70,122 @@ class GameScreenController(override val screen: GameScreen): ScreenController, D
     }
 
     private suspend fun spinAndSetResult() {
-       screen.slotGroup.controller.spin()//.apply {
-       //    when (bonus) {
-       //        Bonus.MINI_GAME  -> startMiniGame()
-       //        Bonus.SUPER_GAME -> startSuperGame()
-       //        else -> {}
-       //    }
-       //    calculateAndSetResult()
-       //}
+        screen.slotGroup.controller.spin().apply {
+            when (bonus) {
+                Bonus.MINI_GAME  -> startMiniGame()
+               // Bonus.SUPER_GAME -> startSuperGame()
+                else             -> {}
+            }
+            calculateAndSetResult()
+        }
     }
 
-    /*private fun startAutospin() {
+    private fun startAutospin() {
         coroutineAutoSpin.launch {
-            autoSpinStateFlow.collect { state -> when (state) {
-                AutospinState.GO      -> { with(screen) {
-                    autoSpinButton.press()
-                    spinButton.disable()
-                    betPlusButton.disable()
-                    betMinusButton.disable()
+            autoSpinStateFlow.collect { state ->
+                when (state) {
+                    AutospinState.GO      -> {
+                        with(screen) {
+                            autoSpinButton.controller.press()
+                            spinButton.controller.disable()
+                            betPlusButton.controller.disable()
+                            betMinusButton.controller.disable()
 
-                    CoroutineScope(Dispatchers.Default).launch {
-                        while (autoSpinStateFlow.value == AutospinState.GO) {
-                            if (checkBalance()) spinAndSetResult()
-                            else autoSpinStateFlow.value = AutospinState.DEFAULT
+                            CoroutineScope(Dispatchers.Default).launch {
+                                while (autoSpinStateFlow.value == AutospinState.GO) {
+                                    if (checkBalance()) {
+                                        spinAndSetResult()
+                                        delay(TIME_WAIT_AFTER_AUTOSPIN.toDelay)
+                                    }
+                                    else autoSpinStateFlow.value = AutospinState.DEFAULT
+                                }
+
+                                autoSpinButton.controller.enable()
+                                spinButton.controller.enable()
+                                betPlusButton.controller.enable()
+                                betMinusButton.controller.enable()
+
+                                cancel()
+                            }
                         }
-
-                        autoSpinButton.enable()
-                        spinButton.enable()
-                        betPlusButton.enable()
-                        betMinusButton.enable()
-
-                        cancel()
                     }
-                } }
 
-                AutospinState.DEFAULT -> screen.autoSpinButton.disable()
-            } }
+                    AutospinState.DEFAULT -> screen.autoSpinButton.controller.disable()
+                }
+            }
         }
-    }*/
+    }
+
+    private suspend fun startMiniGame() = CompletableDeferred<Boolean>().also { continuation ->
+        hideGameGroup()
+        screen.addMiniGameGroup()
+
+        with(screen.miniGameGroup.controller) {
+            start(betFlow.first())
+
+            doAfterFinish = { prize ->
+                coroutineMiniGame.launch {
+                    doAfterFinishMiniGame(prize)
+                    continuation.complete(true)
+                }
+            }
+        }
+    }.await()
+
+    private suspend fun hideGameGroup() {
+        val completableAnim = CompletableDeferred<Boolean>()
+
+        screen.gameGroup.apply {
+            Gdx.app.postRunnable {
+                children.onEach { it.disable() }
+                addAction(Actions.sequence(
+                    Actions.fadeOut(TIME_HIDE_SCREEN),
+                    Actions.run { completableAnim.complete(true) }
+                ))
+            }
+            completableAnim.await()
+        }
+    }
+
+    private suspend fun showGameGroup() {
+        val completableAnim = CompletableDeferred<Boolean>()
+
+        screen.gameGroup.apply {
+            Gdx.app.postRunnable {
+                addAction(Actions.sequence(
+                    Actions.fadeIn(TIME_SHOW_SCREEN),
+                    Actions.run { completableAnim.complete(true) }
+                ))
+            }
+            completableAnim.await()
+            children.onEach { it.enable() }
+        }
+    }
+
+    private suspend fun hideMiniGameGroup() {
+        val completableAnim = CompletableDeferred<Boolean>()
+
+        screen.miniGameGroup.apply {
+            Gdx.app.postRunnable {
+                addAction(Actions.sequence(
+                    Actions.fadeOut(TIME_HIDE_SCREEN),
+                    Actions.run { completableAnim.complete(true) }
+                ))
+            }
+            completableAnim.await()
+        }
+        screen.removeMiniGameGroup()
+    }
+
+    private suspend fun doAfterFinishMiniGame(boxPrize: BoxPrize) {
+        hideMiniGameGroup()
+        showGameGroup()
+
+        val prize = boxPrize.prize * betFlow.first()
+        DataStoreManager.Balance.update { it + prize }
+    }
+
+
 
     fun updateBalance() {
         coroutineBalance.launch { DataStoreManager.Balance.collect { balance -> Gdx.app.postRunnable {
@@ -156,7 +236,7 @@ class GameScreenController(override val screen: GameScreen): ScreenController, D
         autoSpinStateFlow.apply {
             value = if (value == AutospinState.DEFAULT) AutospinState.GO else AutospinState.DEFAULT
         }
-        //onceStartAutoSpin.once { startAutospin() }
+        onceStartAutoSpin.once { startAutospin() }
     }
 
 

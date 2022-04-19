@@ -34,7 +34,8 @@ class FillManager(val slotList: List<Slot>) {
 
         val combinationMatrixEnum = listOf<CombinationMatrixEnum>(
             *Combination.WinMonochrome.values(),
-            *Combination.WinColorfulDisjoint.values(),
+            *Combination.WinColorful.values(),
+            *Combination.WinWithWild.values(),
         ).random()
         combinationMatrixEnum.logCombinationMatrixEnum()
         val combinationMatrix = combinationMatrixEnum.matrix.init()
@@ -62,7 +63,7 @@ class FillManager(val slotList: List<Slot>) {
 
         val randomSlotList = slotList.shuffled().take(2)
         randomSlotList.onEach { slot -> with(slot) { slotItemWinList = slotItemWinList.toMutableList().apply {
-            setInRandomRow(SlotItemContainer.wild)
+            setInRandomRow(SlotItemContainer.scatter)
         } } }
     }
 
@@ -72,7 +73,7 @@ class FillManager(val slotList: List<Slot>) {
 
         val randomSlotList = slotList.shuffled().take(3)
         randomSlotList.onEach { slot -> with(slot) { slotItemWinList = slotItemWinList.toMutableList().apply {
-            setInRandomRow(SlotItemContainer.wild)
+            setInRandomRow(SlotItemContainer.scatter)
         } } }
     }
 
@@ -98,11 +99,12 @@ class FillManager(val slotList: List<Slot>) {
 
     private fun CombinationMatrixEnum.logCombinationMatrixEnum() {
         val combinationEnumName = when (this) {
-            is Combination.Random              -> "Комбинация Рандом $name"
-            is Combination.RandomWithWild      -> "Комбинация Рандом WILD $name"
-            is Combination.WinMonochrome       -> "Комбинация Победа Одноцветная $name"
-            is Combination.WinColorfulDisjoint -> "Комбинация Победа Разноцветная Непересекающаяся $name"
-            else                               -> "Noname"
+            is Combination.Random         -> "Комбинация Рандом $name"
+            is Combination.RandomWithWild -> "Комбинация Рандом WILD $name"
+            is Combination.WinMonochrome  -> "Комбинация Победа Одноцветная $name"
+            is Combination.WinColorful    -> "Комбинация Победа Разноцветная $name"
+            is Combination.WinWithWild    -> "Комбинация Победа WILD $name"
+            else                          -> "Noname"
         }
         log(combinationEnumName)
     }

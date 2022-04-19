@@ -1,9 +1,6 @@
 package com.veldan.kingsolomonslots.actors.slot.slotGroup
 
-import com.veldan.kingsolomonslots.actors.slot.util.Bonus
-import com.veldan.kingsolomonslots.actors.slot.util.FillManager
-import com.veldan.kingsolomonslots.actors.slot.util.FillStrategy
-import com.veldan.kingsolomonslots.actors.slot.util.SpinResult
+import com.veldan.kingsolomonslots.actors.slot.util.*
 import com.veldan.kingsolomonslots.utils.controller.GroupController
 import com.veldan.kingsolomonslots.utils.log
 import com.veldan.kingsolomonslots.utils.toDelay
@@ -36,36 +33,36 @@ class SlotGroupController(override val group: SlotGroup) : GroupController {
 
     private fun fillSlots() {
         when {
-//            spinSuperGameCounter == superGameNumber -> {
-//                fillManager.fill(FillStrategy.SUPER)
-//                bonus = Bonus.SUPER_GAME
-//            }
-//            spinMiniGameCounter == miniGameNumber   -> {
-//                fillManager.fill(FillStrategy.MINI)
-//                bonus = Bonus.MINI_GAME
-//            }
-//            spinWinCounter == winNumber             -> {
-//                fillManager.fill(FillStrategy.WIN)
-//            }
-            else                                    -> {
+            spinSuperGameCounter == superGameNumber -> {
+                fillManager.fill(FillStrategy.SUPER)
+                bonus = Bonus.SUPER_GAME
+            }
+            spinMiniGameCounter == miniGameNumber   -> {
+                fillManager.fill(FillStrategy.MINI)
+                bonus = Bonus.MINI_GAME
+            }
+            spinWinCounter == winNumber             -> {
                 fillManager.fill(FillStrategy.WIN)
+            }
+            else                                    -> {
+                fillManager.fill(FillStrategy.RANDOM)
             }
         }
     }
 
     private fun resetWin() {
         spinWinCounter = 0
-        winNumber      = (1..5).random()
+        winNumber      = (1..1).random()
     }
 
     private fun resetBonus() {
         fun resetMiniGame() {
             spinMiniGameCounter = 0
-            miniGameNumber      = (6..10).random()
+            miniGameNumber      = (2..2).random()
         }
         fun resetSuperGame() {
             spinSuperGameCounter = 0
-            superGameNumber      = (11..15).random()
+            superGameNumber      = (3..3).random()
         }
 
         if (spinWinCounter == winNumber) resetWin()
@@ -77,32 +74,17 @@ class SlotGroupController(override val group: SlotGroup) : GroupController {
 
     private fun logCounter() {
         log("""
-
-
             winSpinCounter = $spinWinCounter WIN_NUM = $winNumber
             miniGameSpinCounter = $spinMiniGameCounter MINI_NUM = $miniGameNumber
             superGameSpinCounter = $spinSuperGameCounter SUPER_NUM = $superGameNumber
         """)
     }
 
-//    private suspend fun FillResult.showWin() = CompletableDeferred<Boolean>().also { continuation ->
-//        val glowInCounterFlow = MutableSharedFlow<Boolean>(replay = intersectionList.size)
-//
-//        intersectionList.onEach { intersection ->
-//            val glow = group.glowList[intersection.slotIndex]
-//            glow.controller.glowIn(intersection.rowIndex).apply { glowInCounterFlow.emit(true) }
-//        }
-//
-//        glowInCounterFlow.take(intersectionList.size).collectIndexed { index, _ ->
-//            if (index == intersectionList.size.dec()) {
-//                glowInCounterFlow.resetReplayCache()
-//                delay(TIME_SHOW_WIN.toDelay)
-//                group.glowList.onEach { glow -> glow.controller.glowOutAll() }
-//                continuation.complete(true)
-//            }
-//        }
-//
-//    }.await()
+    private suspend fun FillResult.showWin() {
+        intersectionList.onEach { intersection ->
+            group.glowList[intersection.slotIndex].controller.glowIn(intersection.rowIndex)
+        }
+    }
 
 
 
@@ -124,14 +106,15 @@ class SlotGroupController(override val group: SlotGroup) : GroupController {
             delay(TIME_BETWEEN_SPIN.toDelay)
         }
         completableSpinList.onEach { it.await() }
-//        if (bonus == null) {
-//            fillManager.winFillResult?.showWin()
-//        }
-//
-//        val winSlotItemSet = if (bonus == null) fillManager.winFillResult?.winSlotItemList?.toSet() else null
+
+        val winSlotItemSet = fillManager.winFillResult?.apply {
+            showWin()
+            delay(TIME_SHOW_WIN.toDelay)
+            group.glowList.onEach { it.controller.glowOutAll() }
+        }?.winSlotItemList?.toSet()
 
         continuation.complete(SpinResult(
-            winSlotItemSet = null,// winSlotItemSet?.apply { resetWin() },
+            winSlotItemSet = winSlotItemSet?.apply { resetWin() },
             bonus = bonus?.apply { resetBonus() }
         ))
 

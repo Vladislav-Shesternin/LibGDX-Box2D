@@ -70,6 +70,10 @@ object SpriteManager {
         SPIN_DEF(        EnumAtlas._1.data.atlas.findRegion("spin_def")        ),
         SPIN_DIS(        EnumAtlas._1.data.atlas.findRegion("spin_dis")        ),
         SPIN_PRESS(      EnumAtlas._1.data.atlas.findRegion("spin_press")      ),
+        BOX(             EnumAtlas._1.data.atlas.findRegion("box")             ),
+        WIN_20(          EnumAtlas._1.data.atlas.findRegion("win 20")          ),
+        X(               EnumAtlas._1.data.atlas.findRegion("x")               ),
+        EQUALS(          EnumAtlas._1.data.atlas.findRegion("equals")          ),
 
         SCATTER(         EnumAtlas.SLOT_ITEM.data.atlas.findRegion("scatter")  ),
         WILD(            EnumAtlas.SLOT_ITEM.data.atlas.findRegion("wild")     ),

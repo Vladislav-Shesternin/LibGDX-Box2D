@@ -803,7 +803,7 @@ object Combination{
         ),
     }
 
-    enum class WinColorfulDisjoint(
+    enum class WinColorful(
         override val matrix: Matrix3x5,
     ): CombinationMatrixEnum {
         _1(
@@ -1198,4 +1198,476 @@ object Combination{
         ),
     }
 
+    enum class WinWithWild(
+        override val matrix: Matrix3x5,
+    ): CombinationMatrixEnum {
+        _1(
+            Matrix3x5(
+                scheme = """
+                    A A - - -
+                    - - W - -
+                    B B - - -
+                """,
+                winItemList = listOf(A, B),
+                a0 = A, b0 = A, c0 = F, d0 = C, e0 = D,
+                a1 = E, b1 = F, c1 = WILD, d1 = H, e1 = F,
+                a2 = B, b2 = B, c2 = D, d2 = E, e2 = F,
+            )
+        ),
+        _2(
+            Matrix3x5(
+                scheme = """
+                    A A - B -
+                    - - W - B
+                    B B - - -
+                """,
+                winItemList = listOf(A, B),
+                a0 = A, b0 = A, c0 = F,    d0 = B, e0 = D,
+                a1 = E, b1 = F, c1 = WILD, d1 = H, e1 = B,
+                a2 = B, b2 = B, c2 = D,    d2 = E, e2 = F,
+            )
+        ),
+        _3(
+            Matrix3x5(
+                scheme = """
+                    W - - - -
+                    - A - - -
+                    B B W B B
+                """,
+                winItemList = listOf(A, B),
+                a0 = WILD, b0 = D, c0 = F,    d0 = F, e0 = D,
+                a1 = E,    b1 = A, c1 = E,    d1 = H, e1 = G,
+                a2 = B,    b2 = B, c2 = WILD, d2 = B, e2 = B,
+            )
+        ),
+        _4(
+            Matrix3x5(
+                scheme = """
+                    A A A W -
+                    - - B B -
+                    B B - - -
+                """,
+                winItemList = listOf(A, B),
+                a0 = A, b0 = A, c0 = A, d0 = WILD, e0 = D,
+                a1 = E, b1 = D, c1 = B, d1 = B,    e1 = G,
+                a2 = B, b2 = B, c2 = G, d2 = E,    e2 = C,
+            )
+        ),
+        _5(
+            Matrix3x5(
+                scheme = """
+                    A A A A A
+                    - - W - -
+                    B B B B B
+                """,
+                winItemList = listOf(A, B),
+                a0 = A, b0 = A, c0 = A,    d0 = A, e0 = A,
+                a1 = E, b1 = D, c1 = WILD, d1 = C, e1 = G,
+                a2 = B, b2 = B, c2 = B,    d2 = B, e2 = B,
+            )
+        ),
+        _6(
+            Matrix3x5(
+                scheme = """
+                    A - B - -
+                    - W - - -
+                    B - A - -
+                """,
+                winItemList = listOf(A, B),
+                a0 = A, b0 = D,    c0 = B, d0 = H, e0 = E,
+                a1 = E, b1 = WILD, c1 = G, d1 = C, e1 = G,
+                a2 = B, b2 = C,    c2 = A, d2 = C, e2 = E,
+            )
+        ),
+        _7(
+            Matrix3x5(
+                scheme = """
+                    A A - C -
+                    B B W B B
+                    C C - A -
+                """,
+                winItemList = listOf(A, B, C),
+                a0 = A, b0 = A, c0 = G,    d0 = C, e0 = E,
+                a1 = B, b1 = B, c1 = WILD, d1 = B, e1 = B,
+                a2 = C, b2 = C, c2 = H,    d2 = A, e2 = E,
+            )
+        ),
+        _8(
+            Matrix3x5(
+                scheme = """
+                    A A W - -
+                    B B B - -
+                    C C W - -
+                """,
+                winItemList = listOf(A, B, C),
+                a0 = A, b0 = A, c0 = WILD, d0 = D, e0 = E,
+                a1 = B, b1 = B, c1 = B,    d1 = G, e1 = H,
+                a2 = C, b2 = C, c2 = WILD, d2 = F, e2 = E,
+            )
+        ),
+        _9(
+            Matrix3x5(
+                scheme = """
+                    - - A - -
+                    - W - - -
+                    A - - - -
+                """,
+                winItemList = listOf(A),
+                a0 = B, b0 = D,    c0 = A, d0 = D, e0 = E,
+                a1 = B, b1 = WILD, c1 = B, d1 = G, e1 = H,
+                a2 = A, b2 = C,    c2 = G, d2 = F, e2 = E,
+            )
+        ),
+        _10(
+            Matrix3x5(
+                scheme = """
+                    A W A - -
+                    - - - - -
+                    - - - - -
+                """,
+                winItemList = listOf(A),
+                a0 = A, b0 = WILD, c0 = A, d0 = D, e0 = E,
+                a1 = B, b1 = D,    c1 = B, d1 = G, e1 = H,
+                a2 = E, b2 = C,    c2 = G, d2 = F, e2 = E,
+            )
+        ),
+        _11(
+            Matrix3x5(
+                scheme = """
+                    - - - - A
+                    A A W A -
+                    - - - - A
+                """,
+                winItemList = listOf(A),
+                a0 = B, b0 = D, c0 = E,    d0 = G, e0 = A,
+                a1 = A, b1 = A, c1 = WILD, d1 = A, e1 = H,
+                a2 = E, b2 = C, c2 = G,    d2 = F, e2 = A,
+            )
+        ),
+        _12(
+            Matrix3x5(
+                scheme = """
+                    - - - - -
+                    W A A - -
+                    - - - - -
+                """,
+                winItemList = listOf(A),
+                a0 = B, b0 = D,    c0 = E, d0 = G, e0 = E,
+                a1 = WILD, b1 = A, c1 = A, d1 = B, e1 = H,
+                a2 = E, b2 = C,    c2 = G, d2 = F, e2 = D,
+            )
+        ),
+        _13(
+            Matrix3x5(
+                scheme = """
+                    - - - - -
+                    - - - - -
+                    W A A - -
+                """,
+                winItemList = listOf(A),
+                a0 = B,    b0 = D, c0 = E, d0 = G, e0 = E,
+                a1 = D,    b1 = B, c1 = E, d1 = B, e1 = H,
+                a2 = WILD, b2 = A, c2 = A, d2 = F, e2 = D,
+            )
+        ),
+        _14(
+            Matrix3x5(
+                scheme = """
+                    W A A - -
+                    - - - - -
+                    - - - - -
+                """,
+                winItemList = listOf(A),
+                a0 = WILD, b0 = A, c0 = A, d0 = G, e0 = E,
+                a1 = D,    b1 = B, c1 = E, d1 = B, e1 = H,
+                a2 = G,    b2 = F, c2 = C, d2 = F, e2 = D,
+            )
+        ),
+        _15(
+            Matrix3x5(
+                scheme = """
+                    - - - A -
+                    W A A - A
+                    - - - A -
+                """,
+                winItemList = listOf(A),
+                a0 = B,    b0 = D, c0 = G, d0 = A, e0 = E,
+                a1 = WILD, b1 = A, c1 = A, d1 = B, e1 = A,
+                a2 = G,    b2 = F, c2 = C, d2 = A, e2 = D,
+            )
+        ),
+        _16(
+            Matrix3x5(
+                scheme = """
+                    - - - - -
+                    - - W A A
+                    A A - - -
+                """,
+                winItemList = listOf(A),
+                a0 = B, b0 = D, c0 = G,    d0 = G, e0 = E,
+                a1 = D, b1 = E, c1 = WILD, d1 = A, e1 = A,
+                a2 = A, b2 = A, c2 = C,    d2 = B, e2 = D,
+            )
+        ),
+        _17(
+            Matrix3x5(
+                scheme = """
+                    - - - - -
+                    A A - - -
+                    B B W - -
+                """,
+                winItemList = listOf(A, B),
+                a0 = D, b0 = D, c0 = G,    d0 = G, e0 = E,
+                a1 = A, b1 = A, c1 = E,    d1 = E, e1 = H,
+                a2 = B, b2 = B, c2 = WILD, d2 = C, e2 = D,
+            )
+        ),
+        _18(
+            Matrix3x5(
+                scheme = """
+                    A A - - -
+                    - - A - -
+                    - - W - -
+                """,
+                winItemList = listOf(A),
+                a0 = A, b0 = A, c0 = G,    d0 = G, e0 = E,
+                a1 = D, b1 = C, c1 = A,    d1 = E, e1 = H,
+                a2 = G, b2 = B, c2 = WILD, d2 = C, e2 = D,
+            )
+        ),
+        _19(
+            Matrix3x5(
+                scheme = """
+                    A - - - A
+                    - A - A -
+                    - - W - -
+                """,
+                winItemList = listOf(A),
+                a0 = A, b0 = B, c0 = G,    d0 = G, e0 = A,
+                a1 = D, b1 = A, c1 = D,    d1 = A, e1 = H,
+                a2 = G, b2 = B, c2 = WILD, d2 = C, e2 = D,
+            )
+        ),
+        _20(
+            Matrix3x5(
+                scheme = """
+                    A - C C C
+                    B W B - -
+                    C - A - -
+                """,
+                winItemList = listOf(A, B, C),
+                a0 = A, b0 = E,    c0 = C, d0 = C, e0 = C,
+                a1 = B, b1 = WILD, c1 = B, d1 = D, e1 = H,
+                a2 = C, b2 = D,    c2 = A, d2 = C, e2 = F,
+            )
+        ),
+        _21(
+            Matrix3x5(
+                scheme = """
+                    - - - - -
+                    A A A W -
+                    - - - - -
+                """,
+                winItemList = listOf(A),
+                a0 = B, b0 = E, c0 = C, d0 = C,    e0 = C,
+                a1 = A, b1 = A, c1 = A, d1 = WILD, e1 = H,
+                a2 = C, b2 = D, c2 = B, d2 = C,    e2 = F,
+            )
+        ),
+        _22(
+            Matrix3x5(
+                scheme = """
+                    - - - - A
+                    A A A A W
+                    - - - - A
+                """,
+                winItemList = listOf(A),
+                a0 = B, b0 = E, c0 = G, d0 = H, e0 = A,
+                a1 = A, b1 = A, c1 = A, d1 = A, e1 = WILD,
+                a2 = C, b2 = D, c2 = F, d2 = C, e2 = A,
+            )
+        ),
+        _23(
+            Matrix3x5(
+                scheme = """
+                    A A W A A
+                    - B - B -
+                    B - - - B
+                """,
+                winItemList = listOf(A, B),
+                a0 = A, b0 = A, c0 = WILD, d0 = A, e0 = A,
+                a1 = H, b1 = B, c1 = E,    d1 = B, e1 = D,
+                a2 = B, b2 = D, c2 = F,    d2 = C, e2 = B,
+            )
+        ),
+        _24(
+            Matrix3x5(
+                scheme = """
+                    W - - - -
+                    - A - - -
+                    - - W - -
+                """,
+                winItemList = listOf(A),
+                a0 = WILD, b0 = D, c0 = H,    d0 = E, e0 = C,
+                a1 = H,    b1 = A, c1 = E,    d1 = B, e1 = D,
+                a2 = B,    b2 = D, c2 = WILD, d2 = C, e2 = B,
+            )
+        ),
+        _25(
+            Matrix3x5(
+                scheme = """
+                    A A A - -
+                    B B B W A
+                    - - - - B
+                """,
+                winItemList = listOf(A, B),
+                a0 = A, b0 = A, c0 = A, d0 = E,    e0 = C,
+                a1 = B, b1 = B, c1 = B, d1 = WILD, e1 = A,
+                a2 = E, b2 = C, c2 = D, d2 = C,    e2 = B,
+            )
+        ),
+        _26(
+            Matrix3x5(
+                scheme = """
+                    A W A - -
+                    - - - A -
+                    - - - - A
+                """,
+                winItemList = listOf(A),
+                a0 = A, b0 = WILD, c0 = A, d0 = E, e0 = C,
+                a1 = B, b1 = H,    c1 = G, d1 = A, e1 = D,
+                a2 = E, b2 = C,    c2 = D, d2 = C, e2 = A,
+            )
+        ),
+        _27(
+            Matrix3x5(
+                scheme = """
+                    A - C - -
+                    B W B - -
+                    C - A - -
+                """,
+                winItemList = listOf(A, B, C),
+                a0 = A, b0 = E,    c0 = C, d0 = E, e0 = C,
+                a1 = B, b1 = WILD, c1 = B, d1 = H, e1 = D,
+                a2 = C, b2 = D,    c2 = A, d2 = G, e2 = E,
+            )
+        ),
+        _28(
+            Matrix3x5(
+                scheme = """
+                    A - - - A
+                    - A - - A
+                    - - A W W
+                """,
+                winItemList = listOf(A),
+                a0 = A, b0 = E, c0 = C, d0 = E,    e0 = A,
+                a1 = B, b1 = A, c1 = B, d1 = H,    e1 = A,
+                a2 = C, b2 = D, c2 = A, d2 = WILD, e2 = WILD,
+            )
+        ),
+        _29(
+            Matrix3x5(
+                scheme = """
+                    - - A - -
+                    A A - W A
+                    - - A - -
+                """,
+                winItemList = listOf(A),
+                a0 = B, b0 = E, c0 = A, d0 = E,    e0 = D,
+                a1 = A, b1 = A, c1 = B, d1 = WILD, e1 = A,
+                a2 = C, b2 = D, c2 = A, d2 = C,    e2 = B,
+            )
+        ),
+        _30(
+            Matrix3x5(
+                scheme = """
+                    - - A W -
+                    - A - A -
+                    A - - A A
+                """,
+                winItemList = listOf(A),
+                a0 = B, b0 = E, c0 = A, d0 = WILD, e0 = D,
+                a1 = B, b1 = A, c1 = B, d1 = A,    e1 = B,
+                a2 = A, b2 = D, c2 = H, d2 = A,    e2 = A,
+            )
+        ),
+        _31(
+            Matrix3x5(
+                scheme = """
+                    W - - - W
+                    - A - A -
+                    - - W - -
+                """,
+                winItemList = listOf(A),
+                a0 = WILD, b0 = E, c0 = F,    d0 = D, e0 = WILD,
+                a1 = B,    b1 = A, c1 = B,    d1 = A, e1 = B,
+                a2 = D,    b2 = H, c2 = WILD, d2 = G, e2 = D,
+            )
+        ),
+        _32(
+            Matrix3x5(
+                scheme = """
+                    A - - - A
+                    - W - W -
+                    - - A - -
+                """,
+                winItemList = listOf(A),
+                a0 = A, b0 = E,    c0 = F, d0 = D,    e0 = A,
+                a1 = E, b1 = WILD, c1 = G, d1 = WILD, e1 = B,
+                a2 = D, b2 = H,    c2 = A, d2 = C,    e2 = D,
+            )
+        ),
+        _33(
+            Matrix3x5(
+                scheme = """
+                    A A - B B
+                    - - W - -
+                    B B - A A
+                """,
+                winItemList = listOf(A, B),
+                a0 = A, b0 = A, c0 = F,    d0 = B, e0 = B,
+                a1 = E, b1 = F, c1 = WILD, d1 = E, e1 = C,
+                a2 = B, b2 = B, c2 = F,    d2 = A, e2 = A,
+            )
+        ),
+        _34(
+            Matrix3x5(
+                scheme = """
+                    A A W C C
+                    B W B A -
+                    C - - - A
+                """,
+                winItemList = listOf(A, B, C),
+                a0 = A, b0 = A,    c0 = WILD, d0 = C, e0 = C,
+                a1 = B, b1 = WILD, c1 = B,    d1 = A, e1 = D,
+                a2 = C, b2 = E,    c2 = F,    d2 = H, e2 = A,
+            )
+        ),
+        _35(
+            Matrix3x5(
+                scheme = """
+                    - - - W -
+                    W A A - A
+                    B B B W -
+                """,
+                winItemList = listOf(A, B),
+                a0 = C,    b0 = D, c0 = E, d0 = WILD, e0 = C,
+                a1 = WILD, b1 = A, c1 = A, d1 = H,    e1 = A,
+                a2 = B,    b2 = B, c2 = B, d2 = WILD, e2 = D,
+            )
+        ),
+        _36(
+            Matrix3x5(
+                scheme = """
+                    W - A - A
+                    - A - W -
+                    W - A - A
+                """,
+                winItemList = listOf(A, B),
+                a0 = WILD, b0 = D, c0 = A, d0 = G,    e0 = A,
+                a1 = E,    b1 = A, c1 = C, d1 = WILD, e1 = D,
+                a2 = WILD, b2 = B, c2 = A, d2 = H,    e2 = A,
+            )
+        ),
+    }
 }

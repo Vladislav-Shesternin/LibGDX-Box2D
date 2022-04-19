@@ -16,6 +16,8 @@ import com.badlogic.gdx.utils.Disposable
 import com.badlogic.gdx.utils.viewport.Viewport
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.cancel
+import java.util.*
+import kotlin.random.Random
 
 val Any.region: TextureRegion get() = if (this is Texture) TextureRegion(this) else throw TypeCastException("Type is not Texture.")
 
@@ -106,7 +108,7 @@ fun Long.transformToBalanceFormat(): String {
 }
 
 fun probability(percent: Int, block: () -> Unit = {}): Boolean {
-    val randomNum = (1..100).random()
+    val randomNum = Random.nextInt(1, 100)
     return if (randomNum < percent) {
         block()
         true

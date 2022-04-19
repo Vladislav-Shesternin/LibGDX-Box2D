@@ -6,9 +6,9 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent
 import com.badlogic.gdx.scenes.scene2d.InputListener
 import com.veldan.kingsolomonslots.manager.assets.util.playAdvanced
 
-class ClickListener(private val actor: Actor) {
+class ClickListener(val actor: Actor) {
 
-    private var onClickBlock: () -> Unit = { }
+    private var onClickBlock: (Actor) -> Unit = { }
 
 
 
@@ -28,14 +28,14 @@ class ClickListener(private val actor: Actor) {
         override fun touchUp(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int) {
             if (isWithin) {
                 isWithin = false
-                onClickBlock()
+                onClickBlock(actor)
             }
         }
     }
 
 
 
-    fun setOnClickListener(sound: Sound? = null/*SoundUtil.CLICK*/, block: () -> Unit) {
+    fun setOnClickListener(sound: Sound? = null/*SoundUtil.CLICK*/, block: (Actor) -> Unit) {
         onClickBlock = block
         with(actor) { addListener(getListener(sound)) }
     }

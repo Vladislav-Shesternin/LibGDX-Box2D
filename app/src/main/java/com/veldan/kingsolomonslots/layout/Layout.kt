@@ -150,13 +150,13 @@ object Layout {
     // Glow
     // ------------------------------------------------------------------------
     object Glow {
-        val W = 340f
-        val H = 706f
+        val W = 239f
+        val H = 472f
 
-        val GLOW_ITEM_FIRST_Y = 364f
-        val GLOW_ITEM_SPACE_VERTICAL = -160f
-        val GLOW_ITEM_W = 340f
-        val GLOW_ITEM_H = 342f
+        val GLOW_ITEM_FIRST_Y = 256f
+        val GLOW_ITEM_SPACE_VERTICAL = -88f
+        val GLOW_ITEM_W = 239f
+        val GLOW_ITEM_H = 216f
     }
 
     // ------------------------------------------------------------------------
@@ -174,184 +174,83 @@ object Layout {
         val SLOT_FIRST_X = 5f
         val SLOT_SPACE_HORIZONTAL = 20f
 
-        val GLOW_FIRST_X = -11f
-        val GLOW_Y = -48f
-        val GLOW_SPACE_HORIZONTAL = -153f
+        val GLOW_FIRST_X = 8f
+        val GLOW_Y = 112f
+        val GLOW_SPACE_HORIZONTAL = -87f
     }
 
     // ------------------------------------------------------------------------
-    // ClickAnim Group
+    // BoxGroup
     // ------------------------------------------------------------------------
-    object ClickAnim {
-        val W = 234f
-        val H = 327f
-    }
+    object BoxGroup {
+        val W = 1065f
+        val H = 285f
 
-    // ------------------------------------------------------------------------
-    // MiniGame Group
-    // ------------------------------------------------------------------------
-    object MiniGame {
+        val BOX_FIRST_X = 0f
+        val BOX_SPACE_HORIZONTAL = 100f
+        val BOX_Y = 0f
+        val BOX_W = 288f
+        val BOX_H = 285f
 
-        object TopPanel {
-            val X = 0f
-            val Y = 1200f
-            val W = 700f
-            val H = 200f
-
-            val TIME_X = 0f
-            val TIME_Y = 125f
-            val TIME_W = 320f
-            val TIME_H = 75f
-
-            val TIME_TEXT_X = 0f
-            val TIME_TEXT_Y = 0f
-            val TIME_TEXT_W = 320f
-            val TIME_TEXT_H = 125f
-
-            val BONUS_X = 380f
-            val BONUS_Y = 125f
-            val BONUS_W = 320f
-            val BONUS_H = 75f
-
-            val BONUS_TEXT_X = 380f
-            val BONUS_TEXT_Y = 0f
-            val BONUS_TEXT_W = 320f
-            val BONUS_TEXT_H = 125f
-        }
-
-        object GameGroup {
-            val COUNT_DOWN_X = 90f
-            val COUNT_DOWN_Y = 309f
-            val COUNT_DOWN_W = 520f
-            val COUNT_DOWN_H = 781f
-
-            val BAG_X = 124f
-            val BAG_Y = 333f
-            val BAG_W = 453f
-            val BAG_H = 733f
-
-            val CLICK_ANIM_X = 233f
-            val CLICK_ANIM_Y = 373f
-        }
-
-        object ResultGroup{
-            val BET_PANEL_X = 130f
-            val BET_PANEL_Y = 896f
-            val BET_PANEL_W = 443f
-            val BET_PANEL_H = 100f
-
-            val BET_LABEL_X = 0f
-            val BET_LABEL_Y = 73f
-            val BET_LABEL_W = 443f
-            val BET_LABEL_H = 66f
-
-            val BET_TEXT_X = 0f
-            val BET_TEXT_Y = 12f
-            val BET_TEXT_W = 443f
-            val BET_TEXT_H = 77f
-
-            val MULTIPLICATION_X = 0f
-            val MULTIPLICATION_Y = 752f
-            val MULTIPLICATION_W = 700f
-            val MULTIPLICATION_H = 144f
-
-            val EQUALS_X = 0f
-            val EQUALS_Y = 509f
-            val EQUALS_W = 700f
-            val EQUALS_H = 144f
-
-            val BONUS_X = 0f
-            val BONUS_Y = 627f
-            val BONUS_W = 700f
-            val BONUS_H = 125f
-
-            val RESULT_X = 0f
-            val RESULT_Y = 364f
-            val RESULT_W = 700f
-            val RESULT_H = 145f
-        }
-    }
-
-    // ------------------------------------------------------------------------
-    // SuperGame Group
-    // ------------------------------------------------------------------------
-    object SuperGame {
-
-        object BonusGroup{
-            val BONUS_LABEL_X = 0f
-            val BONUS_LABEL_Y = 1325f
-            val BONUS_LABEL_W = 700f
-            val BONUS_LABEL_H = 75f
-
-            val BONUS_TEXT_X = 0f
-            val BONUS_TEXT_Y = 1200f
-            val BONUS_TEXT_W = 700f
-            val BONUS_TEXT_H = 125f
-        }
-
-        object GameGroup {
-            val BOX_GROUP_X = 28f
-            val BOX_GROUP_Y = 373f
-        }
-
-        object ResultGroup{
-            val BET_PANEL_X = 130f
-            val BET_PANEL_Y = 896f
-            val BET_PANEL_W = 443f
-            val BET_PANEL_H = 100f
-
-            val BET_LABEL_X = 0f
-            val BET_LABEL_Y = 73f
-            val BET_LABEL_W = 443f
-            val BET_LABEL_H = 66f
-
-            val BET_TEXT_X = 0f
-            val BET_TEXT_Y = 12f
-            val BET_TEXT_W = 443f
-            val BET_TEXT_H = 77f
-
-            val MULTIPLICATION_X = 0f
-            val MULTIPLICATION_Y = 752f
-            val MULTIPLICATION_W = 700f
-            val MULTIPLICATION_H = 144f
-
-            val EQUALS_X = 0f
-            val EQUALS_Y = 509f
-            val EQUALS_W = 700f
-            val EQUALS_H = 144f
-
-            val BONUS_X = 0f
-            val BONUS_Y = 627f
-            val BONUS_W = 700f
-            val BONUS_H = 125f
-
-            val RESULT_X = 0f
-            val RESULT_Y = 364f
-            val RESULT_W = 700f
-            val RESULT_H = 145f
-        }
-    }
-
-    // ------------------------------------------------------------------------
-    // Box Group
-    // ------------------------------------------------------------------------
-    object BoxGroup{
-        val W = 645f
-        val H = 654f
-
-        val BOX_PIZE_GROUP_X = 4f
-        val BOX_PIZE_GROUP_Y = 3f
-        val BOX_PIZE_GROUP_W = 637f
-        val BOX_PIZE_GROUP_H = 648f
-
-        val BOX_SPACE_HORIZONTAL = 10f
-        val BOX_SPACE_VERTICAL   = 18f
-        val BOX_W = 209f
-        val BOX_H = 206f
-
-        val PRIZE_SPACE_HORIZONTAL = 18f
-        val PRIZE_SPACE_VERTICAL   = 24f
+        val PRIZE_FIRST_X = 44f
+        val PRIZE_SPACE_HORIZONTAL = 188f
+        val PRIZE_Y = 42f
         val PRIZE_W = 200f
         val PRIZE_H = 200f
     }
+
+    // ------------------------------------------------------------------------
+    // ResultGroup
+    // ------------------------------------------------------------------------
+    object ResultGroup {
+        val BET_PANEL_X = 302f
+        val BET_PANEL_Y = 318f
+        val BET_PANEL_W = 295f
+        val BET_PANEL_H = 90f
+
+        val BET_TEXT_X = 19f
+        val BET_TEXT_Y = 22f
+        val BET_TEXT_W = 256f
+        val BET_TEXT_H = 47f
+
+        val BALANCE_PANEL_X = 475f
+        val BALANCE_PANEL_Y = 88f
+        val BALANCE_PANEL_W = 449f
+        val BALANCE_PANEL_H = 83f
+
+        val BALANCE_TEXT_X = 11f
+        val BALANCE_TEXT_Y = 6f
+        val BALANCE_TEXT_W = 428f
+        val BALANCE_TEXT_H = 72f
+
+        val EQUALS_X = 602f
+        val EQUALS_Y = 210f
+        val EQUALS_W = 196f
+        val EQUALS_H = 177f
+
+        val WIN_X = 824f
+        val WIN_Y = 262f
+        val WIN_W = 200f
+        val WIN_H = 200f
+    }
+
+    // ------------------------------------------------------------------------
+    // MiniGameGroup
+    // ------------------------------------------------------------------------
+    object MiniGameGroup {
+        val BOX_GROUP_X = 168f
+        val BOX_GROUP_Y = 208f
+    }
 }
+
+
+
+
+
+
+
+
+
+
+
+

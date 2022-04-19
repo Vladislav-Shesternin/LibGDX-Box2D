@@ -6,6 +6,7 @@ import com.veldan.kingsolomonslots.actors.button.ButtonClickable
 import com.veldan.kingsolomonslots.actors.button.ButtonClickableStyle
 import com.veldan.kingsolomonslots.actors.label.LabelStyle
 import com.veldan.kingsolomonslots.actors.label.spinning.SpinningLabel
+import com.veldan.kingsolomonslots.actors.miniGame.MiniGameGroup
 import com.veldan.kingsolomonslots.actors.slot.slotGroup.SlotGroup
 import com.veldan.kingsolomonslots.advanced.AdvancedScreen
 import com.veldan.kingsolomonslots.advanced.AdvancedStage
@@ -41,6 +42,10 @@ class GameScreen: AdvancedScreen() {
     // slotGroup
     val slotGroup         = SlotGroup()
 
+    // miniGameGroup
+    lateinit var miniGameGroup: MiniGameGroup
+
+
 
     override fun show() {
         super.show()
@@ -54,20 +59,26 @@ class GameScreen: AdvancedScreen() {
         addGameGroup()
     }
 
+    // ------------------------------------------------------------------------
+    // GameGroup
+    // ------------------------------------------------------------------------
+
     private fun AdvancedStage.addGameGroup() {
         addAndFillActor(gameGroup)
-        gameGroup.addActorsOnGroup()
+        addActorsOnGameGroup()
     }
 
-    private fun AdvancedGroup.addActorsOnGroup() {
-        addBalancePanel()
-        addBetPanel()
-        addBetPlusButton()
-        addBetMinusButton()
-        addMenuButton()
-        addAutoSpinButton()
-        addSpinButton()
-        addSlotGroup()
+    private fun addActorsOnGameGroup() {
+        with(gameGroup) {
+            addBalancePanel()
+            addBetPanel()
+            addBetPlusButton()
+            addBetMinusButton()
+            addMenuButton()
+            addAutoSpinButton()
+            addSpinButton()
+            addSlotGroup()
+        }
     }
 
     private fun AdvancedGroup.addBalancePanel() {
@@ -148,5 +159,24 @@ class GameScreen: AdvancedScreen() {
         addActor(slotGroup)
         slotGroup.setPosition(LG.SLOT_GROUP_X, LG.SLOT_GROUP_Y)
     }
+
+    // ------------------------------------------------------------------------
+    // MiniGameGroup
+    // ------------------------------------------------------------------------
+
+    fun addMiniGameGroup() {
+        with(stage) {
+            miniGameGroup = MiniGameGroup()
+            addAndFillActor(miniGameGroup)
+        }
+    }
+
+    fun removeMiniGameGroup() {
+        miniGameGroup.remove()
+    }
+
+    // ------------------------------------------------------------------------
+    // SuperGameGroup
+    // ------------------------------------------------------------------------
 
 }
