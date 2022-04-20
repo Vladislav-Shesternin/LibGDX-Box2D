@@ -1,8 +1,8 @@
-package com.veldan.kingsolomonslots.actors.miniGame
+package com.veldan.kingsolomonslots.actors.bonusGameGroup.miniGame
 
 import com.badlogic.gdx.scenes.scene2d.actions.Actions
-import com.veldan.kingsolomonslots.actors.miniGame.boxGroup.BoxGroup
-import com.veldan.kingsolomonslots.actors.miniGame.resultGroup.ResultGroup
+import com.veldan.kingsolomonslots.actors.bonusGameGroup.miniGame.boxGroup.BoxGroup
+import com.veldan.kingsolomonslots.actors.bonusGameGroup.miniGame.resultGroup.ResultGroup
 import com.veldan.kingsolomonslots.advanced.group.AbstractAdvancedGroup
 import com.veldan.kingsolomonslots.advanced.group.AdvancedGroup
 import com.veldan.kingsolomonslots.utils.disable

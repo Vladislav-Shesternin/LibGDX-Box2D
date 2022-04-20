@@ -1,6 +1,6 @@
-package com.veldan.kingsolomonslots.actors.miniGame.boxGroup
+package com.veldan.kingsolomonslots.actors.bonusGameGroup.miniGame.boxGroup
 
-import com.veldan.kingsolomonslots.actors.miniGame.boxGroup.util.BoxPrize
+import com.veldan.kingsolomonslots.actors.bonusGameGroup.miniGame.boxGroup.util.BoxPrize
 import com.veldan.kingsolomonslots.utils.controller.GroupController
 
 class BoxGroupController(override val group: BoxGroup) : GroupController {

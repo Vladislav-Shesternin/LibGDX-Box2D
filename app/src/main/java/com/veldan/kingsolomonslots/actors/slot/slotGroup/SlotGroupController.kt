@@ -31,21 +31,23 @@ class SlotGroupController(override val group: SlotGroup) : GroupController {
 
 
 
-    private fun fillSlots() {
-        when {
-            spinSuperGameCounter == superGameNumber -> {
+    private fun fillSlots(isSuperGame: Boolean) {
+        if (isSuperGame) fillManager.fill(FillStrategy.SUPER_GAME)
+        else when {
+//            spinSuperGameCounter == superGameNumber -> {
+//                fillManager.fill(FillStrategy.SUPER)
+//                bonus = Bonus.SUPER_GAME
+//            }
+//            spinMiniGameCounter == miniGameNumber   -> {
+//                fillManager.fill(FillStrategy.MINI)
+//                bonus = Bonus.MINI_GAME
+//            }
+//            spinWinCounter == winNumber             -> {
+//                fillManager.fill(FillStrategy.WIN)
+//            }
+            else                                    -> {
                 fillManager.fill(FillStrategy.SUPER)
                 bonus = Bonus.SUPER_GAME
-            }
-            spinMiniGameCounter == miniGameNumber   -> {
-                fillManager.fill(FillStrategy.MINI)
-                bonus = Bonus.MINI_GAME
-            }
-            spinWinCounter == winNumber             -> {
-                fillManager.fill(FillStrategy.WIN)
-            }
-            else                                    -> {
-                fillManager.fill(FillStrategy.RANDOM)
             }
         }
     }
@@ -88,13 +90,13 @@ class SlotGroupController(override val group: SlotGroup) : GroupController {
 
 
 
-    suspend fun spin() = CompletableDeferred<SpinResult>().also { continuation ->
+    suspend fun spin(isSuperGame: Boolean) = CompletableDeferred<SpinResult>().also { continuation ->
         spinWinCounter++
         spinMiniGameCounter++
         spinSuperGameCounter++
 
         logCounter()
-        fillSlots()
+        fillSlots(isSuperGame)
 
         val completableSpinList = List(SLOT_COUNT) { CompletableDeferred<Boolean>() }
         group.slotList.onEachIndexed { slotIndex, slot ->

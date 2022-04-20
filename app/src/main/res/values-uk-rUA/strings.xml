@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">KingSolomonSlots</string>
     <string name="spin">Пуск</string>
+    <string name="super_game_title_1">Безкоштовні Оберти На Диких Барабанах</string>
+    <string name="super_game_title_2">Безкоштовні оберти закінчилися</string>
 </resources>

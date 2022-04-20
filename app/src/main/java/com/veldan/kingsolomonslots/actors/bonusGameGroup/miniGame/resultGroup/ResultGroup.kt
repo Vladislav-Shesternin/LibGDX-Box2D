@@ -1,9 +1,9 @@
-package com.veldan.kingsolomonslots.actors.miniGame.resultGroup
+package com.veldan.kingsolomonslots.actors.bonusGameGroup.miniGame.resultGroup
 
 import com.badlogic.gdx.scenes.scene2d.ui.Image
 import com.veldan.kingsolomonslots.actors.label.LabelStyle
 import com.veldan.kingsolomonslots.actors.label.spinning.SpinningLabel
-import com.veldan.kingsolomonslots.actors.miniGame.boxGroup.util.BoxPrize
+import com.veldan.kingsolomonslots.actors.bonusGameGroup.miniGame.boxGroup.util.BoxPrize
 import com.veldan.kingsolomonslots.advanced.group.AbstractAdvancedGroup
 import com.veldan.kingsolomonslots.advanced.group.AdvancedGroup
 import com.veldan.kingsolomonslots.layout.Layout.ResultGroup as LRG

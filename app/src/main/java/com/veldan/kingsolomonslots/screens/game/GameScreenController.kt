@@ -3,7 +3,7 @@ package com.veldan.kingsolomonslots.screens.game
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.scenes.scene2d.actions.Actions
 import com.badlogic.gdx.utils.Disposable
-import com.veldan.kingsolomonslots.actors.miniGame.boxGroup.util.BoxPrize
+import com.veldan.kingsolomonslots.actors.bonusGameGroup.miniGame.boxGroup.util.BoxPrize
 import com.veldan.kingsolomonslots.actors.slot.util.Bonus
 import com.veldan.kingsolomonslots.actors.slot.util.SpinResult
 import com.veldan.kingsolomonslots.manager.DataStoreManager
@@ -14,7 +14,6 @@ import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.first
-import kotlin.coroutines.coroutineContext
 
 class GameScreenController(override val screen: GameScreen): ScreenController, Disposable {
 
@@ -22,11 +21,13 @@ class GameScreenController(override val screen: GameScreen): ScreenController, D
         const val BET_STEP = 50L
         const val BET_MIN  = 50L
         const val BET_MAX  = 1000L
+        const val SUPER_GAME_SPIN_COUNT = 10
 
         // seconds
-        const val TIME_WAIT_AFTER_AUTOSPIN = 1f
-        const val TIME_SHOW_SCREEN         = 1f
-        const val TIME_HIDE_SCREEN         = 1f
+        const val TIME_WAIT_AFTER_AUTOSPIN   = 1f
+        const val TIME_WAIT_AFTER_SUPER_GAME = 1f
+        const val TIME_SHOW_SCREEN           = 1f
+        const val TIME_HIDE_SCREEN           = 1f
     }
 
     private val coroutineBalance        = CoroutineScope(Dispatchers.Default)
@@ -36,20 +37,34 @@ class GameScreenController(override val screen: GameScreen): ScreenController, D
     private val coroutineMiniGame       = CoroutineScope(Dispatchers.Default)
     private val coroutineSuperGame      = CoroutineScope(Dispatchers.Default)
 
-    private val betFlow           = MutableSharedFlow<Long>(replay = 1, onBufferOverflow = BufferOverflow.DROP_OLDEST)
-    private val autoSpinStateFlow = MutableStateFlow(AutospinState.DEFAULT)
+    private val betFlow                = MutableSharedFlow<Long>(replay = 1, onBufferOverflow = BufferOverflow.DROP_OLDEST)
+    private val autoSpinStateFlow      = MutableStateFlow(AutospinState.DEFAULT)
+    private val superGameSpinCountFlow = MutableStateFlow(SUPER_GAME_SPIN_COUNT)
 
     private val onceStartAutoSpin = Once()
+
+    private var isSuperGame = false
 
 
 
     override fun dispose() {
-        cancelCoroutinesAll(coroutineBalance, coroutineBet, coroutineSpin, coroutineAutoSpin, coroutineMiniGame, coroutineSuperGame)
+        cancelCoroutinesAll(
+            coroutineBalance , coroutineBet     , coroutineSpin     ,
+            coroutineAutoSpin, coroutineMiniGame, coroutineSuperGame,
+        )
     }
 
 
 
     private suspend fun checkBalance() = CompletableDeferred<Boolean>().also { continuation ->
+        if (isSuperGame) {
+            if (superGameSpinCountFlow.value.dec() != -1) {
+                superGameSpinCountFlow.value -= 1
+                continuation.complete(true)
+                return@also
+            } else doAfterFinishSuperGame()
+        }
+
         DataStoreManager.Balance.update { balance ->
             if ((balance - betFlow.first()) >= 0) {
                 // Достаточно средств для запуска
@@ -61,6 +76,7 @@ class GameScreenController(override val screen: GameScreen): ScreenController, D
                 balance
             }
         }
+
     }.await()
 
     private suspend fun SpinResult.calculateAndSetResult() {
@@ -70,10 +86,10 @@ class GameScreenController(override val screen: GameScreen): ScreenController, D
     }
 
     private suspend fun spinAndSetResult() {
-        screen.slotGroup.controller.spin().apply {
+        screen.slotGroup.controller.spin(isSuperGame).apply {
             when (bonus) {
                 Bonus.MINI_GAME  -> startMiniGame()
-               // Bonus.SUPER_GAME -> startSuperGame()
+                Bonus.SUPER_GAME -> startSuperGame()
                 else             -> {}
             }
             calculateAndSetResult()
@@ -132,12 +148,27 @@ class GameScreenController(override val screen: GameScreen): ScreenController, D
         }
     }.await()
 
+    private suspend fun startSuperGame() = CompletableDeferred<Boolean>().also { continuation ->
+        hideGameGroup()
+        screen.addSuperGameGroup()
+        showSuperGameGroup()
+
+        with(screen.superGameGroup.controller) {
+            start().also { number -> initSuperGameNumber(number) }
+            isSuperGame = true
+            delay(TIME_WAIT_AFTER_SUPER_GAME.toDelay)
+            hideSuperGameGroup()
+            showGameGroup()
+            continuation.complete(true)
+        }
+    }.await()
+
     private suspend fun hideGameGroup() {
         val completableAnim = CompletableDeferred<Boolean>()
 
         screen.gameGroup.apply {
             Gdx.app.postRunnable {
-                children.onEach { it.disable() }
+                disable()
                 addAction(Actions.sequence(
                     Actions.fadeOut(TIME_HIDE_SCREEN),
                     Actions.run { completableAnim.complete(true) }
@@ -158,7 +189,21 @@ class GameScreenController(override val screen: GameScreen): ScreenController, D
                 ))
             }
             completableAnim.await()
-            children.onEach { it.enable() }
+            enable()
+        }
+    }
+
+    private suspend fun showSuperGameGroup() {
+        val completableAnim = CompletableDeferred<Boolean>()
+
+        screen.superGameGroup.apply {
+            Gdx.app.postRunnable {
+                addAction(Actions.sequence(
+                    Actions.fadeIn(TIME_SHOW_SCREEN),
+                    Actions.run { completableAnim.complete(true) }
+                ))
+            }
+            completableAnim.await()
         }
     }
 
@@ -177,12 +222,43 @@ class GameScreenController(override val screen: GameScreen): ScreenController, D
         screen.removeMiniGameGroup()
     }
 
+    private suspend fun hideSuperGameGroup() {
+        val completableAnim = CompletableDeferred<Boolean>()
+
+        screen.superGameGroup.apply {
+            Gdx.app.postRunnable {
+                addAction(Actions.sequence(
+                    Actions.fadeOut(TIME_HIDE_SCREEN),
+                    Actions.run { completableAnim.complete(true) }
+                ))
+            }
+            completableAnim.await()
+        }
+        screen.removeSuperGameGroup()
+    }
+
     private suspend fun doAfterFinishMiniGame(boxPrize: BoxPrize) {
         hideMiniGameGroup()
         showGameGroup()
 
         val prize = boxPrize.prize * betFlow.first()
         DataStoreManager.Balance.update { it + prize }
+    }
+
+    private fun initSuperGameNumber(number: Int) {
+        with(screen) {
+            addSuperGameElementGroup()
+            superGameElementGroup.apply {
+                slotNumberLabel.setText(number)
+                coroutineSuperGame.launch {
+                    superGameSpinCountFlow.emit(SUPER_GAME_SPIN_COUNT)
+                    superGameSpinCountFlow.collect { count -> spinCountLabel.setText(count) } }
+            }
+        }
+    }
+
+    private suspend fun doAfterFinishSuperGame() {
+        isSuperGame = false
     }
 
 

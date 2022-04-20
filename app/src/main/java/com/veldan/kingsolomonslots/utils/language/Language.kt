@@ -2,6 +2,7 @@ package com.veldan.kingsolomonslots.utils.language
 
 import android.content.res.Configuration
 import com.veldan.kingsolomonslots.main.game
+import com.veldan.kingsolomonslots.utils.log
 import java.util.*
 
 object Language {

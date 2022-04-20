@@ -26,5 +26,5 @@ enum class Bonus {
 }
 
 enum class FillStrategy {
-    RANDOM, WIN, MINI, SUPER,
+    MIX, WIN, MINI, SUPER, WIN_SUPER_GAME, FAIL_SUPER_GAME
 }

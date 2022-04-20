@@ -1,12 +1,11 @@
-package com.veldan.kingsolomonslots.actors.miniGame.boxGroup
+package com.veldan.kingsolomonslots.actors.bonusGameGroup.miniGame.boxGroup
 
 import com.badlogic.gdx.scenes.scene2d.actions.Actions
 import com.badlogic.gdx.scenes.scene2d.ui.Image
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable
-import com.veldan.kingsolomonslots.actors.miniGame.boxGroup.util.BoxPrize
-import com.veldan.kingsolomonslots.actors.miniGame.boxGroup.util.BoxPrize.FAIL
-import com.veldan.kingsolomonslots.actors.miniGame.boxGroup.util.BoxPrize.WIN
-import com.veldan.kingsolomonslots.actors.miniGame.resultGroup.ResultGroupController
+import com.veldan.kingsolomonslots.actors.bonusGameGroup.miniGame.boxGroup.util.BoxPrize
+import com.veldan.kingsolomonslots.actors.bonusGameGroup.miniGame.boxGroup.util.BoxPrize.FAIL
+import com.veldan.kingsolomonslots.actors.bonusGameGroup.miniGame.boxGroup.util.BoxPrize.WIN
 import com.veldan.kingsolomonslots.advanced.group.AbstractAdvancedGroup
 import com.veldan.kingsolomonslots.advanced.group.AdvancedGroup
 import com.veldan.kingsolomonslots.manager.assets.SpriteManager

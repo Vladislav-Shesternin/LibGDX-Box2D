@@ -1,12 +1,15 @@
 package com.veldan.kingsolomonslots.screens.game
 
+import com.badlogic.gdx.scenes.scene2d.actions.Actions
 import com.badlogic.gdx.scenes.scene2d.ui.Image
 import com.veldan.kingsolomonslots.R
 import com.veldan.kingsolomonslots.actors.button.ButtonClickable
 import com.veldan.kingsolomonslots.actors.button.ButtonClickableStyle
 import com.veldan.kingsolomonslots.actors.label.LabelStyle
 import com.veldan.kingsolomonslots.actors.label.spinning.SpinningLabel
-import com.veldan.kingsolomonslots.actors.miniGame.MiniGameGroup
+import com.veldan.kingsolomonslots.actors.bonusGameGroup.miniGame.MiniGameGroup
+import com.veldan.kingsolomonslots.actors.bonusGameGroup.superGame.SuperGameGroup
+import com.veldan.kingsolomonslots.actors.bonusGameGroup.superGame.superGameElementGroup.SuperGameElementGroup
 import com.veldan.kingsolomonslots.actors.slot.slotGroup.SlotGroup
 import com.veldan.kingsolomonslots.advanced.AdvancedScreen
 import com.veldan.kingsolomonslots.advanced.AdvancedStage
@@ -44,6 +47,9 @@ class GameScreen: AdvancedScreen() {
 
     // miniGameGroup
     lateinit var miniGameGroup: MiniGameGroup
+    // superGameGroup
+    lateinit var superGameGroup       : SuperGameGroup
+    lateinit var superGameElementGroup: SuperGameElementGroup
 
 
 
@@ -178,5 +184,29 @@ class GameScreen: AdvancedScreen() {
     // ------------------------------------------------------------------------
     // SuperGameGroup
     // ------------------------------------------------------------------------
+    fun addSuperGameGroup() {
+        with(stage) {
+            superGameGroup = SuperGameGroup()
+            superGameGroup.addAction(Actions.alpha(0f))
+            addAndFillActor(superGameGroup)
+        }
+    }
+
+    fun addSuperGameElementGroup() {
+        with(gameGroup) {
+            superGameElementGroup = SuperGameElementGroup()
+            addActor(superGameElementGroup)
+            superGameElementGroup.setPosition(LG.SUPER_GAME_ELEMENT_GROUP_X, LG.SUPER_GAME_ELEMENT_GROUP_Y)
+
+        }
+    }
+
+    fun removeSuperGameElementGroup() {
+        superGameElementGroup.remove()
+    }
+
+    fun removeSuperGameGroup() {
+        superGameGroup.remove()
+    }
 
 }

@@ -1,39 +1,39 @@
 1.png
-size: 1802, 1322
+size: 1781, 1686
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
 autospin_def
   rotate: false
-  xy: 905, 228
+  xy: 1105, 228
   size: 133, 133
   orig: 133, 133
   offset: 0, 0
   index: -1
 autospin_dis
   rotate: false
-  xy: 1039, 228
+  xy: 1239, 228
   size: 133, 133
   orig: 133, 133
   offset: 0, 0
   index: -1
 autospin_press
   rotate: false
-  xy: 1173, 228
+  xy: 1373, 228
   size: 134, 133
   orig: 134, 133
   offset: 0, 0
   index: -1
 back_def
   rotate: false
-  xy: 1452, 228
+  xy: 1652, 228
   size: 126, 164
   orig: 126, 164
   offset: 0, 0
   index: -1
 back_press
   rotate: false
-  xy: 1579, 228
+  xy: 1, 393
   size: 126, 164
   orig: 126, 164
   offset: 0, 0
@@ -52,9 +52,23 @@ bet_panel
   orig: 295, 90
   offset: 0, 0
   index: -1
+big_balance_panel
+  rotate: false
+  xy: 329, 393
+  size: 1062, 195
+  orig: 1062, 195
+  offset: 0, 0
+  index: -1
+big_circle_panel
+  rotate: false
+  xy: 1327, 590
+  size: 453, 453
+  orig: 453, 453
+  offset: 0, 0
+  index: -1
 box
   rotate: false
-  xy: 1435, 393
+  xy: 1037, 590
   size: 289, 286
   orig: 289, 286
   offset: 0, 0
@@ -75,42 +89,42 @@ check_box_def
   index: -1
 equals
   rotate: false
-  xy: 1, 393
+  xy: 128, 393
   size: 200, 181
   orig: 200, 181
   offset: 0, 0
   index: -1
 glow
   rotate: false
-  xy: 1195, 393
+  xy: 797, 590
   size: 239, 216
   orig: 239, 216
   offset: 0, 0
   index: -1
 minus_def
   rotate: false
-  xy: 215, 228
+  xy: 415, 228
   size: 114, 114
   orig: 114, 114
   offset: 0, 0
   index: -1
 minus_dis
   rotate: false
-  xy: 330, 228
+  xy: 530, 228
   size: 114, 114
   orig: 114, 114
   offset: 0, 0
   index: -1
 minus_press
   rotate: false
-  xy: 445, 228
+  xy: 645, 228
   size: 114, 114
   orig: 114, 114
   offset: 0, 0
   index: -1
 music
   rotate: false
-  xy: 1, 228
+  xy: 201, 228
   size: 106, 106
   orig: 106, 106
   offset: 0, 0
@@ -124,7 +138,7 @@ options_def
   index: -1
 options_press
   rotate: false
-  xy: 1702, 128
+  xy: 1, 228
   size: 99, 99
   orig: 99, 99
   offset: 0, 0
@@ -159,84 +173,91 @@ pb_progress_mask
   index: -1
 plus_def
   rotate: false
-  xy: 560, 228
+  xy: 760, 228
   size: 114, 114
   orig: 114, 114
   offset: 0, 0
   index: -1
 plus_dis
   rotate: false
-  xy: 675, 228
+  xy: 875, 228
   size: 114, 114
   orig: 114, 114
   offset: 0, 0
   index: -1
 plus_press
   rotate: false
-  xy: 790, 228
+  xy: 990, 228
   size: 114, 114
   orig: 114, 114
   offset: 0, 0
   index: -1
 slot_group_image
   rotate: false
-  xy: 755, 680
+  xy: 755, 1044
   size: 870, 641
   orig: 870, 641
   offset: 0, 0
   index: -1
 slot_group_mask
   rotate: false
-  xy: 1, 680
+  xy: 1, 1044
   size: 753, 467
   orig: 753, 467
   offset: 0, 0
   index: -1
+small_circle_panel
+  rotate: false
+  xy: 101, 228
+  size: 99, 99
+  orig: 99, 99
+  offset: 0, 0
+  index: -1
 sound
   rotate: false
-  xy: 108, 228
+  xy: 308, 228
   size: 106, 106
   orig: 106, 106
   offset: 0, 0
   index: -1
 spin_def
   rotate: false
-  xy: 202, 393
+  xy: 1392, 393
   size: 196, 196
   orig: 196, 196
   offset: 0, 0
   index: -1
 spin_dis
   rotate: false
-  xy: 399, 393
+  xy: 1, 590
   size: 196, 196
   orig: 196, 196
   offset: 0, 0
   index: -1
 spin_press
   rotate: false
-  xy: 596, 393
+  xy: 198, 590
   size: 196, 196
   orig: 196, 196
   offset: 0, 0
   index: -1
 tutorial
   rotate: false
-  xy: 1308, 228
+  xy: 1508, 228
   size: 143, 143
   orig: 143, 143
   offset: 0, 0
   index: -1
 win 20
   rotate: false
-  xy: 793, 393
+  xy: 395, 590
   size: 200, 200
   orig: 200, 200
   offset: 0, 0
   index: -1
 x
   rotate: false
-  xy: 994, 393
+  xy: 596, 590
   size: 200, 200
   orig: 200, 200
   offset: 0, 0

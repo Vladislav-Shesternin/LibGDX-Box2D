@@ -1,4 +1,4 @@
-package com.veldan.kingsolomonslots.actors.miniGame.boxGroup.util
+package com.veldan.kingsolomonslots.actors.bonusGameGroup.miniGame.boxGroup.util
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion
 import com.veldan.kingsolomonslots.manager.assets.SpriteManager

@@ -14,13 +14,13 @@ class FillManager(val slotList: List<Slot>) {
 
 
 
-    private fun fillRandom(isUseWild: Boolean = true) {
-        log("FILL_RANDOM")
+    private fun fillMix(isUseWild: Boolean = true) {
+        log("FILL_MIX")
 
         val combinationMatrixEnum: CombinationMatrixEnum = if (isUseWild && probability(20)) {
             log("FILL_RANDOM use WILD")
-            Combination.RandomWithWild.values().random()
-        } else Combination.Random.values().random()
+            Combination.MixWithWild.values().random()
+        } else Combination.Mix.values().random()
 
         combinationMatrixEnum.logCombinationMatrixEnum()
 
@@ -59,7 +59,7 @@ class FillManager(val slotList: List<Slot>) {
 
     private fun fillMini() {
         log("FILL_MINI")
-        fillRandom(false)
+        fillMix(false)
 
         val randomSlotList = slotList.shuffled().take(2)
         randomSlotList.onEach { slot -> with(slot) { slotItemWinList = slotItemWinList.toMutableList().apply {
@@ -69,12 +69,22 @@ class FillManager(val slotList: List<Slot>) {
 
     private fun fillSuper() {
         log("FILL_SUPER")
-        fillRandom(false)
+        fillMix(false)
 
         val randomSlotList = slotList.shuffled().take(3)
         randomSlotList.onEach { slot -> with(slot) { slotItemWinList = slotItemWinList.toMutableList().apply {
             setInRandomRow(SlotItemContainer.scatter)
         } } }
+    }
+
+    private fun fillWinSuperGame() {
+        log("FILL_WIN_SUPER_GAME")
+
+    }
+
+    private fun fillFailSuperGame() {
+        log("FILL_FAIL_SUPER_GAME")
+
     }
 
     private fun MutableList<SlotItem>.setInRandomRow(slotItem: SlotItem) = apply {
@@ -88,10 +98,12 @@ class FillManager(val slotList: List<Slot>) {
         winFillResult = null
 
         when (fillStrategy) {
-            FillStrategy.RANDOM -> fillRandom()
-            FillStrategy.WIN    -> fillWin()
-            FillStrategy.MINI   -> fillMini()
-            FillStrategy.SUPER  -> fillSuper()
+            FillStrategy.MIX             -> fillMix()
+            FillStrategy.WIN             -> fillWin()
+            FillStrategy.MINI            -> fillMini()
+            FillStrategy.SUPER           -> fillSuper()
+            FillStrategy.WIN_SUPER_GAME  -> fillWinSuperGame()
+            FillStrategy.FAIL_SUPER_GAME -> fillFailSuperGame()
         }
     }
 
@@ -99,12 +111,12 @@ class FillManager(val slotList: List<Slot>) {
 
     private fun CombinationMatrixEnum.logCombinationMatrixEnum() {
         val combinationEnumName = when (this) {
-            is Combination.Random         -> "Комбинация Рандом $name"
-            is Combination.RandomWithWild -> "Комбинация Рандом WILD $name"
-            is Combination.WinMonochrome  -> "Комбинация Победа Одноцветная $name"
-            is Combination.WinColorful    -> "Комбинация Победа Разноцветная $name"
-            is Combination.WinWithWild    -> "Комбинация Победа WILD $name"
-            else                          -> "Noname"
+            is Combination.Mix           -> "Комбинация Mix $name"
+            is Combination.MixWithWild   -> "Комбинация Mix WILD $name"
+            is Combination.WinMonochrome -> "Комбинация Победа Одноцветная $name"
+            is Combination.WinColorful   -> "Комбинация Победа Разноцветная $name"
+            is Combination.WinWithWild   -> "Комбинация Победа WILD $name"
+            else                         -> "Noname"
         }
         log(combinationEnumName)
     }

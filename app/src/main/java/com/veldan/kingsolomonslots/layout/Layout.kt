@@ -110,6 +110,9 @@ object Layout {
 
         val SLOT_GROUP_X = 265f
         val SLOT_GROUP_Y = 43f
+
+        val SUPER_GAME_ELEMENT_GROUP_X = 1113f
+        val SUPER_GAME_ELEMENT_GROUP_Y = 461f
     }
 
     // ------------------------------------------------------------------------
@@ -240,6 +243,46 @@ object Layout {
     object MiniGameGroup {
         val BOX_GROUP_X = 168f
         val BOX_GROUP_Y = 208f
+    }
+
+    // ------------------------------------------------------------------------
+    // SuperGameGroup
+    // ------------------------------------------------------------------------
+    object SuperGameGroup {
+        val TITLE_X = 0f
+        val TITLE_Y = 544f
+        val TITLE_W = 1400f
+        val TITLE_H = 156f
+
+        val RANDOMIZER_X = 473f
+        val RANDOMIZER_Y = 66f
+        val RANDOMIZER_W = 453f
+        val RANDOMIZER_H = 453f
+    }
+
+    // ------------------------------------------------------------------------
+    // RandomizerGroup
+    // ------------------------------------------------------------------------
+    object RandomizerGroup {
+        val PANEL_W = 453f
+        val PANEL_H = 453f
+    }
+
+    // ------------------------------------------------------------------------
+    // SuperGameElementGroup
+    // ------------------------------------------------------------------------
+    object SuperGameElementGroup {
+        val W = 257f
+        val H = 99f
+
+        val ELEMENT_W = 99f
+        val ELEMENT_H = 99f
+
+        val SLOT_X = 0f
+        val SLOT_Y = 0f
+
+        val SPIN_X = 158f
+        val SPIN_Y = 0f
     }
 }
 

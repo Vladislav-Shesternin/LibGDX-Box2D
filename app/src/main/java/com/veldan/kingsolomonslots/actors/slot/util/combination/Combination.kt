@@ -8,7 +8,7 @@ interface CombinationMatrixEnum {
 
 object Combination{
 
-    enum class Random(
+    enum class Mix(
         override val matrix: Matrix3x5,
     ): CombinationMatrixEnum {
         _1(
@@ -83,7 +83,7 @@ object Combination{
         ),
     }
 
-    enum class RandomWithWild(
+    enum class MixWithWild(
         override val matrix: Matrix3x5,
     ): CombinationMatrixEnum {
         _1(
