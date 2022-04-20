@@ -25,6 +25,12 @@ enum class Bonus {
     MINI_GAME, SUPER_GAME
 }
 
-enum class FillStrategy {
-    MIX, WIN, MINI, SUPER, WIN_SUPER_GAME, FAIL_SUPER_GAME
+sealed class FillStrategy {
+    object MIX  :FillStrategy()
+    object WIN  :FillStrategy()
+    object MINI :FillStrategy()
+    object SUPER:FillStrategy()
+
+    data class WIN_SUPER_GAME(val slotNumber: Int): FillStrategy()
+    data class FAIL_SUPER_GAME(val slotNumber: Int): FillStrategy()
 }

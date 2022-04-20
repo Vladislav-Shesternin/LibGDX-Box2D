@@ -44,6 +44,7 @@ class GameScreenController(override val screen: GameScreen): ScreenController, D
     private val onceStartAutoSpin = Once()
 
     private var isSuperGame = false
+    private var superGameSlotNumber = 0
 
 
 
@@ -62,7 +63,11 @@ class GameScreenController(override val screen: GameScreen): ScreenController, D
                 superGameSpinCountFlow.value -= 1
                 continuation.complete(true)
                 return@also
-            } else doAfterFinishSuperGame()
+            } else {
+                doAfterFinishSuperGame()
+                continuation.complete(false)
+                return@also
+            }
         }
 
         DataStoreManager.Balance.update { balance ->
@@ -86,7 +91,7 @@ class GameScreenController(override val screen: GameScreen): ScreenController, D
     }
 
     private suspend fun spinAndSetResult() {
-        screen.slotGroup.controller.spin(isSuperGame).apply {
+        screen.slotGroup.controller.spin(isSuperGame, superGameSlotNumber).apply {
             when (bonus) {
                 Bonus.MINI_GAME  -> startMiniGame()
                 Bonus.SUPER_GAME -> startSuperGame()
@@ -249,6 +254,7 @@ class GameScreenController(override val screen: GameScreen): ScreenController, D
         with(screen) {
             addSuperGameElementGroup()
             superGameElementGroup.apply {
+                superGameSlotNumber = number
                 slotNumberLabel.setText(number)
                 coroutineSuperGame.launch {
                     superGameSpinCountFlow.emit(SUPER_GAME_SPIN_COUNT)

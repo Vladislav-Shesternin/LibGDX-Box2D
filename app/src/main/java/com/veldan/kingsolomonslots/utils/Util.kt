@@ -109,7 +109,7 @@ fun Long.transformToBalanceFormat(): String {
 
 fun probability(percent: Int, block: () -> Unit = {}): Boolean {
     val randomNum = Random.nextInt(1, 100)
-    return if (randomNum < percent) {
+    return if (randomNum <= percent) {
         block()
         true
     } else false

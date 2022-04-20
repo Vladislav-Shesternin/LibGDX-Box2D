@@ -3,7 +3,9 @@ package com.veldan.kingsolomonslots.actors.slot.util
 import com.veldan.kingsolomonslots.actors.slot.slot.Slot
 import com.veldan.kingsolomonslots.actors.slot.slot.SlotController
 import com.veldan.kingsolomonslots.actors.slot.util.combination.Combination
+import com.veldan.kingsolomonslots.actors.slot.util.combination.CombinationFailSuperGame
 import com.veldan.kingsolomonslots.actors.slot.util.combination.CombinationMatrixEnum
+import com.veldan.kingsolomonslots.actors.slot.util.combination.CombinationWinSuperGame
 import com.veldan.kingsolomonslots.utils.log
 import com.veldan.kingsolomonslots.utils.probability
 
@@ -77,13 +79,55 @@ class FillManager(val slotList: List<Slot>) {
         } } }
     }
 
-    private fun fillWinSuperGame() {
+    private fun fillWinSuperGame(slotNumber: Int) {
         log("FILL_WIN_SUPER_GAME")
+
+        val slot1 = CombinationWinSuperGame.Slot1.values()
+        val slot2 = CombinationWinSuperGame.Slot2.values()
+        val slot3 = CombinationWinSuperGame.Slot3.values()
+        val slot4 = CombinationWinSuperGame.Slot4.values()
+        val slot5 = CombinationWinSuperGame.Slot5.values()
+
+
+        val combinationMatrixEnum = listOf(slot1, slot2, slot3, slot4, slot5)[slotNumber.dec()].random()
+        combinationMatrixEnum.logCombinationMatrixEnum()
+        val combinationMatrix = combinationMatrixEnum.matrix.init()
+
+        slotList.onEachIndexed { index, slot ->
+            slot.slotItemWinList = combinationMatrix.generateSlot(index)
+        }
+
+        log("""
+            
+            scheme = ${combinationMatrix.scheme}
+            slotIndex = ${combinationMatrix.intersectionList?.map { it.slotIndex }}
+            rowIndex = ${combinationMatrix.intersectionList?.map { it.rowIndex }}
+        """.trimIndent())
+
+        winFillResult = with(combinationMatrix) {
+            if (winSlotItemList != null) FillResult(winSlotItemList!!, intersectionList!!)
+            else null
+        }
+
 
     }
 
-    private fun fillFailSuperGame() {
+    private fun fillFailSuperGame(slotNumber: Int) {
         log("FILL_FAIL_SUPER_GAME")
+
+        val slot1 = CombinationFailSuperGame.Slot1.values()
+        val slot2 = CombinationFailSuperGame.Slot2.values()
+        val slot3 = CombinationFailSuperGame.Slot3.values()
+        val slot4 = CombinationFailSuperGame.Slot4.values()
+        val slot5 = CombinationFailSuperGame.Slot5.values()
+
+        val combinationMatrixEnum = listOf(slot1, slot2, slot3, slot4, slot5)[slotNumber.dec()].random()
+        combinationMatrixEnum.logCombinationMatrixEnum()
+        val combinationMatrix = combinationMatrixEnum.matrix.init()
+
+        slotList.onEachIndexed { index, slot ->
+            slot.slotItemWinList = combinationMatrix.generateSlot(index)
+        }
 
     }
 
@@ -98,12 +142,12 @@ class FillManager(val slotList: List<Slot>) {
         winFillResult = null
 
         when (fillStrategy) {
-            FillStrategy.MIX             -> fillMix()
-            FillStrategy.WIN             -> fillWin()
-            FillStrategy.MINI            -> fillMini()
-            FillStrategy.SUPER           -> fillSuper()
-            FillStrategy.WIN_SUPER_GAME  -> fillWinSuperGame()
-            FillStrategy.FAIL_SUPER_GAME -> fillFailSuperGame()
+            is FillStrategy.MIX             -> fillMix()
+            is FillStrategy.WIN             -> fillWin()
+            is FillStrategy.MINI            -> fillMini()
+            is FillStrategy.SUPER           -> fillSuper()
+            is FillStrategy.WIN_SUPER_GAME  -> fillWinSuperGame(fillStrategy.slotNumber)
+            is FillStrategy.FAIL_SUPER_GAME -> fillFailSuperGame(fillStrategy.slotNumber)
         }
     }
 
@@ -116,6 +160,18 @@ class FillManager(val slotList: List<Slot>) {
             is Combination.WinMonochrome -> "Комбинация Победа Одноцветная $name"
             is Combination.WinColorful   -> "Комбинация Победа Разноцветная $name"
             is Combination.WinWithWild   -> "Комбинация Победа WILD $name"
+
+            is CombinationWinSuperGame.Slot1 -> "Комбинация WIN_SUPER_GAME Slot1 $name"
+            is CombinationWinSuperGame.Slot2 -> "Комбинация WIN_SUPER_GAME Slot2 $name"
+            is CombinationWinSuperGame.Slot3 -> "Комбинация WIN_SUPER_GAME Slot3 $name"
+            is CombinationWinSuperGame.Slot4 -> "Комбинация WIN_SUPER_GAME Slot4 $name"
+            is CombinationWinSuperGame.Slot5 -> "Комбинация WIN_SUPER_GAME Slot5 $name"
+
+            is CombinationFailSuperGame.Slot1 -> "Комбинация FAIL_SUPER_GAME Slot1 $name"
+            is CombinationFailSuperGame.Slot2 -> "Комбинация FAIL_SUPER_GAME Slot2 $name"
+            is CombinationFailSuperGame.Slot3 -> "Комбинация FAIL_SUPER_GAME Slot3 $name"
+            is CombinationFailSuperGame.Slot4 -> "Комбинация FAIL_SUPER_GAME Slot4 $name"
+            is CombinationFailSuperGame.Slot5 -> "Комбинация FAIL_SUPER_GAME Slot5 $name"
             else                         -> "Noname"
         }
         log(combinationEnumName)

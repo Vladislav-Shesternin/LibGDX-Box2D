@@ -3,6 +3,7 @@ package com.veldan.kingsolomonslots.actors.slot.slotGroup
 import com.veldan.kingsolomonslots.actors.slot.util.*
 import com.veldan.kingsolomonslots.utils.controller.GroupController
 import com.veldan.kingsolomonslots.utils.log
+import com.veldan.kingsolomonslots.utils.probability
 import com.veldan.kingsolomonslots.utils.toDelay
 import kotlinx.coroutines.*
 
@@ -31,8 +32,11 @@ class SlotGroupController(override val group: SlotGroup) : GroupController {
 
 
 
-    private fun fillSlots(isSuperGame: Boolean) {
-        if (isSuperGame) fillManager.fill(FillStrategy.SUPER_GAME)
+    private fun fillSlots(isSuperGame: Boolean, slotNumber: Int) {
+        if (isSuperGame) {
+            val fillStrategy = if(probability(20)) FillStrategy.WIN_SUPER_GAME(slotNumber) else FillStrategy.FAIL_SUPER_GAME(slotNumber)
+            fillManager.fill(fillStrategy)
+        }
         else when {
 //            spinSuperGameCounter == superGameNumber -> {
 //                fillManager.fill(FillStrategy.SUPER)
@@ -90,13 +94,15 @@ class SlotGroupController(override val group: SlotGroup) : GroupController {
 
 
 
-    suspend fun spin(isSuperGame: Boolean) = CompletableDeferred<SpinResult>().also { continuation ->
-        spinWinCounter++
-        spinMiniGameCounter++
-        spinSuperGameCounter++
+    suspend fun spin(isSuperGame: Boolean, slotNumber: Int) = CompletableDeferred<SpinResult>().also { continuation ->
+        if (isSuperGame.not()) {
+            spinWinCounter++
+            spinMiniGameCounter++
+            spinSuperGameCounter++
+        }
 
         logCounter()
-        fillSlots(isSuperGame)
+        fillSlots(isSuperGame, slotNumber)
 
         val completableSpinList = List(SLOT_COUNT) { CompletableDeferred<Boolean>() }
         group.slotList.onEachIndexed { slotIndex, slot ->
