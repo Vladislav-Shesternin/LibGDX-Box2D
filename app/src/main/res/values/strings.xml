@@ -3,4 +3,9 @@
     <string name="spin">Spin</string>
     <string name="super_game_title_1">Wild Reels Free Spins</string>
     <string name="super_game_title_2">Free spins are over</string>
+    <string name="t_balance">Balance - your current balance is displayed here.</string>
+    <string name="t_bet">Bet - your current bet is displayed here.</string>
+    <string name="t_spin">Spin - game start button.</string>
+    <string name="t_plus_minus">(- | +) - bet adjustment buttons.</string>
+    <string name="t_slot_group">Slot - this is where the game takes place.</string>
 </resources>

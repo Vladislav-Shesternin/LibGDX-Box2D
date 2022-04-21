@@ -3,4 +3,9 @@
     <string name="spin">Пуск</string>
     <string name="super_game_title_1">Безкоштовні Оберти На Диких Барабанах</string>
     <string name="super_game_title_2">Безкоштовні оберти закінчилися</string>
+    <string name="t_balance">Баланс - тут відображається ваш поточний баланс.</string>
+    <string name="t_bet">Cтавка - тут відображається ваша поточна ставка.</string>
+    <string name="t_spin">Пуск - кнопка запуску гри.</string>
+    <string name="t_plus_minus">(- | +) - кнопки регулювання ставки.</string>
+    <string name="t_slot_group">Cлот - тут відбувається гра.</string>
 </resources>

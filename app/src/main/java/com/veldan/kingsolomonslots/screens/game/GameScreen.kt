@@ -9,15 +9,21 @@ import com.veldan.kingsolomonslots.actors.label.LabelStyle
 import com.veldan.kingsolomonslots.actors.label.spinning.SpinningLabel
 import com.veldan.kingsolomonslots.actors.bonusGameGroup.miniGame.MiniGameGroup
 import com.veldan.kingsolomonslots.actors.bonusGameGroup.superGame.SuperGameGroup
+import com.veldan.kingsolomonslots.actors.bonusGameGroup.superGame.finish.FinishSuperGameGroup
 import com.veldan.kingsolomonslots.actors.bonusGameGroup.superGame.superGameElementGroup.SuperGameElementGroup
 import com.veldan.kingsolomonslots.actors.slot.slotGroup.SlotGroup
+import com.veldan.kingsolomonslots.actors.tutorial.TutorialGroup
 import com.veldan.kingsolomonslots.advanced.AdvancedScreen
 import com.veldan.kingsolomonslots.advanced.AdvancedStage
 import com.veldan.kingsolomonslots.advanced.group.AdvancedGroup
+import com.veldan.kingsolomonslots.manager.DataStoreManager
 import com.veldan.kingsolomonslots.manager.NavigationManager
 import com.veldan.kingsolomonslots.manager.assets.SpriteManager
 import com.veldan.kingsolomonslots.screens.options.OptionsScreen
+import com.veldan.kingsolomonslots.utils.disable
+import com.veldan.kingsolomonslots.utils.enable
 import com.veldan.kingsolomonslots.utils.language.Language
+import kotlinx.coroutines.*
 import com.veldan.kingsolomonslots.layout.Layout.Game as LG
 
 class GameScreen: AdvancedScreen() {
@@ -44,12 +50,15 @@ class GameScreen: AdvancedScreen() {
     val spinTextLabel     by lazy { SpinningLabel(Language.getStringResource(R.string.spin), LabelStyle.white_60) }
     // slotGroup
     val slotGroup         = SlotGroup()
+    // tutorialGroup
+    val tutorialGroup     = TutorialGroup()
 
     // miniGameGroup
     lateinit var miniGameGroup: MiniGameGroup
     // superGameGroup
     lateinit var superGameGroup       : SuperGameGroup
     lateinit var superGameElementGroup: SuperGameElementGroup
+    lateinit var finishSuperGameGroup : FinishSuperGameGroup
 
 
 
@@ -63,6 +72,7 @@ class GameScreen: AdvancedScreen() {
 
     private fun AdvancedStage.addActorsOnStage() {
         addGameGroup()
+        addTutorialGroup()
     }
 
     // ------------------------------------------------------------------------
@@ -167,6 +177,37 @@ class GameScreen: AdvancedScreen() {
     }
 
     // ------------------------------------------------------------------------
+    // TutorialGroup
+    // ------------------------------------------------------------------------
+    private fun AdvancedStage.addTutorialGroup() {
+        CoroutineScope(Dispatchers.IO).launch {
+
+            suspend fun startTutorial() {
+                gameGroup.disable()
+                addAndFillActor(tutorialGroup)
+                tutorialGroup.controller.start()
+                removeTutorialGroup()
+                cancel()
+            }
+
+            if (DataStoreManager.Tutorial.get() == null) {
+                DataStoreManager.Tutorial.update { false }
+                startTutorial()
+            }
+            else if (DataStoreManager.Tutorial.get()!!) startTutorial()
+        }
+    }
+
+    private suspend fun removeTutorialGroup() = CompletableDeferred<Boolean>().also { continuation ->
+        tutorialGroup.addAction(Actions.sequence(
+            Actions.fadeOut(GameScreenController.TIME_HIDE_SCREEN),
+            Actions.run { continuation.complete(true) },
+            Actions.removeActor(),
+        ))
+        gameGroup.enable()
+    }.await()
+
+    // ------------------------------------------------------------------------
     // MiniGameGroup
     // ------------------------------------------------------------------------
 
@@ -201,8 +242,20 @@ class GameScreen: AdvancedScreen() {
         }
     }
 
+    fun addFinishSuperGameGroup(balance: Long) {
+        with(stage) {
+            finishSuperGameGroup = FinishSuperGameGroup(balance)
+            finishSuperGameGroup.addAction(Actions.alpha(0f))
+            addAndFillActor(finishSuperGameGroup)
+        }
+    }
+
     fun removeSuperGameElementGroup() {
         superGameElementGroup.remove()
+    }
+
+    fun removeFinishSuperGameGroup() {
+        finishSuperGameGroup.remove()
     }
 
     fun removeSuperGameGroup() {

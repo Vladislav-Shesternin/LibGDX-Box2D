@@ -284,6 +284,134 @@ object Layout {
         val SPIN_X = 158f
         val SPIN_Y = 0f
     }
+
+    // ------------------------------------------------------------------------
+    // FinishSuperGameGroup
+    // ------------------------------------------------------------------------
+    object FinishSuperGameGroup {
+        val TITLE_X = 0f
+        val TITLE_Y = 544f
+        val TITLE_W = 1400f
+        val TITLE_H = 156f
+
+        val BALANCE_PANEL_X = 169f
+        val BALANCE_PANEL_Y = 253f
+        val BALANCE_PANEL_W = 1062f
+        val BALANCE_PANEL_H = 194f
+
+        val BALANCE_TEXT_X = 26f
+        val BALANCE_TEXT_Y = 14f
+        val BALANCE_TEXT_W = 1012f
+        val BALANCE_TEXT_H = 170f
+    }
+
+    // ------------------------------------------------------------------------
+    // TutorialGroup
+    // ------------------------------------------------------------------------
+    object TutorialGroup {
+
+        object Balance: TutorialItemLayout {
+            override val FRAME_X = 469f
+            override val FRAME_Y = 13f
+            override val FRAME_W = 465f
+            override val FRAME_H = 92f
+
+            override val DIALOG_X = 339f
+            override val DIALOG_Y = 119f
+            override val DIALOG_W = 722f
+            override val DIALOG_H = 463f
+
+            override val TEXT_X = 425f
+            override val TEXT_Y = 179f
+            override val TEXT_W = 552f
+            override val TEXT_H = 340f
+        }
+
+        object Bet: TutorialItemLayout {
+            override val FRAME_X = 2f
+            override val FRAME_Y = 299f
+            override val FRAME_W = 304f
+            override val FRAME_H = 102f
+
+            override val DIALOG_X = 339f
+            override val DIALOG_Y = 119f
+            override val DIALOG_W = 722f
+            override val DIALOG_H = 463f
+
+            override val TEXT_X = 425f
+            override val TEXT_Y = 179f
+            override val TEXT_W = 552f
+            override val TEXT_H = 340f
+        }
+
+        object Spin: TutorialItemLayout {
+            override val FRAME_X = 1143f
+            override val FRAME_Y = 251f
+            override val FRAME_W = 199f
+            override val FRAME_H = 199f
+
+            override val DIALOG_X = 339f
+            override val DIALOG_Y = 119f
+            override val DIALOG_W = 722f
+            override val DIALOG_H = 463f
+
+            override val TEXT_X = 425f
+            override val TEXT_Y = 179f
+            override val TEXT_W = 552f
+            override val TEXT_H = 340f
+        }
+
+        object PlusMinus: TutorialItemLayout {
+            override val FRAME_X = 15f
+            override val FRAME_Y = 135f
+            override val FRAME_W = 279f
+            override val FRAME_H = 128f
+
+            override val DIALOG_X = 339f
+            override val DIALOG_Y = 119f
+            override val DIALOG_W = 722f
+            override val DIALOG_H = 463f
+
+            override val TEXT_X = 425f
+            override val TEXT_Y = 179f
+            override val TEXT_W = 552f
+            override val TEXT_H = 340f
+        }
+
+        object SlotGroup: TutorialItemLayout {
+            override val FRAME_X = 301f
+            override val FRAME_Y = 111f
+            override val FRAME_W = 790f
+            override val FRAME_H = 475f
+
+            override val DIALOG_X = 10f
+            override val DIALOG_Y = 43f
+            override val DIALOG_W = 287f
+            override val DIALOG_H = 594f
+
+            override val TEXT_X = 16f
+            override val TEXT_Y = 143f
+            override val TEXT_W = 275f
+            override val TEXT_H = 379f
+        }
+
+        interface TutorialItemLayout{
+            val FRAME_X: Float
+            val FRAME_Y: Float
+            val FRAME_W: Float
+            val FRAME_H: Float
+
+            val DIALOG_X: Float
+            val DIALOG_Y: Float
+            val DIALOG_W: Float
+            val DIALOG_H: Float
+
+            val TEXT_X: Float
+            val TEXT_Y: Float
+            val TEXT_W: Float
+            val TEXT_H: Float
+        }
+    }
 }
 
 

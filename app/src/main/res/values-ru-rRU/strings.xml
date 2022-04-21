@@ -3,4 +3,9 @@
     <string name="spin">Пуск</string>
     <string name="super_game_title_1">Бесплатные Вращения На Диких Барабанах</string>
     <string name="super_game_title_2">Бесплатные спины закончились</string>
+    <string name="t_balance">Баланс - здесь отображается ваш текущий баланс.</string>
+    <string name="t_bet">Ставка - здесь отображается ваша текущая ставка.</string>
+    <string name="t_spin">Пуск - кнопка запуска игры.</string>
+    <string name="t_plus_minus">(- | +) - кнопки регулировки ставки.</string>
+    <string name="t_slot_group">Cлот - здесь происходит игра.</string>
 </resources>

@@ -37,6 +37,7 @@ object SpriteManager {
         SPLASH(   TextureAtlasData("sprites/atlas/splash.atlas")   ),
         _1(       TextureAtlasData("sprites/atlas/1.atlas")        ),
         SLOT_ITEM(TextureAtlasData("sprites/atlas/slot_item.atlas")),
+        TUTORIAL( TextureAtlasData("sprites/atlas/tutorial.atlas") ),
     }
 
     enum class EnumTexture(override val data: TextureData): ITexture {
@@ -95,6 +96,17 @@ object SpriteManager {
         MUSIC(           EnumAtlas._1.data.atlas.findRegion("music")           ),
         SOUND(           EnumAtlas._1.data.atlas.findRegion("sound")           ),
         TUTORIAL(        EnumAtlas._1.data.atlas.findRegion("tutorial")        ),
+    }
+
+    enum class TutorialRegion(override val region: TextureRegion):IRegion {
+        TD_BALANCE(   EnumAtlas.TUTORIAL.data.atlas.findRegion("td_balance")   ),
+        TD_SLOT_GROUP(EnumAtlas.TUTORIAL.data.atlas.findRegion("td_slotGroup")),
+
+        TF_BALANCE(   EnumAtlas.TUTORIAL.data.atlas.findRegion("tf_balance")   ),
+        TF_BET(       EnumAtlas.TUTORIAL.data.atlas.findRegion("tf_bet")       ),
+        TF_PLUS_MINUS(EnumAtlas.TUTORIAL.data.atlas.findRegion("tf_plus_minus")),
+        TF_SLOT_GROUP(EnumAtlas.TUTORIAL.data.atlas.findRegion("tf_slotGroup")),
+        TF_SPIN(      EnumAtlas.TUTORIAL.data.atlas.findRegion("tf_spin")      ),
     }
 
     enum class ListRegion(override val regionList: List<TextureRegion>): IRegionList {
