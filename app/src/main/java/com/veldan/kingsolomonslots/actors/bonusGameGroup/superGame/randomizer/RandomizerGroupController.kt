@@ -4,6 +4,8 @@ import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.scenes.scene2d.actions.Actions
 import com.badlogic.gdx.utils.Align
 import com.veldan.kingsolomonslots.actors.slot.slotGroup.SlotGroupController
+import com.veldan.kingsolomonslots.manager.assets.util.SoundUtil
+import com.veldan.kingsolomonslots.manager.assets.util.playAdvanced
 import com.veldan.kingsolomonslots.utils.controller.GroupController
 import kotlinx.coroutines.CompletableDeferred
 import kotlin.random.Random
@@ -45,6 +47,7 @@ class RandomizerGroupController(override val group: RandomizerGroup) : GroupCont
         }
 
         Gdx.app.postRunnable {
+            SoundUtil.WIN_BOX.playAdvanced()
             group.panelImage.apply {
                 clearActions()
                 rotation = 0f

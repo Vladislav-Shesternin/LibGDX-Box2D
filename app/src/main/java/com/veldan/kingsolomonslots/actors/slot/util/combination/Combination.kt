@@ -2978,7 +2978,7 @@ object CombinationWinSuperGame {
                     B B W A W
                     C C C C W
                 """,
-                winItemList = listOf(A),
+                winItemList = listOf(A, B, C),
                 a0 = A, b0 = A, c0 = A,    d0 = B, e0 = WILD,
                 a1 = B, b1 = B, c1 = WILD, d1 = A, e1 = WILD,
                 a2 = C, b2 = C, c2 = C,    d2 = C, e2 = WILD,
@@ -2991,7 +2991,7 @@ object CombinationWinSuperGame {
                     B B A A W
                     C C C C W
                 """,
-                winItemList = listOf(A),
+                winItemList = listOf(A, B, C),
                 a0 = A, b0 = A, c0 = B, d0 = B, e0 = WILD,
                 a1 = B, b1 = B, c1 = A, d1 = A, e1 = WILD,
                 a2 = C, b2 = C, c2 = C, d2 = C, e2 = WILD,

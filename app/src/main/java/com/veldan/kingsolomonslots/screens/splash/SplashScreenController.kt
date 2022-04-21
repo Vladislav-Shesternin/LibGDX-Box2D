@@ -7,6 +7,8 @@ import com.veldan.kingsolomonslots.main.game
 import com.veldan.kingsolomonslots.manager.NavigationManager
 import com.veldan.kingsolomonslots.manager.assets.FontTTFManager
 import com.veldan.kingsolomonslots.manager.assets.FontTTFManager.ReggaeOneFont
+import com.veldan.kingsolomonslots.manager.assets.MusicManager
+import com.veldan.kingsolomonslots.manager.assets.SoundManager
 import com.veldan.kingsolomonslots.manager.assets.SpriteManager
 import com.veldan.kingsolomonslots.manager.assets.SpriteManager.EnumAtlas
 import com.veldan.kingsolomonslots.manager.assets.SpriteManager.EnumTexture
@@ -44,8 +46,8 @@ class SplashScreenController(
         with(game) {
             SpriteManager.init(assetManager)
             FontTTFManager.init(assetManager)
-            //MusicManager.init(assetManager)
-            //SoundManager.init(assetManager)
+            MusicManager.init(assetManager)
+            SoundManager.init(assetManager)
         }
     }
 
@@ -104,15 +106,15 @@ class SplashScreenController(
             load(game.assetManager)
         }
 
-//        with(MusicManager) {
-//            loadListMusic = mutableListOf(*MusicManager.EnumMusic.values())
-//            load(game.assetManager)
-//        }
-//
-//        with(SoundManager) {
-//            loadListSound = mutableListOf(*SoundManager.EnumSound.values())
-//            load(game.assetManager)
-//        }
+        with(MusicManager) {
+            loadListMusic = mutableListOf(*MusicManager.EnumMusic.values())
+            load(game.assetManager)
+        }
+
+        with(SoundManager) {
+            loadListSound = mutableListOf(*SoundManager.EnumSound.values())
+            load(game.assetManager)
+        }
     }
 
 }

@@ -34,7 +34,7 @@ class SlotGroupController(override val group: SlotGroup) : GroupController {
 
     private fun fillSlots(isSuperGame: Boolean, slotNumber: Int) {
         if (isSuperGame) {
-            val fillStrategy = if (probability(60)) FillStrategy.WIN_SUPER_GAME(slotNumber) else FillStrategy.FAIL_SUPER_GAME(slotNumber)
+            val fillStrategy = if (probability(55)) FillStrategy.WIN_SUPER_GAME(slotNumber) else FillStrategy.FAIL_SUPER_GAME(slotNumber)
             fillManager.fill(fillStrategy)
         } else when {
             spinSuperGameCounter == superGameNumber -> {

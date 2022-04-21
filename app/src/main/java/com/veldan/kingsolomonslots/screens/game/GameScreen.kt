@@ -19,6 +19,8 @@ import com.veldan.kingsolomonslots.advanced.group.AdvancedGroup
 import com.veldan.kingsolomonslots.manager.DataStoreManager
 import com.veldan.kingsolomonslots.manager.NavigationManager
 import com.veldan.kingsolomonslots.manager.assets.SpriteManager
+import com.veldan.kingsolomonslots.manager.assets.util.MusicUtil
+import com.veldan.kingsolomonslots.manager.assets.util.SoundUtil
 import com.veldan.kingsolomonslots.screens.options.OptionsScreen
 import com.veldan.kingsolomonslots.utils.disable
 import com.veldan.kingsolomonslots.utils.enable
@@ -64,6 +66,7 @@ class GameScreen: AdvancedScreen() {
 
     override fun show() {
         super.show()
+        with(MusicUtil) { currentMusic = MAIN }
         setBackgrounds(SpriteManager.GameRegion.BACKGROUND.region)
         stage.addActorsOnStage()
     }
@@ -131,7 +134,7 @@ class GameScreen: AdvancedScreen() {
         addActor(betPlusButton)
         betPlusButton.apply {
             setBounds(LG.BET_PLUS_X, LG.BET_PLUS_Y, LG.BET_PLUS_W, LG.BET_PLUS_H)
-            controller.setOnClickListener { this@GameScreen.controller.betPlusHandler() }
+            controller.setOnClickListener(SoundUtil.PLUS_MINUS) { this@GameScreen.controller.betPlusHandler() }
         }
     }
 
@@ -139,7 +142,7 @@ class GameScreen: AdvancedScreen() {
         addActor(betMinusButton)
         betMinusButton.apply {
             setBounds(LG.BET_MINUS_X, LG.BET_MINUS_Y, LG.BET_MINUS_W, LG.BET_MINUS_H)
-            controller.setOnClickListener { this@GameScreen.controller.betMinusHandler() }
+            controller.setOnClickListener(SoundUtil.PLUS_MINUS) { this@GameScreen.controller.betMinusHandler() }
         }
     }
 

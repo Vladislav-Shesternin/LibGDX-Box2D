@@ -3,6 +3,8 @@ package com.veldan.kingsolomonslots.actors.slot.glow
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.scenes.scene2d.actions.Actions
 import com.veldan.kingsolomonslots.actors.slot.slot.SlotController
+import com.veldan.kingsolomonslots.manager.assets.util.SoundUtil
+import com.veldan.kingsolomonslots.manager.assets.util.playAdvanced
 import com.veldan.kingsolomonslots.utils.controller.GroupController
 import kotlinx.coroutines.CompletableDeferred
 
@@ -22,7 +24,7 @@ class GlowController(override val group: Glow) : GroupController {
 
     suspend fun glowIn(glowItemIndex: Int) = CompletableDeferred<Boolean>().also { continuation ->
         Gdx.app.postRunnable {
-            //SoundUtil.WIN.playAdvanced()
+            SoundUtil.WIN_SLOT_ITEM.playAdvanced()
             group.glowImageList[glowItemIndex].addAction(Actions.sequence(
                     Actions.fadeIn(TIME_GLOW_IN),
                     Actions.run { continuation.complete(true) },

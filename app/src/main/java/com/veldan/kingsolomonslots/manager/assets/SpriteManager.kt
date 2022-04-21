@@ -99,13 +99,15 @@ object SpriteManager {
     }
 
     enum class TutorialRegion(override val region: TextureRegion):IRegion {
+        SKIP(         EnumAtlas.TUTORIAL.data.atlas.findRegion("skip")         ),
+
         TD_BALANCE(   EnumAtlas.TUTORIAL.data.atlas.findRegion("td_balance")   ),
-        TD_SLOT_GROUP(EnumAtlas.TUTORIAL.data.atlas.findRegion("td_slotGroup")),
+        TD_SLOT_GROUP(EnumAtlas.TUTORIAL.data.atlas.findRegion("td_slotGroup") ),
 
         TF_BALANCE(   EnumAtlas.TUTORIAL.data.atlas.findRegion("tf_balance")   ),
         TF_BET(       EnumAtlas.TUTORIAL.data.atlas.findRegion("tf_bet")       ),
         TF_PLUS_MINUS(EnumAtlas.TUTORIAL.data.atlas.findRegion("tf_plus_minus")),
-        TF_SLOT_GROUP(EnumAtlas.TUTORIAL.data.atlas.findRegion("tf_slotGroup")),
+        TF_SLOT_GROUP(EnumAtlas.TUTORIAL.data.atlas.findRegion("tf_slotGroup") ),
         TF_SPIN(      EnumAtlas.TUTORIAL.data.atlas.findRegion("tf_spin")      ),
     }
 

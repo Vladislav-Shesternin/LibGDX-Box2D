@@ -9,6 +9,8 @@ import com.veldan.kingsolomonslots.actors.bonusGameGroup.miniGame.boxGroup.util.
 import com.veldan.kingsolomonslots.advanced.group.AbstractAdvancedGroup
 import com.veldan.kingsolomonslots.advanced.group.AdvancedGroup
 import com.veldan.kingsolomonslots.manager.assets.SpriteManager
+import com.veldan.kingsolomonslots.manager.assets.util.SoundUtil
+import com.veldan.kingsolomonslots.manager.assets.util.playAdvanced
 import com.veldan.kingsolomonslots.utils.disable
 import com.veldan.kingsolomonslots.utils.listeners.toClickable
 import com.veldan.kingsolomonslots.utils.log
@@ -57,6 +59,11 @@ class BoxGroup: AbstractAdvancedGroup() {
             newPrizeX += LBG.PRIZE_W + LBG.PRIZE_SPACE_HORIZONTAL
 
             boxList[index].toClickable().setOnClickListener {
+                when(boxPrizeList[index]) {
+                    WIN  -> SoundUtil.WIN_BOX.playAdvanced()
+                    FAIL -> SoundUtil.FAIL_BOX.playAdvanced()
+                }
+
                 this@BoxGroup.disable()
                 it.addAction(Actions.sequence(
                     Actions.fadeOut(BoxGroupController.TIME_OPEN_BOX),

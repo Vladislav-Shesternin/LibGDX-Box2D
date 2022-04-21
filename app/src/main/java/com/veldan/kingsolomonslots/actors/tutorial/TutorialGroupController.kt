@@ -1,5 +1,6 @@
 package com.veldan.kingsolomonslots.actors.tutorial
 
+import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.scenes.scene2d.actions.Actions
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable
 import com.badlogic.gdx.utils.Disposable
@@ -19,10 +20,11 @@ import com.veldan.kingsolomonslots.layout.Layout.TutorialGroup as LTG
 class TutorialGroupController(override val group: TutorialGroup) : GroupController, Disposable {
 
     companion object {
-        const val TIME_FADE_IN = 1f
+        const val TIME_FADE_IN  = 0.3f
+        const val TIME_FADE_OUT = 0.3f
     }
 
-   private val tutorialList = listOf<TutorialItem>(
+    private val tutorialList = listOf<TutorialItem>(
         TutorialItem(
             regionFrame  = SpriteManager.TutorialRegion.TF_BALANCE.region,
             regionDialog = SpriteManager.TutorialRegion.TD_BALANCE.region,
@@ -57,9 +59,9 @@ class TutorialGroupController(override val group: TutorialGroup) : GroupControll
 
     private val coroutineMain = CoroutineScope(Dispatchers.Default)
 
-    private val isFinishFlow = MutableStateFlow(false)
-
     private var tutorialItemIndex = 0
+
+    val isFinishFlow = MutableStateFlow(false)
 
 
 
@@ -70,24 +72,41 @@ class TutorialGroupController(override val group: TutorialGroup) : GroupControll
 
 
     private suspend fun showTutorialItem(item: TutorialItem) {
-        with(group) {
-            dialogImage.drawable = TextureRegionDrawable(item.regionDialog)
-            frameImage.drawable  = TextureRegionDrawable(item.regionFrame)
-            textLabel.label.setText(item.text)
+        Gdx.app.postRunnable {
+            with(group) {
+                dialogImage.drawable = TextureRegionDrawable(item.regionDialog)
+                frameImage.drawable = TextureRegionDrawable(item.regionFrame)
+                textLabel.label.setText(item.text)
 
-            with(item.layout) {
-                dialogImage.setBounds(DIALOG_X, DIALOG_Y, DIALOG_W, DIALOG_H)
-                frameImage.setBounds(FRAME_X, FRAME_Y, FRAME_W, FRAME_H)
-                textLabel.setBounds(TEXT_X, TEXT_Y, TEXT_W, TEXT_H)
+                with(item.layout) {
+                    dialogImage.setBounds(DIALOG_X, DIALOG_Y, DIALOG_W, DIALOG_H)
+                    frameImage.setBounds(FRAME_X, FRAME_Y, FRAME_W, FRAME_H)
+                    textLabel.setBounds(TEXT_X, TEXT_Y, TEXT_W, TEXT_H)
+                }
             }
         }
 
         val completableAnimList = List(group.children.size) { CompletableDeferred<Boolean>() }
-        group.children.onEachIndexed { index, actor ->
-            actor.addAction(Actions.sequence(
-                Actions.fadeIn(TIME_FADE_IN),
-                Actions.run { completableAnimList[index].complete(true) }
-            ))
+        Gdx.app.postRunnable {
+            group.children.onEachIndexed { index, actor ->
+                actor.addAction(Actions.sequence(
+                    Actions.fadeIn(TIME_FADE_IN),
+                    Actions.run { completableAnimList[index].complete(true) }
+                ))
+            }
+        }
+        completableAnimList.onEach { it.await() }
+    }
+
+    private suspend fun hideTutorialItem() {
+        val completableAnimList = List(group.children.size) { CompletableDeferred<Boolean>() }
+        Gdx.app.postRunnable {
+            group.children.onEachIndexed { index, actor ->
+                actor.addAction(Actions.sequence(
+                    Actions.fadeOut(TIME_FADE_OUT),
+                    Actions.run { completableAnimList[index].complete(true) }
+                ))
+            }
         }
         completableAnimList.onEach { it.await() }
     }
@@ -98,8 +117,9 @@ class TutorialGroupController(override val group: TutorialGroup) : GroupControll
         group.disable()
 
         if (tutorialItemIndex == tutorialList.size) isFinishFlow.tryEmit(true)
-        else {
+        else if (isFinishFlow.value.not()) {
             coroutineMain.launch {
+                hideTutorialItem()
                 showTutorialItem(tutorialList[tutorialItemIndex])
                 tutorialItemIndex++
                 group.enable()
@@ -109,13 +129,16 @@ class TutorialGroupController(override val group: TutorialGroup) : GroupControll
 
     suspend fun start() = CompletableDeferred<Boolean>().also { continuation ->
         showTutorialItem(tutorialList.first())
+        group.enable()
         tutorialItemIndex++
-       CoroutineScope(Dispatchers.Default).launch { isFinishFlow.collect { isFinish ->
-            if (isFinish) {
-                continuation.complete(true)
-                cancel()
+        CoroutineScope(Dispatchers.Default).launch {
+            isFinishFlow.collect { isFinish ->
+                if (isFinish) {
+                    continuation.complete(true)
+                    cancel()
+                }
             }
-        } }
+        }
     }.await()
 
 }

@@ -7,6 +7,7 @@ import com.veldan.kingsolomonslots.actors.bonusGameGroup.miniGame.boxGroup.util.
 import com.veldan.kingsolomonslots.actors.slot.util.Bonus
 import com.veldan.kingsolomonslots.actors.slot.util.SpinResult
 import com.veldan.kingsolomonslots.manager.DataStoreManager
+import com.veldan.kingsolomonslots.manager.assets.util.MusicUtil
 import com.veldan.kingsolomonslots.utils.*
 import com.veldan.kingsolomonslots.utils.controller.ScreenController
 import kotlinx.coroutines.*
@@ -201,6 +202,7 @@ class GameScreenController(override val screen: GameScreen): ScreenController, D
             }
             completableAnim.await()
             enable()
+            with(MusicUtil) { currentMusic = MAIN }
         }
     }
 

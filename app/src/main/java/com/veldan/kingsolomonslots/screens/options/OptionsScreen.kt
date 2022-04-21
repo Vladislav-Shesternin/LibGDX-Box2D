@@ -13,6 +13,8 @@ import com.veldan.kingsolomonslots.manager.AudioManager
 import com.veldan.kingsolomonslots.manager.DataStoreManager
 import com.veldan.kingsolomonslots.manager.NavigationManager
 import com.veldan.kingsolomonslots.manager.assets.SpriteManager
+import com.veldan.kingsolomonslots.manager.assets.util.MusicUtil
+import com.veldan.kingsolomonslots.manager.assets.util.SoundUtil
 import com.veldan.kingsolomonslots.utils.log
 import kotlinx.coroutines.*
 import com.veldan.kingsolomonslots.layout.Layout.Options as LO
@@ -59,7 +61,7 @@ class OptionsScreen : AdvancedScreen() {
                 controller.setProgress(progressMusicVolume)
                 controller.progressBlock = {
                     progressMusicVolume = it
-                    //MusicUtil.volumeLevel.value = it
+                    MusicUtil.volumeLevel.value = it
                     log("music p = $it")
                 }
             }
@@ -75,7 +77,7 @@ class OptionsScreen : AdvancedScreen() {
                 controller.setProgress(progressSoundVolume)
                 controller.progressBlock = {
                     progressSoundVolume = it
-                    //    SoundUtil.volumeLevel.value = (it / 100f)
+                    SoundUtil.volumeLevel.value = (it / 100f)
                     log("sound p = $it")
                 }
             }

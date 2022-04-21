@@ -6,6 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent
 import com.badlogic.gdx.scenes.scene2d.InputListener
 import com.badlogic.gdx.scenes.scene2d.Touchable
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable
+import com.veldan.kingsolomonslots.manager.assets.util.SoundUtil
 import com.veldan.kingsolomonslots.manager.assets.util.playAdvanced
 import com.veldan.kingsolomonslots.utils.controller.GroupController
 
@@ -105,7 +106,7 @@ class ButtonClickableController(override val group: ButtonClickable) : GroupCont
         unpress()
     }
 
-    fun setOnClickListener(sound: Sound? = null/*SoundUtil.CLICK*/, block: () -> Unit) {
+    fun setOnClickListener(sound: Sound? = SoundUtil.CLICK, block: () -> Unit) {
         this.sound = sound
         onClickBlock = block
     }

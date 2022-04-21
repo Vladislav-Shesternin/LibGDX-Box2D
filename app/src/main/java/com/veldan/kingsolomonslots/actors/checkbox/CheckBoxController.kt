@@ -6,6 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.InputListener
 import com.badlogic.gdx.scenes.scene2d.Touchable
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable
 import com.badlogic.gdx.utils.Disposable
+import com.veldan.kingsolomonslots.manager.assets.util.SoundUtil
 import com.veldan.kingsolomonslots.manager.assets.util.playAdvanced
 import com.veldan.kingsolomonslots.utils.cancelCoroutinesAll
 import com.veldan.kingsolomonslots.utils.controller.GroupController
@@ -115,7 +116,7 @@ class CheckBoxController(override val group: CheckBox) : GroupController, Dispos
         }
     }
 
-    fun setOnCheckListener(sound: Sound? = null/*SoundUtil.CHECK*/, block: (Boolean) -> Unit) {
+    fun setOnCheckListener(sound: Sound? = SoundUtil.CHECK, block: (Boolean) -> Unit) {
         this.sound = sound
         onCheckBlock = block
     }

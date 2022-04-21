@@ -310,6 +310,11 @@ object Layout {
     // ------------------------------------------------------------------------
     object TutorialGroup {
 
+        val SKIP_X = 1271f
+        val SKIP_Y = 571f
+        val SKIP_W = 99f
+        val SKIP_H = 99f
+
         object Balance: TutorialItemLayout {
             override val FRAME_X = 469f
             override val FRAME_Y = 13f

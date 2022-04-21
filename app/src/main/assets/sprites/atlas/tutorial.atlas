@@ -1,8 +1,15 @@
 tutorial.png
-size: 792, 1640
+size: 869, 1640
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
+skip
+  rotate: false
+  xy: 1, 1
+  size: 99, 99
+  orig: 99, 99
+  offset: 0, 0
+  index: -1
 td_balance
   rotate: false
   xy: 1, 699
@@ -12,7 +19,7 @@ td_balance
   index: -1
 td_slotGroup
   rotate: false
-  xy: 481, 1
+  xy: 581, 1
   size: 287, 594
   orig: 287, 594
   offset: 0, 0
@@ -33,7 +40,7 @@ tf_bet
   index: -1
 tf_plus_minus
   rotate: false
-  xy: 201, 1
+  xy: 301, 1
   size: 279, 128
   orig: 279, 128
   offset: 0, 0
@@ -47,7 +54,7 @@ tf_slotGroup
   index: -1
 tf_spin
   rotate: false
-  xy: 1, 1
+  xy: 101, 1
   size: 199, 199
   orig: 199, 199
   offset: 0, 0

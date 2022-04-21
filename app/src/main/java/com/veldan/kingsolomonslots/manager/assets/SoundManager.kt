@@ -19,12 +19,12 @@ object SoundManager {
 
 
     enum class EnumSound(override val data: SoundData): IEnumSound {
-        CHECK(     SoundData("sound/check.ogg")     ),
-        CLICK(     SoundData("sound/click.ogg")     ),
-        CLICK_BAG( SoundData("sound/click_bag.ogg") ),
-        FAIL(      SoundData("sound/fail.ogg")      ),
-        PLUS_MINUS(SoundData("sound/plus_minus.ogg")),
-        WIN(       SoundData("sound/win.ogg")       ),
+        CHECK(        SoundData("sound/check.mp3")        ),
+        CLICK(        SoundData("sound/click.mp3")        ),
+        FAIL_BOX(     SoundData("sound/fail_box.mp3")     ),
+        PLUS_MINUS(   SoundData("sound/plus_minus.mp3")   ),
+        WIN_BOX(      SoundData("sound/win_box.mp3")      ),
+        WIN_SLOT_ITEM(SoundData("sound/win_slot_item.mp3")),
     }
 
 
