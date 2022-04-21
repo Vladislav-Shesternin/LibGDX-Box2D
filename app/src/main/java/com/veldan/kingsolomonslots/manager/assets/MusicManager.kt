@@ -19,9 +19,9 @@ object MusicManager {
 
 
     enum class EnumMusic(override val data: MusicData): IEnumMusic {
-        MAIN(      MusicData("music/main.mp3")      ),
-        MINI_GAME( MusicData("music/mini_game.mp3") ),
-        SUPER_GAME(MusicData("music/super_game.mp3")),
+        MAIN(      MusicData("music/main.ogg")      ),
+        MINI_GAME( MusicData("music/mini_game.ogg") ),
+        SUPER_GAME(MusicData("music/super_game.ogg")),
     }
 
 

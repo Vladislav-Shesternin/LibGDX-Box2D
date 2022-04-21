@@ -18,9 +18,9 @@ class SlotGroupController(override val group: SlotGroup) : GroupController {
         const val TIME_BETWEEN_SPIN = 0.3f
     }
 
-    private var winNumber       = (1..1).random()
-    private var miniGameNumber  = (2..2).random()
-    private var superGameNumber = (3..3).random()
+    private var winNumber       = (1..5).random()
+    private var miniGameNumber  = (6..10).random()
+    private var superGameNumber = (11..15).random()
 
     private var spinWinCounter       = 0
     private var spinMiniGameCounter  = 0
@@ -56,17 +56,17 @@ class SlotGroupController(override val group: SlotGroup) : GroupController {
 
     private fun resetWin() {
         spinWinCounter = 0
-        winNumber      = (1..1).random()
+        winNumber      = (1..5).random()
     }
 
     private fun resetBonus() {
         fun resetMiniGame() {
             spinMiniGameCounter = 0
-            miniGameNumber      = (2..2).random()
+            miniGameNumber      = (6..10).random()
         }
         fun resetSuperGame() {
             spinSuperGameCounter = 0
-            superGameNumber      = (3..3).random()
+            superGameNumber      = (11..15).random()
         }
 
         if (spinWinCounter == winNumber) resetWin()
