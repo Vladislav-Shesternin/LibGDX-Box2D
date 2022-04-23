@@ -1,39 +1,39 @@
 1.png
-size: 1781, 1686
+size: 1812, 1686
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
 autospin_def
   rotate: false
-  xy: 1105, 228
+  xy: 1005, 228
   size: 133, 133
   orig: 133, 133
   offset: 0, 0
   index: -1
 autospin_dis
   rotate: false
-  xy: 1239, 228
+  xy: 1139, 228
   size: 133, 133
   orig: 133, 133
   offset: 0, 0
   index: -1
 autospin_press
   rotate: false
-  xy: 1373, 228
+  xy: 1273, 228
   size: 134, 133
   orig: 134, 133
   offset: 0, 0
   index: -1
 back_def
   rotate: false
-  xy: 1652, 228
+  xy: 1552, 228
   size: 126, 164
   orig: 126, 164
   offset: 0, 0
   index: -1
 back_press
   rotate: false
-  xy: 1, 393
+  xy: 1679, 228
   size: 126, 164
   orig: 126, 164
   offset: 0, 0
@@ -54,7 +54,7 @@ bet_panel
   index: -1
 big_balance_panel
   rotate: false
-  xy: 329, 393
+  xy: 552, 393
   size: 1062, 195
   orig: 1062, 195
   offset: 0, 0
@@ -89,7 +89,7 @@ check_box_def
   index: -1
 equals
   rotate: false
-  xy: 128, 393
+  xy: 351, 393
   size: 200, 181
   orig: 200, 181
   offset: 0, 0
@@ -103,28 +103,28 @@ glow
   index: -1
 minus_def
   rotate: false
-  xy: 415, 228
+  xy: 315, 228
   size: 114, 114
   orig: 114, 114
   offset: 0, 0
   index: -1
 minus_dis
   rotate: false
-  xy: 530, 228
+  xy: 430, 228
   size: 114, 114
   orig: 114, 114
   offset: 0, 0
   index: -1
 minus_press
   rotate: false
-  xy: 645, 228
+  xy: 545, 228
   size: 114, 114
   orig: 114, 114
   offset: 0, 0
   index: -1
 music
   rotate: false
-  xy: 201, 228
+  xy: 101, 228
   size: 106, 106
   orig: 106, 106
   offset: 0, 0
@@ -138,7 +138,7 @@ options_def
   index: -1
 options_press
   rotate: false
-  xy: 1, 228
+  xy: 1702, 128
   size: 99, 99
   orig: 99, 99
   offset: 0, 0
@@ -173,23 +173,37 @@ pb_progress_mask
   index: -1
 plus_def
   rotate: false
-  xy: 760, 228
+  xy: 660, 228
   size: 114, 114
   orig: 114, 114
   offset: 0, 0
   index: -1
 plus_dis
   rotate: false
-  xy: 875, 228
+  xy: 775, 228
   size: 114, 114
   orig: 114, 114
   offset: 0, 0
   index: -1
 plus_press
   rotate: false
-  xy: 990, 228
+  xy: 890, 228
   size: 114, 114
   orig: 114, 114
+  offset: 0, 0
+  index: -1
+shop_def
+  rotate: false
+  xy: 1, 393
+  size: 174, 174
+  orig: 174, 174
+  offset: 0, 0
+  index: -1
+shop_press
+  rotate: false
+  xy: 176, 393
+  size: 174, 174
+  orig: 174, 174
   offset: 0, 0
   index: -1
 slot_group_image
@@ -208,21 +222,21 @@ slot_group_mask
   index: -1
 small_circle_panel
   rotate: false
-  xy: 101, 228
+  xy: 1, 228
   size: 99, 99
   orig: 99, 99
   offset: 0, 0
   index: -1
 sound
   rotate: false
-  xy: 308, 228
+  xy: 208, 228
   size: 106, 106
   orig: 106, 106
   offset: 0, 0
   index: -1
 spin_def
   rotate: false
-  xy: 1392, 393
+  xy: 1615, 393
   size: 196, 196
   orig: 196, 196
   offset: 0, 0
@@ -243,7 +257,7 @@ spin_press
   index: -1
 tutorial
   rotate: false
-  xy: 1508, 228
+  xy: 1408, 228
   size: 143, 143
   orig: 143, 143
   offset: 0, 0

@@ -7,7 +7,7 @@ android {
     compileSdk 31
 
     defaultConfig {
-        applicationId "com.veldan.kingsolomonslots"
+        applicationId "com.veldan.veldanslots"
         minSdk 21
         targetSdk 31
         versionCode 1
@@ -136,5 +136,5 @@ task run(type: Exec) {
     }
 
     def adb = path + "/platform-tools/adb"
-    commandLine "$adb", 'shell', 'am', 'start', '-n', 'com.veldan.kingsolomonslots/com.veldan.kingsolomonslots.main.AndroidLauncher'
+    commandLine "$adb", 'shell', 'am', 'start', '-n', 'com.veldan.veldanslots/com.veldan.veldanslots.main.AndroidLauncher'
 }
