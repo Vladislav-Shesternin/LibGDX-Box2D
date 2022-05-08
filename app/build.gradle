@@ -18,8 +18,8 @@ android {
 
     buildTypes {
         debug {
-            minifyEnabled true
-            shrinkResources true
+            minifyEnabled false
+            shrinkResources false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
         release {
@@ -83,6 +83,8 @@ dependencies {
     implementation "androidx.datastore:datastore-preferences:$dataStorePref_version"
     def lottie_version = "4.2.2"
     implementation "com.airbnb.android:lottie:$lottie_version"
+    def billing_version = "4.1.0"
+    implementation "com.android.billingclient:billing:$billing_version"
 }
 
 task copyAndroidNatives {
@@ -136,5 +138,5 @@ task run(type: Exec) {
     }
 
     def adb = path + "/platform-tools/adb"
-    commandLine "$adb", 'shell', 'am', 'start', '-n', 'com.veldan.veldanslots/com.veldan.veldanslots.main.AndroidLauncher'
+    commandLine "$adb", 'shell', 'am', 'start', '-n', 'com.veldan.veldanslots/com.veldan.veldanslots.AndroidLauncher'
 }
