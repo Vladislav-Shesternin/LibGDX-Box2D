@@ -6,8 +6,8 @@ import com.veldan.veldanslots.game.utils.language.Language
 object FontTTFUtil {
 
     val FONT: FontTTFManager.IFont get() = when(Language.locale.language) {
-        "us" -> FontTTFManager.ReggaeOneFont
-        else -> FontTTFManager.NotoSansFont
+        "ua", "uk", "ru" -> FontTTFManager.NotoSansFont
+        else -> FontTTFManager.ReggaeOneFont
     }
 
 }

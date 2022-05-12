@@ -3,6 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.veldan.veldanslots">
 
+    <uses-permission android:name="com.android.vending.BILLING" />
+
     <uses-feature android:glEsVersion="0x00020000" android:required="true" />
 
     <application
