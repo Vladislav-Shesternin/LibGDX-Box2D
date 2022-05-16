@@ -2,6 +2,11 @@ package com.veldan.veldanslots
 
 import android.app.Application
 import android.content.Context
+import com.veldan.veldanslots.utils.billing.BillingUtil
+import com.veldan.veldanslots.utils.log
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 lateinit var appContext: Context private set
 

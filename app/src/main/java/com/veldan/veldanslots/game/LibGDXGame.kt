@@ -8,6 +8,7 @@ import com.veldan.veldanslots.game.manager.NavigationManager
 import com.veldan.veldanslots.game.manager.assets.util.MusicUtil
 import com.veldan.veldanslots.game.screens.splash.SplashScreen
 import com.veldan.veldanslots.AndroidLauncher
+import com.veldan.veldanslots.utils.log
 
 lateinit var game: LibGDXGame private set
 

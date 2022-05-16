@@ -19,6 +19,7 @@ object LabelStyle {
 
     val gold_40  get() = Label.LabelStyle(FontTTFUtil.FONT.font_40.font, GOLD)
     val gold_64  get() = Label.LabelStyle(FontTTFUtil.FONT.font_64.font, GOLD)
+    val green_64 get() = Label.LabelStyle(FontTTFUtil.FONT.font_64.font, GREEN)
     val white_60 get() = Label.LabelStyle(FontTTFUtil.FONT.font_60.font, WHITE)
     val white_70 get() = Label.LabelStyle(FontTTFUtil.FONT.font_70.font, WHITE)
 
