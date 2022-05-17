@@ -7,7 +7,9 @@ import com.veldan.veldanslots.game.actors.bonusGameGroup.miniGame.boxGroup.util.
 import com.veldan.veldanslots.game.actors.slot.util.Bonus
 import com.veldan.veldanslots.game.actors.slot.util.SpinResult
 import com.veldan.veldanslots.game.manager.GameDataStoreManager
+import com.veldan.veldanslots.game.manager.NavigationManager
 import com.veldan.veldanslots.game.manager.assets.util.MusicUtil
+import com.veldan.veldanslots.game.screens.shop.ShopScreen
 import com.veldan.veldanslots.game.utils.*
 import com.veldan.veldanslots.game.utils.controller.ScreenController
 import com.veldan.veldanslots.utils.cancelCoroutinesAll
@@ -117,6 +119,7 @@ class GameScreenController(override val screen: GameScreen): ScreenController, D
                 balance - betFlow.first()
             } else {
                 // Недостаточно средств для запуска
+                NavigationManager.navigate(ShopScreen(), GameScreen())
                 continuation.complete(false)
                 balance
             }

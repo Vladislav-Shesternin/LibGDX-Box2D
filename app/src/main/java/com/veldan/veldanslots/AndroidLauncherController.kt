@@ -8,9 +8,11 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
 
-class AndroidLauncherControllerPublic(val activity: AndroidLauncher) {
+class AndroidLauncherController(val activity: AndroidLauncher) {
 
     private lateinit var coroutineLoader: CoroutineScope
+
+
 
     fun initialize() {
         with(activity) {

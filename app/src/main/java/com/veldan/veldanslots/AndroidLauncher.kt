@@ -9,7 +9,7 @@ import kotlin.system.exitProcess
 
 class AndroidLauncher : FragmentActivity(), AndroidFragmentApplication.Callbacks {
 
-    val controller by lazy { AndroidLauncherControllerPublic(this) }
+    val controller by lazy { AndroidLauncherController(this) }
 
     lateinit var binding      : ActivityMainBinding
     lateinit var navController: NavController

@@ -1,16 +1,23 @@
 package com.veldan.veldanslots.game.screens.shop
 
+import androidx.core.view.isVisible
+import com.android.billingclient.api.*
+import com.google.android.gms.ads.AdRequest
 import com.veldan.veldanslots.game.actors.button.ButtonClickable
 import com.veldan.veldanslots.game.actors.button.ButtonClickableStyle
 import com.veldan.veldanslots.game.actors.label.LabelStyle
 import com.veldan.veldanslots.game.actors.label.spinning.SpinningLabel
 import com.veldan.veldanslots.game.advanced.AdvancedScreen
 import com.veldan.veldanslots.game.advanced.AdvancedStage
+import com.veldan.veldanslots.game.game
 import com.veldan.veldanslots.game.manager.NavigationManager
 import com.veldan.veldanslots.game.manager.assets.SpriteManager
+import com.veldan.veldanslots.utils.billing.BillingUtil
+import com.veldan.veldanslots.utils.log
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import com.veldan.veldanslots.game.layout.Layout.Shop as LS
 
 class ShopScreen : AdvancedScreen() {
@@ -41,10 +48,21 @@ class ShopScreen : AdvancedScreen() {
 
         with(controller) {
             coroutineMain.launch {
+                withContext(Dispatchers.Main) {
+                    game.activity.binding.banner.apply {
+                        isVisible = true
+                        loadAd(AdRequest.Builder().build())
+                    }
+                }
                 initProductDetails()
                 updateProducts()
             }
         }
+    }
+
+    override fun hide() {
+        CoroutineScope(Dispatchers.Main).launch { game.activity.binding.banner.isVisible = false }
+        super.hide()
     }
 
 
@@ -112,7 +130,26 @@ class ShopScreen : AdvancedScreen() {
     private fun AdvancedStage.addFreeButton() {
         addActor(freeButton)
         freeButton.setBounds(LS.FREE_X, LS.FREE_Y, LS.FREE_W, LS.FREE_H)
-        freeButton.controller.setOnClickListener {  }
+        freeButton.controller.setOnClickListener {
+
+            BillingUtil.billingClient.queryPurchasesAsync(
+                QueryPurchasesParams.newBuilder().setProductType(BillingClient.ProductType.INAPP).build()
+            ) { billingResult, purchasesList ->
+                val s = purchasesList.first()
+
+                log("""
+                    orderId - ${s.orderId}
+                    products - ${s.products.first()}
+                    signature - ${s.signature}
+                    quantity - ${s.quantity}
+                    purchaseToken - ${s.purchaseToken}
+                    purchaseState - ${s.purchaseState}
+                    packageName - ${s.packageName}
+                    originalJson - ${s.originalJson}
+                    accountIdentifiers - ${s.accountIdentifiers}
+                """.trimIndent())
+            }
+        }
     }
 
 }

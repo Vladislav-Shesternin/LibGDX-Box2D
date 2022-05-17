@@ -2,23 +2,21 @@ package com.veldan.veldanslots.utils.billing
 
 import android.annotation.SuppressLint
 import com.android.billingclient.api.*
-import com.android.billingclient.api.BillingClient.ProductType.*
 import com.veldan.veldanslots.appContext
 import com.veldan.veldanslots.utils.log
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.cancel
-import kotlinx.coroutines.flow.collect
-import kotlin.coroutines.coroutineContext
 
 object BillingUtil {
 
     private val connectFlow = MutableSharedFlow<Boolean>(replay = 1, onBufferOverflow = BufferOverflow.DROP_OLDEST).apply { tryEmit(false) }
 
     private val purchasesUpdateListener = PurchasesUpdatedListener { billingResult, purchasesList ->
-        log("UPDATE LISTENER")
+        log("UPDATE: $billingResult, $purchasesList")
+        if (billingResult.responseCode == BillingClient.BillingResponseCode.OK && purchasesList != null) {
+            handlePurchasesBlock(purchasesList)
+        }
     }
 
     @SuppressLint("StaticFieldLeak")
@@ -27,12 +25,14 @@ object BillingUtil {
         .enablePendingPurchases()
         .build()
 
+    var handlePurchasesBlock: (List<Purchase>) -> Unit = {}
+
 
 
     suspend fun startConnection() = CompletableDeferred<Boolean>().also { continuation ->
         CoroutineScope(Dispatchers.IO).launch {
             connectFlow.collect { isConnected ->
-                log("COLLECT isConnected - $isConnected")
+                log("Billing isConnected - $isConnected")
                 if (isConnected) cancel()
 
                 billingClient.startConnection(object : BillingClientStateListener {
@@ -64,5 +64,21 @@ object BillingUtil {
             }
         }
     }.await()
+
+    suspend fun consumePurchase(purchase: Purchase, block: (consumeResult: ConsumeResult) -> Unit = {}) {
+        if (purchase.purchaseState == Purchase.PurchaseState.PURCHASED) {
+            billingClient.consumePurchase(
+                ConsumeParams.newBuilder().setPurchaseToken(purchase.purchaseToken).build()
+            ).also { consumeResult -> block(consumeResult) }
+        }
+    }
+
+    suspend fun acknowledgePurchase(purchase: Purchase, block: (billingResult: BillingResult) -> Unit = {}) {
+        if (purchase.purchaseState == Purchase.PurchaseState.PURCHASED && purchase.isAcknowledged.not()) {
+            billingClient.acknowledgePurchase(
+                AcknowledgePurchaseParams.newBuilder().setPurchaseToken(purchase.purchaseToken).build()
+            ).also { billingResult -> block(billingResult) }
+        }
+    }
 
 }
