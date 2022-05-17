@@ -3,6 +3,7 @@ package com.veldan.veldanslots.game.screens.shop
 import androidx.core.view.isVisible
 import com.android.billingclient.api.*
 import com.google.android.gms.ads.AdRequest
+import com.veldan.veldanslots.appContext
 import com.veldan.veldanslots.game.actors.button.ButtonClickable
 import com.veldan.veldanslots.game.actors.button.ButtonClickableStyle
 import com.veldan.veldanslots.game.actors.label.LabelStyle
@@ -10,14 +11,12 @@ import com.veldan.veldanslots.game.actors.label.spinning.SpinningLabel
 import com.veldan.veldanslots.game.advanced.AdvancedScreen
 import com.veldan.veldanslots.game.advanced.AdvancedStage
 import com.veldan.veldanslots.game.game
+import com.veldan.veldanslots.game.manager.GameDataStoreManager
 import com.veldan.veldanslots.game.manager.NavigationManager
 import com.veldan.veldanslots.game.manager.assets.SpriteManager
-import com.veldan.veldanslots.utils.billing.BillingUtil
+import com.veldan.veldanslots.utils.ads.RewardedAdUtil
 import com.veldan.veldanslots.utils.log
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.*
 import com.veldan.veldanslots.game.layout.Layout.Shop as LS
 
 class ShopScreen : AdvancedScreen() {
@@ -37,7 +36,7 @@ class ShopScreen : AdvancedScreen() {
     val megaLabel  = SpinningLabel("" , LabelStyle.green_64)
 
     // free
-    val freeButton = ButtonClickable(ButtonClickableStyle.free)
+    val freeButton = ButtonClickable(ButtonClickableStyle.free).apply { controller.pressAndDisable() }
 
 
 
@@ -54,8 +53,23 @@ class ShopScreen : AdvancedScreen() {
                         loadAd(AdRequest.Builder().build())
                     }
                 }
-                initProductDetails()
-                updateProducts()
+
+                launch {
+                    RewardedAdUtil.load(RewardedAdUtil.UnitRewardedAd.FREE_1000_COINS).also { isLoad ->
+                        if (isLoad) freeButton.controller.unpressAndEnabled()
+                    }
+                    RewardedAdUtil.onDismissBlock = {
+                        CoroutineScope(Dispatchers.Main).launch {
+                            RewardedAdUtil.load(RewardedAdUtil.UnitRewardedAd.FREE_1000_COINS).also { isLoad ->
+                                if (isLoad) freeButton.controller.unpressAndEnabled()
+                            }
+                        }
+                    }
+                }
+                launch {
+                    initProductDetails()
+                    updateProducts()
+                }
             }
         }
     }
@@ -131,23 +145,19 @@ class ShopScreen : AdvancedScreen() {
         addActor(freeButton)
         freeButton.setBounds(LS.FREE_X, LS.FREE_Y, LS.FREE_W, LS.FREE_H)
         freeButton.controller.setOnClickListener {
+            freeButton.controller.pressAndDisable()
 
-            BillingUtil.billingClient.queryPurchasesAsync(
-                QueryPurchasesParams.newBuilder().setProductType(BillingClient.ProductType.INAPP).build()
-            ) { billingResult, purchasesList ->
-                val s = purchasesList.first()
-
-                log("""
-                    orderId - ${s.orderId}
-                    products - ${s.products.first()}
-                    signature - ${s.signature}
-                    quantity - ${s.quantity}
-                    purchaseToken - ${s.purchaseToken}
-                    purchaseState - ${s.purchaseState}
-                    packageName - ${s.packageName}
-                    originalJson - ${s.originalJson}
-                    accountIdentifiers - ${s.accountIdentifiers}
-                """.trimIndent())
+            controller.coroutineMain.launch(Dispatchers.Main) {
+                RewardedAdUtil.show(game.activity) {
+                    CoroutineScope(Dispatchers.Main).launch {
+                        launch(Dispatchers.IO) { GameDataStoreManager.Balance.update { it + 1000L } }
+                        launch {
+                            RewardedAdUtil.load(RewardedAdUtil.UnitRewardedAd.FREE_1000_COINS).also { isLoad ->
+                                if (isLoad) freeButton.controller.unpressAndEnabled()
+                            }
+                        }
+                    }
+                }
             }
         }
     }
