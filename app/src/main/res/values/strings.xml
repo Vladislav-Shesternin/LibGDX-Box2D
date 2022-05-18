@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name" translatable="false">VeldanSlot</string>
+    <string name="ad_shop_banner_id" translatable="false" formatted="false">ca-app-pub-6757786625316217/5945188525</string>
+    <string name="ad_free_1000_coins_id" translatable="false" formatted="false">ca-app-pub-6757786625316217/4710878349</string>
     <string name="spin">Spin</string>
     <string name="super_game_title_1">Wild Reels Free Spins</string>
     <string name="super_game_title_2">Free spins are over</string>

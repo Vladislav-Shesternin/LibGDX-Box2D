@@ -6,6 +6,7 @@ import com.google.android.gms.ads.*
 import com.google.android.gms.ads.rewarded.RewardItem
 import com.google.android.gms.ads.rewarded.RewardedAd
 import com.google.android.gms.ads.rewarded.RewardedAdLoadCallback
+import com.veldan.veldanslots.R
 import com.veldan.veldanslots.appContext
 import com.veldan.veldanslots.utils.log
 import kotlinx.coroutines.CompletableDeferred
@@ -70,7 +71,7 @@ object RewardedAdUtil {
 
 
     enum class UnitRewardedAd(val adUnitId: String) {
-        FREE_1000_COINS("ca-app-pub-3940256099942544/5224354917")
+        FREE_1000_COINS(appContext.resources.getString(R.string.ad_free_1000_coins_id))
     }
 
 }
