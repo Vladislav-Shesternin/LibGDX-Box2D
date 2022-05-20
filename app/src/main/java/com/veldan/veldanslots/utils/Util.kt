@@ -7,6 +7,7 @@ import kotlin.random.Random
 
 fun log(message: String) {
    // Log.i("VLAD", message)
+    /// hello
 }
 
 val CharSequence.int: Int get() = toString().toInt()
