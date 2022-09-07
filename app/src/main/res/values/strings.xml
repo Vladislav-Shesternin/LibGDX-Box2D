@@ -1,13 +1,3 @@
 <resources>
-    <string name="app_name" translatable="false">VeldanSlot</string>
-    <string name="ad_shop_banner_id" translatable="false" formatted="false">ca-app-pub-6757786625316217/5945188525</string>
-    <string name="ad_free_1000_coins_id" translatable="false" formatted="false">ca-app-pub-6757786625316217/4710878349</string>
-    <string name="spin">Spin</string>
-    <string name="super_game_title_1">Wild Reels Free Spins</string>
-    <string name="super_game_title_2">Free spins are over</string>
-    <string name="t_balance">Balance - your current balance is displayed here.</string>
-    <string name="t_bet">Bet - your current bet is displayed here.</string>
-    <string name="t_spin">Spin - game start button.</string>
-    <string name="t_plus_minus">(- | +) - bet adjustment buttons.</string>
-    <string name="t_slot_group">Slot - this is where the game takes place.</string>
+    <string name="app_name" translatable="false">Game Box2d</string>
 </resources>

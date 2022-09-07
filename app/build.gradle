@@ -7,11 +7,11 @@ android {
     compileSdk 31
 
     defaultConfig {
-        applicationId "com.veldan.veldanslots"
+        applicationId "com.veldan.gamebox2d"
         minSdk 21
         targetSdk 31
-        versionCode 7
-        versionName "7"
+        versionCode 1
+        versionName "1"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -54,7 +54,6 @@ android {
 configurations { natives }
 
 dependencies {
-    implementation 'androidx.navigation:navigation-ui-ktx:2.4.1'
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
@@ -69,6 +68,11 @@ dependencies {
     natives "com.badlogicgames.gdx:gdx-freetype-platform:$gdx_version:natives-arm64-v8a"
     natives "com.badlogicgames.gdx:gdx-freetype-platform:$gdx_version:natives-x86"
     natives "com.badlogicgames.gdx:gdx-freetype-platform:$gdx_version:natives-x86_64"
+    implementation "com.badlogicgames.gdx:gdx-box2d:$gdx_version"
+    natives "com.badlogicgames.gdx:gdx-box2d-platform:$gdx_version:natives-armeabi-v7a"
+    natives "com.badlogicgames.gdx:gdx-box2d-platform:$gdx_version:natives-arm64-v8a"
+    natives "com.badlogicgames.gdx:gdx-box2d-platform:$gdx_version:natives-x86"
+    natives "com.badlogicgames.gdx:gdx-box2d-platform:$gdx_version:natives-x86_64"
     def core_version = '1.7.0'
     implementation "androidx.core:core-ktx:$core_version"
     def appcompat_version = '1.4.1'
@@ -85,13 +89,10 @@ dependencies {
     implementation "com.airbnb.android:lottie:$lottie_version"
     def billing_version = "5.0.0"
     implementation "com.android.billingclient:billing-ktx:$billing_version"
-    def ads_version = "20.6.0"
-    implementation "com.google.android.gms:play-services-ads:$ads_version"
 }
 
 task copyAndroidNatives {
     doFirst {
-        file("libs/armeabi/").mkdirs()
         file("libs/armeabi-v7a/").mkdirs()
         file("libs/arm64-v8a/").mkdirs()
         file("libs/x86_64/").mkdirs()
@@ -101,7 +102,6 @@ task copyAndroidNatives {
             def outputDir = null
             if (jar.name.endsWith("natives-arm64-v8a.jar")) outputDir = file("libs/arm64-v8a")
             if (jar.name.endsWith("natives-armeabi-v7a.jar")) outputDir = file("libs/armeabi-v7a")
-            if (jar.name.endsWith("natives-armeabi.jar")) outputDir = file("libs/armeabi")
             if (jar.name.endsWith("natives-x86_64.jar")) outputDir = file("libs/x86_64")
             if (jar.name.endsWith("natives-x86.jar")) outputDir = file("libs/x86")
             if (outputDir != null) {
@@ -140,5 +140,5 @@ task run(type: Exec) {
     }
 
     def adb = path + "/platform-tools/adb"
-    commandLine "$adb", 'shell', 'am', 'start', '-n', 'com.veldan.veldanslots/com.veldan.veldanslots.AndroidLauncher'
+    commandLine "$adb", 'shell', 'am', 'start', '-n', 'com.veldan.gamebox2d/com.veldan.gamebox2d.AndroidLauncher'
 }

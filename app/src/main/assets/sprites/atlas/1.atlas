@@ -1,278 +1,47 @@
 1.png
-size: 1812, 1686
+size: 1734, 704
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
-autospin_def
+borders
   rotate: false
-  xy: 1005, 228
-  size: 133, 133
-  orig: 133, 133
-  offset: 0, 0
-  index: -1
-autospin_dis
-  rotate: false
-  xy: 1139, 228
-  size: 133, 133
-  orig: 133, 133
-  offset: 0, 0
-  index: -1
-autospin_press
-  rotate: false
-  xy: 1273, 228
-  size: 134, 133
-  orig: 134, 133
-  offset: 0, 0
-  index: -1
-back_def
-  rotate: false
-  xy: 1552, 228
-  size: 126, 164
-  orig: 126, 164
-  offset: 0, 0
-  index: -1
-back_press
-  rotate: false
-  xy: 1679, 228
-  size: 126, 164
-  orig: 126, 164
-  offset: 0, 0
-  index: -1
-balance_panel
-  rotate: false
-  xy: 1123, 44
-  size: 449, 83
-  orig: 449, 83
-  offset: 0, 0
-  index: -1
-bet_panel
-  rotate: false
-  xy: 1120, 128
-  size: 295, 90
-  orig: 295, 90
-  offset: 0, 0
-  index: -1
-big_balance_panel
-  rotate: false
-  xy: 552, 393
-  size: 1062, 195
-  orig: 1062, 195
-  offset: 0, 0
-  index: -1
-big_circle_panel
-  rotate: false
-  xy: 1327, 590
-  size: 453, 453
-  orig: 453, 453
+  xy: 2, 2
+  size: 1400, 700
+  orig: 1400, 700
   offset: 0, 0
   index: -1
 box
   rotate: false
-  xy: 1037, 590
-  size: 289, 286
-  orig: 289, 286
+  xy: 1404, 2
+  size: 80, 80
+  orig: 80, 80
   offset: 0, 0
   index: -1
-check_box_check
+btn_deff
   rotate: false
-  xy: 1509, 128
-  size: 92, 92
-  orig: 92, 92
+  xy: 1486, 2
+  size: 100, 100
+  orig: 100, 100
   offset: 0, 0
   index: -1
-check_box_def
+btn_press
   rotate: false
-  xy: 1416, 128
-  size: 92, 91
-  orig: 92, 91
+  xy: 1588, 2
+  size: 100, 100
+  orig: 100, 100
   offset: 0, 0
   index: -1
-equals
+check
   rotate: false
-  xy: 351, 393
-  size: 200, 181
-  orig: 200, 181
+  xy: 1690, 2
+  size: 20, 20
+  orig: 20, 20
   offset: 0, 0
   index: -1
-glow
+deff
   rotate: false
-  xy: 797, 590
-  size: 239, 216
-  orig: 239, 216
-  offset: 0, 0
-  index: -1
-minus_def
-  rotate: false
-  xy: 315, 228
-  size: 114, 114
-  orig: 114, 114
-  offset: 0, 0
-  index: -1
-minus_dis
-  rotate: false
-  xy: 430, 228
-  size: 114, 114
-  orig: 114, 114
-  offset: 0, 0
-  index: -1
-minus_press
-  rotate: false
-  xy: 545, 228
-  size: 114, 114
-  orig: 114, 114
-  offset: 0, 0
-  index: -1
-music
-  rotate: false
-  xy: 101, 228
-  size: 106, 106
-  orig: 106, 106
-  offset: 0, 0
-  index: -1
-options_def
-  rotate: false
-  xy: 1602, 128
-  size: 99, 99
-  orig: 99, 99
-  offset: 0, 0
-  index: -1
-options_press
-  rotate: false
-  xy: 1702, 128
-  size: 99, 99
-  orig: 99, 99
-  offset: 0, 0
-  index: -1
-pb_controller
-  rotate: false
-  xy: 1049, 44
-  size: 73, 73
-  orig: 73, 73
-  offset: 0, 0
-  index: -1
-pb_panel
-  rotate: false
-  xy: 1, 128
-  size: 1118, 84
-  orig: 1118, 84
-  offset: 0, 0
-  index: -1
-pb_progress
-  rotate: false
-  xy: 1, 1
-  size: 1047, 42
-  orig: 1047, 42
-  offset: 0, 0
-  index: -1
-pb_progress_mask
-  rotate: false
-  xy: 1, 44
-  size: 1047, 42
-  orig: 1047, 42
-  offset: 0, 0
-  index: -1
-plus_def
-  rotate: false
-  xy: 660, 228
-  size: 114, 114
-  orig: 114, 114
-  offset: 0, 0
-  index: -1
-plus_dis
-  rotate: false
-  xy: 775, 228
-  size: 114, 114
-  orig: 114, 114
-  offset: 0, 0
-  index: -1
-plus_press
-  rotate: false
-  xy: 890, 228
-  size: 114, 114
-  orig: 114, 114
-  offset: 0, 0
-  index: -1
-shop_def
-  rotate: false
-  xy: 1, 393
-  size: 174, 174
-  orig: 174, 174
-  offset: 0, 0
-  index: -1
-shop_press
-  rotate: false
-  xy: 176, 393
-  size: 174, 174
-  orig: 174, 174
-  offset: 0, 0
-  index: -1
-slot_group_image
-  rotate: false
-  xy: 755, 1044
-  size: 870, 641
-  orig: 870, 641
-  offset: 0, 0
-  index: -1
-slot_group_mask
-  rotate: false
-  xy: 1, 1044
-  size: 753, 467
-  orig: 753, 467
-  offset: 0, 0
-  index: -1
-small_circle_panel
-  rotate: false
-  xy: 1, 228
-  size: 99, 99
-  orig: 99, 99
-  offset: 0, 0
-  index: -1
-sound
-  rotate: false
-  xy: 208, 228
-  size: 106, 106
-  orig: 106, 106
-  offset: 0, 0
-  index: -1
-spin_def
-  rotate: false
-  xy: 1615, 393
-  size: 196, 196
-  orig: 196, 196
-  offset: 0, 0
-  index: -1
-spin_dis
-  rotate: false
-  xy: 1, 590
-  size: 196, 196
-  orig: 196, 196
-  offset: 0, 0
-  index: -1
-spin_press
-  rotate: false
-  xy: 198, 590
-  size: 196, 196
-  orig: 196, 196
-  offset: 0, 0
-  index: -1
-tutorial
-  rotate: false
-  xy: 1408, 228
-  size: 143, 143
-  orig: 143, 143
-  offset: 0, 0
-  index: -1
-win 20
-  rotate: false
-  xy: 395, 590
-  size: 200, 200
-  orig: 200, 200
-  offset: 0, 0
-  index: -1
-x
-  rotate: false
-  xy: 596, 590
-  size: 200, 200
-  orig: 200, 200
+  xy: 1712, 2
+  size: 20, 20
+  orig: 20, 20
   offset: 0, 0
   index: -1
