@@ -1,43 +1,59 @@
-package com.veldan.gamebox2d.game.screens.game
+package com.veldan.gamebox2d.game.screens
 
 import com.badlogic.gdx.physics.box2d.World
 import com.badlogic.gdx.utils.Align
 import com.veldan.gamebox2d.game.actors.button.ButtonClickable
 import com.veldan.gamebox2d.game.actors.button.ButtonClickableStyle
+import com.veldan.gamebox2d.game.actors.checkbox.CheckBoxGroup
 import com.veldan.gamebox2d.game.box2d.WorldUtil
 import com.veldan.gamebox2d.game.box2d.bodies.Borders
-import com.veldan.gamebox2d.game.box2d.bodies.Box
+import com.veldan.gamebox2d.game.box2d.bodies.box.Box
+import com.veldan.gamebox2d.game.box2d.bodies.box.State
 import com.veldan.gamebox2d.game.manager.assets.SpriteManager
-import com.veldan.gamebox2d.game.utils.LayoutUtil
 import com.veldan.gamebox2d.game.utils.advanced.AdvancedScreen
 import com.veldan.gamebox2d.game.utils.advanced.AdvancedStage
 import com.veldan.gamebox2d.game.utils.disposeAll
-import com.veldan.gamebox2d.utils.log
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.launch
 import com.veldan.gamebox2d.game.utils.Layout.Game as LG
 
 class GameScreen: AdvancedScreen() {
-    private val mainLayoutUtil = LayoutUtil()
 
+    // values
+    private val checkBoxGroup = CheckBoxGroup()
+    private val textBoxList = listOf<String>("FORCE", "IMPULSE", "TORQUE")
+
+    // Actors
     private val upBtn    = ButtonClickable(ButtonClickableStyle.btn)
     private val downBtn  = ButtonClickable(ButtonClickableStyle.btn)
     private val leftBtn  = ButtonClickable(ButtonClickableStyle.btn)
     private val rightBtn = ButtonClickable(ButtonClickableStyle.btn)
+    private val nextBtn  = ButtonClickable(ButtonClickableStyle.btn)
 
-    private val borders by lazy { Borders(LG.borders.w, LG.borders.h, mainLayoutUtil, stageGame) }
-    private val boxList by lazy { List<Box>(3) { Box(LG.box.w, LG.box.h, mainLayoutUtil, stageGame) } }
-    
+    // Body
+    private val borders = Borders()
+    private val boxList = List<Box>(3) { Box(textBoxList[it], checkBoxGroup) }
+
+    // values
+    private val currentBoxFlow  = MutableStateFlow(boxList.first())
+    private var currentBoxIndex = 0
+
 
 
     override fun show() {
         super.show()
-        setGameBackground(SpriteManager.GameRegion.BACKGROUND.region)
+        setUIBackground(SpriteManager.GameRegion.BACKGROUND.region)
     }
 
     override fun render(delta: Float) {
         super.render(delta)
         WorldUtil.update(delta)
-        WorldUtil.debug(viewportGame.camera.combined)
+        WorldUtil.debug(viewportBox2d.camera.combined)
+    }
 
+    override fun World.createBodies() {
+        createBorders()
+        createBoxList()
     }
 
     override fun AdvancedStage.addActorsOnStageUI() {
@@ -45,11 +61,7 @@ class GameScreen: AdvancedScreen() {
         addDownBtn()
         addLeftBtn()
         addRightBtn()
-    }
-
-    override fun World.createBodies() {
-        createBorders()
-        createBoxList()
+        addNextBtn()
     }
 
     override fun dispose() {
@@ -67,7 +79,9 @@ class GameScreen: AdvancedScreen() {
             setBounds(LG.up.x, LG.up.y, LG.up.w, LG.up.h)
             setOrigin(Align.center)
             rotation = 0f
-            setOnClickListener {}
+            setOnClickListener {
+
+            }
         }
     }
 
@@ -77,7 +91,7 @@ class GameScreen: AdvancedScreen() {
             setBounds(LG.down.x, LG.down.y, LG.down.w, LG.down.h)
             setOrigin(Align.center)
             rotation = 180f
-            setOnClickListener {}
+            setOnClickListener { currentBoxFlow.value.state = State.STOP }
         }
     }
 
@@ -87,7 +101,7 @@ class GameScreen: AdvancedScreen() {
             setBounds(LG.left.x, LG.left.y, LG.left.w, LG.left.h)
             setOrigin(Align.center)
             rotation = 90f
-            setOnClickListener {}
+            setOnClickListener { currentBoxFlow.value.state = State.LEFT }
         }
     }
 
@@ -97,8 +111,28 @@ class GameScreen: AdvancedScreen() {
             setBounds(LG.right.x, LG.right.y, LG.right.w, LG.right.h)
             setOrigin(Align.center)
             rotation = -90f
-            setOnClickListener {  }
+
+            setOnClickListener { currentBoxFlow.value.state = State.RIGHT }
         }
+    }
+
+    private fun AdvancedStage.addNextBtn() {
+        addActor(nextBtn)
+        nextBtn.apply {
+            setBounds(LG.next.x, LG.next.y, LG.next.w, LG.next.h)
+            setOrigin(Align.center)
+            rotation = -90f
+
+            setOnClickListener {
+                when (boxList.size) {
+                    currentBoxIndex.inc() -> currentBoxIndex = 0
+                    else                  -> currentBoxIndex++
+                }
+                currentBoxFlow.value = boxList[currentBoxIndex]
+            }
+        }
+
+        updateCurrentBox()
     }
 
     // ------------------------------------------------------------------------
@@ -106,7 +140,7 @@ class GameScreen: AdvancedScreen() {
     // ------------------------------------------------------------------------
     private fun createBorders() {
         borders.apply {
-            setPosition(LG.borders.x, LG.borders.y)
+            initialize(stageUI, layoutUtil, LG.borders.x, LG.borders.y, LG.borders.w, LG.borders.h)
         }
     }
 
@@ -114,8 +148,20 @@ class GameScreen: AdvancedScreen() {
         var newX = LG.box.x
         boxList.onEach { box ->
             box.apply {
-                setPosition(newX, LG.box.y)
+                initialize(stageUI, layoutUtil, newX, LG.box.y, LG.box.w, LG.box.h)
                 newX += LG.box.w + LG.box.hs
+            }
+        }
+    }
+
+    // ------------------------------------------------------------------------
+    // Logic
+    // ------------------------------------------------------------------------
+
+    private fun updateCurrentBox() {
+        coroutineMain.launch {
+            currentBoxFlow.collect { box ->
+                box.actor.check()
             }
         }
     }

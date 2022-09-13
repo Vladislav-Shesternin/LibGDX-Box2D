@@ -6,7 +6,7 @@ import com.badlogic.gdx.utils.ScreenUtils
 import com.veldan.gamebox2d.game.utils.advanced.AdvancedGame
 import com.veldan.gamebox2d.game.manager.NavigationManager
 import com.veldan.gamebox2d.game.manager.assets.util.MusicUtil
-import com.veldan.gamebox2d.game.screens.splash.SplashScreen
+import com.veldan.gamebox2d.game.screens.SplashScreen
 import com.veldan.gamebox2d.AndroidLauncher
 
 lateinit var game: LibGDXGame private set

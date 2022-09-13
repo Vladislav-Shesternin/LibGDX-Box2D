@@ -12,6 +12,7 @@ import com.veldan.gamebox2d.game.utils.language.Language
 object FontTTFManager {
 
     private const val pathNotoSans = "font/TTF/NotoSans.ttf"
+    private const val pathInter    = "font/TTF/Inter.ttf"
 
     private val resolverInternal = InternalFileHandleResolver()
 
@@ -59,14 +60,21 @@ object FontTTFManager {
 
     object NotoSansFont: IFont {
         override val font_40 = FontTTFData("NotoSans_40", getLoaderParameter(pathNotoSans) { size = 40 })
+        override val font_12 = FontTTFData("NotoSans_12", getLoaderParameter(pathNotoSans) { size = 12 })
+    }
+
+    object InterFont: IFont {
+        override val font_40 = FontTTFData("Inter_40", getLoaderParameter(pathInter) { size = 40 })
+        override val font_12 = FontTTFData("Inter_12", getLoaderParameter(pathInter) { size = 12 })
     }
 
 
 
     interface IFont {
         val font_40: FontTTFData
+        val font_12: FontTTFData
 
-        val values get() = listOf<FontTTFData>(font_40)
+        val values get() = listOf<FontTTFData>(font_40, font_12)
     }
 
     data class FontTTFData(

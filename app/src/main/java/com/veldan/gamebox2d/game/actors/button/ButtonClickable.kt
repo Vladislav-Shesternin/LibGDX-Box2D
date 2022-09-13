@@ -8,7 +8,6 @@ import com.badlogic.gdx.scenes.scene2d.Touchable
 import com.badlogic.gdx.scenes.scene2d.ui.Image
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable
 import com.veldan.gamebox2d.game.utils.advanced.AdvancedGroup
-import com.veldan.gamebox2d.utils.log
 
 class ButtonClickable(
     style: ButtonClickableStyle? = null

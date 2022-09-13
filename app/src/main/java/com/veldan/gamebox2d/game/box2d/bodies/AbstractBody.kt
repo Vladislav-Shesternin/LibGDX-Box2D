@@ -3,52 +3,54 @@ package com.veldan.gamebox2d.game.box2d.bodies
 import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.physics.box2d.BodyDef
 import com.badlogic.gdx.physics.box2d.FixtureDef
-import com.badlogic.gdx.scenes.scene2d.ui.Image
 import com.veldan.gamebox2d.game.box2d.WorldUtil
 import com.veldan.gamebox2d.game.utils.LayoutUtil
+import com.veldan.gamebox2d.game.utils.advanced.AdvancedGroup
 import com.veldan.gamebox2d.game.utils.advanced.AdvancedStage
-import com.veldan.gamebox2d.utils.log
 
-abstract class AbstractBody(
-    open val width     : Float,
-    open val height    : Float,
-    open val layoutUtil: LayoutUtil,
-    open val stage     : AdvancedStage,
-) {
+abstract class AbstractBody {
     abstract val name      : String
     abstract val bodyDef   : BodyDef
     abstract val fixtureDef: FixtureDef
 
-    open val image: Image? = null
+    open val actor: AdvancedGroup? = null
 
-    val scale   by lazy { layoutUtil.getScale(width) }
-    val body    by lazy { WorldUtil.world.createBody(bodyDef) }
-    val center  by lazy { WorldUtil.bodyEditor.getOrigin(name, scale) }
+    lateinit var stage                : AdvancedStage
+    lateinit var layoutUtilFigmaToGame: LayoutUtil
+    lateinit var layoutUtilGameToFigma: LayoutUtil
+
+    val size = Vector2()
+
+    val scale  by lazy { layoutUtilFigmaToGame.getScale(size.x) }
+    val body   by lazy { WorldUtil.world.createBody(bodyDef) }
+    val center by lazy { WorldUtil.bodyEditor.getOrigin(name, scale) }
 
 
 
-
-    open fun AdvancedStage.addActorsOnStage() {
-        addImage()
-    }
+    open fun AdvancedGroup.addActorsOnGroup() {}
 
     open fun render() {
-        renderImage()
+        renderGroup()
     }
 
 
-    private fun AdvancedStage.addImage() {
-        image?.let {
+
+    private fun AdvancedStage.addGroup() {
+        actor?.let {
             addActor(it)
-            layoutUtil.setBounds(it, body.position.x - center.x, body.position.y - center.y, this@AbstractBody.width, this@AbstractBody.height)
+            layoutUtilGameToFigma.setPosition(it, body.position.x - center.x, body.position.y - center.y)
+            it.setSize(size.x, size.y)
+            it.addActorsOnGroup()
         }
     }
 
-    private fun renderImage() {
-        image?.apply {
-            x = body.position.x - center.x
-            y = body.position.y - center.y
-            setOrigin(center.x, center.y)
+    private fun renderGroup() {
+        actor?.apply {
+            layoutUtilGameToFigma.apply {
+                x = getX(body.position.x - center.x)
+                y = getY(body.position.y - center.y)
+                setOrigin(getX(center.x), getY(center.y))
+            }
             rotation = Math.toDegrees(body.angle.toDouble()).toFloat()
         }
     }
@@ -59,15 +61,32 @@ abstract class AbstractBody(
 
 
 
-    fun setPosition(x: Float, y: Float) {
+    fun initialize(
+        stage     : AdvancedStage,
+        layoutUtil: LayoutUtil,
+        x         : Float,
+        y         : Float,
+        width     : Float,
+        height    : Float
+    ) {
+
+        this.stage            = stage
+        layoutUtilFigmaToGame = layoutUtil.apply {
+            layoutUtilGameToFigma = LayoutUtil(figmaW, figmaH, gameW, gameH)
+        }
+        size.set(width, height)
+
         bodyDef.position.set(
             layoutUtil.getX(x) + center.x,
             layoutUtil.getY(y) + center.y
         )
 
         attachFixture()
-        stage.addActorsOnStage()
-        WorldUtil.abstractBodies.add(this)
+
+        actor?.let {
+            stage.addGroup()
+            WorldUtil.renderAbstractBodies.add(this)
+        }
     }
 
 }

@@ -1,4 +1,4 @@
-package com.veldan.gamebox2d.game.screens.splash
+package com.veldan.gamebox2d.game.screens
 
 import android.annotation.SuppressLint
 import com.badlogic.gdx.Gdx
@@ -12,7 +12,6 @@ import com.veldan.gamebox2d.game.game
 import com.veldan.gamebox2d.game.manager.NavigationManager
 import com.veldan.gamebox2d.game.manager.assets.FontTTFManager
 import com.veldan.gamebox2d.game.manager.assets.SpriteManager
-import com.veldan.gamebox2d.game.screens.game.GameScreen
 import com.veldan.gamebox2d.game.utils.Once
 import com.veldan.gamebox2d.utils.log
 import kotlinx.coroutines.cancel
@@ -65,6 +64,10 @@ class SplashScreen : AdvancedScreen() {
         with(SpriteManager) {
             loadableAtlasList   = SpriteManager.EnumAtlas.values().toMutableList()
             loadableTextureList = SpriteManager.EnumTexture.values().toMutableList()
+            load(game.assetManager)
+        }
+        with(FontTTFManager) {
+            loadListFont = (FontTTFManager.NotoSansFont.values + FontTTFManager.InterFont.values).toMutableList()
             load(game.assetManager)
         }
     }

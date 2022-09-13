@@ -8,7 +8,6 @@ import com.badlogic.gdx.physics.box2d.World
 import com.badlogic.gdx.utils.Disposable
 import com.veldan.gamebox2d.game.box2d.bodies.AbstractBody
 import com.veldan.gamebox2d.utils.cancelCoroutinesAll
-import com.veldan.gamebox2d.utils.log
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -16,7 +15,7 @@ import kotlinx.coroutines.launch
 object WorldUtil: Disposable {
 
     private const val GRAVITY_X = 0f
-    private const val GRAVITY_Y = -10f
+    private const val GRAVITY_Y = -9.8f
     private const val TIME_STEP: Float = 1f / 60f
 
     private var accumulatorTime = 0f
@@ -26,7 +25,7 @@ object WorldUtil: Disposable {
     val debugRenderer by lazy { Box2DDebugRenderer(true, true, false, true, true, true) }
     val bodyEditor    by lazy { BodyEditorLoader(Gdx.files.internal("physics/PhysicsData")) }
 
-    val abstractBodies = mutableListOf<AbstractBody>()
+    val renderAbstractBodies = mutableListOf<AbstractBody>()
 
 
 
@@ -47,7 +46,7 @@ object WorldUtil: Disposable {
             accumulatorTime -= TIME_STEP
         }
 
-        abstractBodies.onEach { coroutineMain.launch { Gdx.app.postRunnable { it.render() } } }
+        renderAbstractBodies.onEach { coroutineMain.launch { Gdx.app.postRunnable { it.render() } } }
     }
 
     fun debug(matrix4: Matrix4) {

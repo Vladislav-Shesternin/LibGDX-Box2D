@@ -3,10 +3,10 @@ package com.veldan.gamebox2d.game.utils
 import com.badlogic.gdx.scenes.scene2d.Actor
 
 class LayoutUtil(
-    val gameW: Float = GAME_W,
-    val gameH: Float = GAME_H,
-    val figmaW: Float = FIGMA_W,
-    val figmaH: Float = FIGMA_H,
+    val gameW: Float,
+    val gameH: Float,
+    val figmaW: Float,
+    val figmaH: Float,
 ) {
 
     companion object {

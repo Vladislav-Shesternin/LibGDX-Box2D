@@ -17,35 +17,37 @@ import com.veldan.gamebox2d.utils.cancelCoroutinesAll
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 
-abstract class AdvancedScreen : ScreenAdapter(), AdvancedInputProcessor {
+abstract class AdvancedScreen(
+    val gameW : Float = 100f,
+    val gameH : Float = 50f,
+    val figmaW: Float = 1400f,
+    val figmaH: Float = 700f,
+) : ScreenAdapter(), AdvancedInputProcessor {
 
     private val viewportBack by lazy { FillViewport(Gdx.graphics.width.toFloat(), Gdx.graphics.height.toFloat()) }
     private val stageBack    by lazy { AdvancedStage(viewportBack) }
 
-    val viewportGame by lazy { FitViewport(GAME_W, GAME_H) }
-    val stageGame    by lazy { AdvancedStage(viewportGame) }
-
-    val viewportUI by lazy { FitViewport(FIGMA_W, FIGMA_H) }
+    val viewportUI by lazy { FitViewport(figmaW, figmaH) }
     val stageUI    by lazy { AdvancedStage(viewportUI) }
 
-    val inputMultiplexer = InputMultiplexer()
+    val viewportBox2d by lazy { FitViewport(gameW, gameH) }
 
-    val backBackgroundImage  = Image()
-    val gameBackgroundImage  = Image()
+    val inputMultiplexer    = InputMultiplexer()
+    val backBackgroundImage = Image()
+    val uiBackgroundImage   = Image()
 
     val coroutineMain = CoroutineScope(Dispatchers.Main)
+    val layoutUtil    = LayoutUtil(gameW, gameH, figmaW, figmaH)
 
 
 
     override fun show() {
         stageBack.addActor(backBackgroundImage)
-        stageGame.apply {
-            addActor(gameBackgroundImage)
-            addActorsOnStageGame()
+        stageUI.apply {
+            addActor(uiBackgroundImage)
+            WorldUtil.world.createBodies()
+            addActorsOnStageUI()
         }
-        stageUI.addActorsOnStageUI()
-
-        WorldUtil.world.createBodies()
 
         Gdx.input.inputProcessor = inputMultiplexer.apply { addProcessors(this@AdvancedScreen, stageUI) }
         Gdx.input.setCatchKey(Input.Keys.BACK, true)
@@ -53,13 +55,12 @@ abstract class AdvancedScreen : ScreenAdapter(), AdvancedInputProcessor {
 
     override fun resize(width: Int, height: Int) {
         viewportBack.update(width, height, true)
-        viewportGame.update(width, height, true)
         viewportUI.update(width, height, true)
+        viewportBox2d.update(width, height, true)
     }
 
     override fun render(delta: Float) {
         stageBack.render()
-        stageGame.render()
         stageUI.render()
     }
 
@@ -69,7 +70,7 @@ abstract class AdvancedScreen : ScreenAdapter(), AdvancedInputProcessor {
 
     override fun dispose() {
         cancelCoroutinesAll(coroutineMain)
-        disposeAll(stageBack, stageGame, stageUI)
+        disposeAll(stageBack, stageUI)
         inputMultiplexer.clear()
     }
 
@@ -78,9 +79,8 @@ abstract class AdvancedScreen : ScreenAdapter(), AdvancedInputProcessor {
         return super.keyDown(keycode)
     }
 
-    open fun AdvancedStage.addActorsOnStageGame() {}
-    open fun AdvancedStage.addActorsOnStageUI() {}
     open fun World.createBodies() {}
+    open fun AdvancedStage.addActorsOnStageUI() {}
 
 
 
@@ -91,16 +91,16 @@ abstract class AdvancedScreen : ScreenAdapter(), AdvancedInputProcessor {
         }
     }
 
-    fun setGameBackground(texture: TextureRegion) {
-        gameBackgroundImage.apply {
+    fun setUIBackground(texture: TextureRegion) {
+        uiBackgroundImage.apply {
             drawable = TextureRegionDrawable(texture)
-            setSize(GAME_W, GAME_H)
+            setSize(figmaW, figmaH)
         }
     }
 
-    fun setBackgrounds(backRegion: TextureRegion, frontRegion: TextureRegion = backRegion) {
+    fun setBackgrounds(backRegion: TextureRegion, uiRegion: TextureRegion = backRegion) {
         setBackBackground(backRegion)
-        setGameBackground(frontRegion)
+        setUIBackground(uiRegion)
     }
 
 }
