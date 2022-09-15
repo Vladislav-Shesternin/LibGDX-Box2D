@@ -47,10 +47,10 @@ object SpriteManager {
         BTN_DEFF( EnumAtlas._1.data.atlas.findRegion("btn_deff") ),
         BTN_PRESS(EnumAtlas._1.data.atlas.findRegion("btn_press")),
         BORDERS(  EnumAtlas._1.data.atlas.findRegion("borders")  ),
-
-        BOX(      EnumAtlas._1.data.atlas.findRegion("box")  ),
-        CHECK(    EnumAtlas._1.data.atlas.findRegion("check")),
-        DEFF(     EnumAtlas._1.data.atlas.findRegion("deff") ),
+        BOX(      EnumAtlas._1.data.atlas.findRegion("box")      ),
+        CHECK(    EnumAtlas._1.data.atlas.findRegion("check")    ),
+        DEFF(     EnumAtlas._1.data.atlas.findRegion("deff")     ),
+        ARROW(    EnumAtlas._1.data.atlas.findRegion("arrow")    ),
     }
 
 

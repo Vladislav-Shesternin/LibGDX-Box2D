@@ -15,6 +15,7 @@ object Layout {
 
         val borders = LayoutData(0f, 0f, 1400f, 700f)
         val box     = LayoutData(194f, 270f, 80f, 80f, hs = 133f)
+        val arrow   = LayoutData(833f, 310f, 41f, 111f)
     }
 
     data class LayoutData(

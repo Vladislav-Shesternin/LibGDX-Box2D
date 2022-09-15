@@ -37,7 +37,8 @@ abstract class AdvancedScreen(
     val uiBackgroundImage   = Image()
 
     val coroutineMain = CoroutineScope(Dispatchers.Main)
-    val layoutUtil    = LayoutUtil(gameW, gameH, figmaW, figmaH)
+    val layoutFigmaToGame = LayoutUtil(gameW, gameH, figmaW, figmaH)
+    val layoutGameToFigma = LayoutUtil(figmaW, figmaH, gameW, gameH)
 
 
 

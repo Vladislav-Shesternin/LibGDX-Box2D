@@ -3,11 +3,16 @@ package com.veldan.gamebox2d.game.box2d
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.math.Matrix4
 import com.badlogic.gdx.math.Vector2
+import com.badlogic.gdx.physics.box2d.Body
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer
 import com.badlogic.gdx.physics.box2d.World
+import com.badlogic.gdx.utils.Array
 import com.badlogic.gdx.utils.Disposable
 import com.veldan.gamebox2d.game.box2d.bodies.AbstractBody
+import com.veldan.gamebox2d.game.utils.Once
+import com.veldan.gamebox2d.game.utils.disposeAll
 import com.veldan.gamebox2d.utils.cancelCoroutinesAll
+import com.veldan.gamebox2d.utils.log
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -25,7 +30,7 @@ object WorldUtil: Disposable {
     val debugRenderer by lazy { Box2DDebugRenderer(true, true, false, true, true, true) }
     val bodyEditor    by lazy { BodyEditorLoader(Gdx.files.internal("physics/PhysicsData")) }
 
-    val renderAbstractBodies = mutableListOf<AbstractBody>()
+    val abstractBodies = mutableListOf<AbstractBody>()
 
 
 
@@ -34,8 +39,10 @@ object WorldUtil: Disposable {
     }
 
     override fun dispose() {
+        abstractBodies.disposeAll()
         cancelCoroutinesAll(coroutineMain)
     }
+
 
 
     fun update(deltaTime: Float) {
@@ -46,7 +53,7 @@ object WorldUtil: Disposable {
             accumulatorTime -= TIME_STEP
         }
 
-        renderAbstractBodies.onEach { coroutineMain.launch { Gdx.app.postRunnable { it.render() } } }
+        abstractBodies.onEach { coroutineMain.launch { Gdx.app.postRunnable { it.render() } } }
     }
 
     fun debug(matrix4: Matrix4) {

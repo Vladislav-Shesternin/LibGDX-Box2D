@@ -3,12 +3,16 @@ package com.veldan.gamebox2d.game.box2d.bodies
 import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.physics.box2d.BodyDef
 import com.badlogic.gdx.physics.box2d.FixtureDef
+import com.badlogic.gdx.utils.Disposable
 import com.veldan.gamebox2d.game.box2d.WorldUtil
 import com.veldan.gamebox2d.game.utils.LayoutUtil
 import com.veldan.gamebox2d.game.utils.advanced.AdvancedGroup
 import com.veldan.gamebox2d.game.utils.advanced.AdvancedStage
+import com.veldan.gamebox2d.utils.cancelCoroutinesAll
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 
-abstract class AbstractBody {
+abstract class AbstractBody: Disposable {
     abstract val name      : String
     abstract val bodyDef   : BodyDef
     abstract val fixtureDef: FixtureDef
@@ -19,11 +23,18 @@ abstract class AbstractBody {
     lateinit var layoutUtilFigmaToGame: LayoutUtil
     lateinit var layoutUtilGameToFigma: LayoutUtil
 
-    val size = Vector2()
+    val size          = Vector2()
+    val coroutineMain = CoroutineScope(Dispatchers.Main)
 
     val scale  by lazy { layoutUtilFigmaToGame.getScale(size.x) }
-    val body   by lazy { WorldUtil.world.createBody(bodyDef) }
+    val body   by lazy { WorldUtil.world.createBody(bodyDef).apply { userData = this@AbstractBody } }
     val center by lazy { WorldUtil.bodyEditor.getOrigin(name, scale) }
+
+
+
+    override fun dispose() {
+        cancelCoroutinesAll(coroutineMain)
+    }
 
 
 
@@ -82,11 +93,9 @@ abstract class AbstractBody {
         )
 
         attachFixture()
+        WorldUtil.abstractBodies.add(this)
 
-        actor?.let {
-            stage.addGroup()
-            WorldUtil.renderAbstractBodies.add(this)
-        }
+        actor?.let { stage.addGroup() }
     }
 
 }

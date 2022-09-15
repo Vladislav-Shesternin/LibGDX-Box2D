@@ -79,9 +79,7 @@ class GameScreen: AdvancedScreen() {
             setBounds(LG.up.x, LG.up.y, LG.up.w, LG.up.h)
             setOrigin(Align.center)
             rotation = 0f
-            setOnClickListener {
-
-            }
+            setOnClickListener { currentBoxFlow.value.stateFlow.tryEmit(State.UP) }
         }
     }
 
@@ -91,7 +89,7 @@ class GameScreen: AdvancedScreen() {
             setBounds(LG.down.x, LG.down.y, LG.down.w, LG.down.h)
             setOrigin(Align.center)
             rotation = 180f
-            setOnClickListener { currentBoxFlow.value.state = State.STOP }
+            setOnClickListener { currentBoxFlow.value.stateFlow.tryEmit(State.STOP) }
         }
     }
 
@@ -101,7 +99,7 @@ class GameScreen: AdvancedScreen() {
             setBounds(LG.left.x, LG.left.y, LG.left.w, LG.left.h)
             setOrigin(Align.center)
             rotation = 90f
-            setOnClickListener { currentBoxFlow.value.state = State.LEFT }
+            setOnClickListener { currentBoxFlow.value.stateFlow.tryEmit(State.LEFT) }
         }
     }
 
@@ -112,7 +110,7 @@ class GameScreen: AdvancedScreen() {
             setOrigin(Align.center)
             rotation = -90f
 
-            setOnClickListener { currentBoxFlow.value.state = State.RIGHT }
+            setOnClickListener { currentBoxFlow.value.stateFlow.tryEmit(State.RIGHT) }
         }
     }
 
@@ -140,7 +138,7 @@ class GameScreen: AdvancedScreen() {
     // ------------------------------------------------------------------------
     private fun createBorders() {
         borders.apply {
-            initialize(stageUI, layoutUtil, LG.borders.x, LG.borders.y, LG.borders.w, LG.borders.h)
+            initialize(stageUI, layoutFigmaToGame, LG.borders.x, LG.borders.y, LG.borders.w, LG.borders.h)
         }
     }
 
@@ -148,7 +146,7 @@ class GameScreen: AdvancedScreen() {
         var newX = LG.box.x
         boxList.onEach { box ->
             box.apply {
-                initialize(stageUI, layoutUtil, newX, LG.box.y, LG.box.w, LG.box.h)
+                initialize(stageUI, layoutFigmaToGame, newX, LG.box.y, LG.box.w, LG.box.h)
                 newX += LG.box.w + LG.box.hs
             }
         }

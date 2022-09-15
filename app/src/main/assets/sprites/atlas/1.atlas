@@ -1,46 +1,53 @@
 1.png
-size: 1734, 704
+size: 1777, 704
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
-borders
+arrow
   rotate: false
   xy: 2, 2
+  size: 41, 111
+  orig: 41, 111
+  offset: 0, 0
+  index: -1
+borders
+  rotate: false
+  xy: 45, 2
   size: 1400, 700
   orig: 1400, 700
   offset: 0, 0
   index: -1
 box
   rotate: false
-  xy: 1404, 2
+  xy: 1447, 2
   size: 80, 80
   orig: 80, 80
   offset: 0, 0
   index: -1
 btn_deff
   rotate: false
-  xy: 1486, 2
+  xy: 1529, 2
   size: 100, 100
   orig: 100, 100
   offset: 0, 0
   index: -1
 btn_press
   rotate: false
-  xy: 1588, 2
+  xy: 1631, 2
   size: 100, 100
   orig: 100, 100
   offset: 0, 0
   index: -1
 check
   rotate: false
-  xy: 1690, 2
+  xy: 1733, 2
   size: 20, 20
   orig: 20, 20
   offset: 0, 0
   index: -1
 deff
   rotate: false
-  xy: 1712, 2
+  xy: 1755, 2
   size: 20, 20
   orig: 20, 20
   offset: 0, 0

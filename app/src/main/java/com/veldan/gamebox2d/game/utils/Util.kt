@@ -25,6 +25,10 @@ fun disposeAll(vararg disposable: Disposable) {
     disposable.forEach { it.dispose() }
 }
 
+fun List<Disposable>.disposeAll() {
+    onEach { it.dispose() }
+}
+
 fun Batch.beginend(block: Batch.() -> Unit = { }) {
     begin()
     block()
