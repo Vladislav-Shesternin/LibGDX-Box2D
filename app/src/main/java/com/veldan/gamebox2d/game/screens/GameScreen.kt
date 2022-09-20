@@ -7,6 +7,7 @@ import com.veldan.gamebox2d.game.actors.button.ButtonClickableStyle
 import com.veldan.gamebox2d.game.actors.checkbox.CheckBoxGroup
 import com.veldan.gamebox2d.game.box2d.WorldUtil
 import com.veldan.gamebox2d.game.box2d.bodies.Borders
+import com.veldan.gamebox2d.game.box2d.bodies.Collision
 import com.veldan.gamebox2d.game.box2d.bodies.box.Box
 import com.veldan.gamebox2d.game.box2d.bodies.box.State
 import com.veldan.gamebox2d.game.manager.assets.SpriteManager
@@ -15,6 +16,7 @@ import com.veldan.gamebox2d.game.utils.advanced.AdvancedStage
 import com.veldan.gamebox2d.game.utils.disposeAll
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
+import kotlin.experimental.or
 import com.veldan.gamebox2d.game.utils.Layout.Game as LG
 
 class GameScreen: AdvancedScreen() {
@@ -144,10 +146,17 @@ class GameScreen: AdvancedScreen() {
 
     private fun createBoxList() {
         var newX = LG.box.x
-        boxList.onEach { box ->
+        boxList.onEachIndexed { index, box ->
             box.apply {
                 initialize(stageUI, layoutFigmaToGame, newX, LG.box.y, LG.box.w, LG.box.h)
                 newX += LG.box.w + LG.box.hs
+            }
+
+            if (index == 1) box.body.fixtureList.first().apply {
+                filterData = filterData.apply {
+                    categoryBits = Collision.Bits.BOX_2.bit
+                    maskBits = Collision.Bits.BORDERS.bit or Collision.Bits.BOX_1.bit
+                }
             }
         }
     }

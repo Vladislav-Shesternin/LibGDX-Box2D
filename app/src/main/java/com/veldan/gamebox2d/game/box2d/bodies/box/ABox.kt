@@ -2,6 +2,7 @@ package com.veldan.gamebox2d.game.box2d.bodies.box
 
 import com.badlogic.gdx.scenes.scene2d.ui.Image
 import com.badlogic.gdx.scenes.scene2d.ui.Label
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable
 import com.badlogic.gdx.utils.Align
 import com.veldan.gamebox2d.game.actors.checkbox.CheckBox
 import com.veldan.gamebox2d.game.actors.checkbox.CheckBoxGroup
@@ -69,6 +70,14 @@ class ABox(
     // ------------------------------------------------------------------------
     fun check() {
         checkBox.check()
+    }
+
+    fun beginContact() {
+        image.drawable = TextureRegionDrawable(SpriteManager.GameRegion.BOX_CONTACT.region)
+    }
+
+    fun endContact() {
+        image.drawable = TextureRegionDrawable(SpriteManager.GameRegion.BOX.region)
     }
 
 }

@@ -44,6 +44,10 @@ abstract class AbstractBody: Disposable {
         renderGroup()
     }
 
+    open fun beginContact(contactBody: AbstractBody) {}
+
+    open fun endContact(contactBody: AbstractBody) {}
+
 
 
     private fun AdvancedStage.addGroup() {

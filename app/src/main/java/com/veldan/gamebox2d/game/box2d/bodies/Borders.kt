@@ -7,6 +7,8 @@ import com.veldan.gamebox2d.game.manager.assets.SpriteManager
 import com.veldan.gamebox2d.game.utils.LayoutUtil
 import com.veldan.gamebox2d.game.utils.advanced.AdvancedGroup
 import com.veldan.gamebox2d.game.utils.advanced.AdvancedStage
+import kotlin.experimental.and
+import kotlin.experimental.or
 
 class Borders: AbstractBody() {
 
@@ -14,7 +16,12 @@ class Borders: AbstractBody() {
     override val bodyDef    = BodyDef().apply {
         type = BodyDef.BodyType.StaticBody
     }
-    override val fixtureDef = FixtureDef()
+    override val fixtureDef = FixtureDef().apply {
+        filter.apply {
+            categoryBits = Collision.Bits.BORDERS.bit
+            maskBits = Collision.Bits.BOX_1.bit or Collision.Bits.BOX_2.bit
+        }
+    }
     override val actor      = AdvancedGroup()
 
 

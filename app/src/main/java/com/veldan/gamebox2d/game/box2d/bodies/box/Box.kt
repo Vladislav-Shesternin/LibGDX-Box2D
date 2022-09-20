@@ -6,17 +6,17 @@ import com.badlogic.gdx.physics.box2d.FixtureDef
 import com.veldan.gamebox2d.game.actors.checkbox.CheckBoxGroup
 import com.veldan.gamebox2d.game.actors.label.LabelStyle
 import com.veldan.gamebox2d.game.box2d.bodies.AbstractBody
+import com.veldan.gamebox2d.game.box2d.bodies.Collision
 import com.veldan.gamebox2d.game.box2d.bodies.box.State.*
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import kotlin.experimental.or
 import kotlin.math.max
 import kotlin.math.min
 
 class Box(
-    text         : String?        = null,
+    val text         : String?    = null,
     checkBoxGroup: CheckBoxGroup? = null,
 ): AbstractBody() {
 
@@ -27,14 +27,16 @@ class Box(
     override val fixtureDef = FixtureDef().apply {
         density     = 1f
         restitution = 0.5f
+        filter.apply {
+            categoryBits = Collision.Bits.BOX_1.bit
+            maskBits = Collision.Bits.BORDERS.bit or Collision.Bits.BOX_2.bit
+        }
     }
     override val actor      = ABox(text, LabelStyle.inter_Black_12, checkBoxGroup)
 
     var stateFlow = MutableSharedFlow<State>(replay = 1, onBufferOverflow = BufferOverflow.DROP_OLDEST)
 
-    private var state         = STOP
-    private var jumpStepCount = 6
-
+    private var state = STOP
 
 
     init {
@@ -52,6 +54,10 @@ class Box(
             }
             body.linearVelocity = velocity
         }
+    }
+
+    override fun beginContact(contactBody: AbstractBody) {
+
     }
 
 
