@@ -13,9 +13,11 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 
 abstract class AbstractBody: Disposable {
-    abstract val name      : String
-    abstract val bodyDef   : BodyDef
-    abstract val fixtureDef: FixtureDef
+    abstract var id           : BodyId
+    abstract val name         : String
+    abstract val bodyDef      : BodyDef
+    abstract val fixtureDef   : FixtureDef
+    abstract val collisionList: MutableList<BodyId>
 
     open val actor: AdvancedGroup? = null
 
@@ -92,8 +94,8 @@ abstract class AbstractBody: Disposable {
         size.set(width, height)
 
         bodyDef.position.set(
-            layoutUtil.getX(x) + center.x,
-            layoutUtil.getY(y) + center.y
+            layoutUtilFigmaToGame.getX(x) + center.x,
+            layoutUtilFigmaToGame.getY(y) + center.y
         )
 
         attachFixture()

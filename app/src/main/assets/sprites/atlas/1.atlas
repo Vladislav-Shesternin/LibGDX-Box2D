@@ -1,61 +1,61 @@
 1.png
-size: 1859, 704
+size: 1404, 1030
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
-arrow
-  rotate: false
-  xy: 2, 2
-  size: 41, 111
-  orig: 41, 111
-  offset: 0, 0
-  index: -1
 borders
   rotate: false
-  xy: 45, 2
+  xy: 2, 328
   size: 1400, 700
   orig: 1400, 700
   offset: 0, 0
   index: -1
-box
-  rotate: false
-  xy: 1447, 2
-  size: 80, 80
-  orig: 80, 80
-  offset: 0, 0
-  index: -1
-box_contact
-  rotate: false
-  xy: 1529, 2
-  size: 80, 80
-  orig: 80, 80
-  offset: 0, 0
-  index: -1
 btn_deff
   rotate: false
-  xy: 1611, 2
+  xy: 128, 2
   size: 100, 100
   orig: 100, 100
   offset: 0, 0
   index: -1
 btn_press
   rotate: false
-  xy: 1713, 2
+  xy: 230, 2
   size: 100, 100
   orig: 100, 100
   offset: 0, 0
   index: -1
 check
   rotate: false
-  xy: 1815, 2
-  size: 20, 20
-  orig: 20, 20
+  xy: 2, 2
+  size: 61, 61
+  orig: 61, 61
   offset: 0, 0
   index: -1
 deff
   rotate: false
-  xy: 1837, 2
-  size: 20, 20
-  orig: 20, 20
+  xy: 65, 2
+  size: 61, 61
+  orig: 61, 61
+  offset: 0, 0
+  index: -1
+sensor
+  rotate: false
+  xy: 560, 2
+  size: 324, 324
+  orig: 324, 324
+  offset: 0, 0
+  index: -1
+sensor_def
+  rotate: false
+  xy: 332, 2
+  size: 112, 112
+  orig: 112, 112
+  offset: 0, 0
+  index: -1
+sensor_discovered
+  rotate: false
+  xy: 446, 2
+  size: 112, 112
+  orig: 112, 112
   offset: 0, 0
   index: -1

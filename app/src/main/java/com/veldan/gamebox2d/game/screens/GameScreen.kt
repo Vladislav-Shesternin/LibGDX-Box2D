@@ -4,26 +4,21 @@ import com.badlogic.gdx.physics.box2d.World
 import com.badlogic.gdx.utils.Align
 import com.veldan.gamebox2d.game.actors.button.ButtonClickable
 import com.veldan.gamebox2d.game.actors.button.ButtonClickableStyle
-import com.veldan.gamebox2d.game.actors.checkbox.CheckBoxGroup
 import com.veldan.gamebox2d.game.box2d.WorldUtil
-import com.veldan.gamebox2d.game.box2d.bodies.Borders
+import com.veldan.gamebox2d.game.box2d.bodies.BodyId
 import com.veldan.gamebox2d.game.box2d.bodies.Collision
-import com.veldan.gamebox2d.game.box2d.bodies.box.Box
-import com.veldan.gamebox2d.game.box2d.bodies.box.State
+import com.veldan.gamebox2d.game.box2d.bodies.borders.Borders
+import com.veldan.gamebox2d.game.box2d.bodies.car.Car
+import com.veldan.gamebox2d.game.box2d.bodies.locator.Locator
 import com.veldan.gamebox2d.game.manager.assets.SpriteManager
 import com.veldan.gamebox2d.game.utils.advanced.AdvancedScreen
 import com.veldan.gamebox2d.game.utils.advanced.AdvancedStage
 import com.veldan.gamebox2d.game.utils.disposeAll
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
-import kotlin.experimental.or
 import com.veldan.gamebox2d.game.utils.Layout.Game as LG
 
 class GameScreen: AdvancedScreen() {
-
-    // values
-    private val checkBoxGroup = CheckBoxGroup()
-    private val textBoxList = listOf<String>("FORCE", "IMPULSE", "TORQUE")
 
     // Actors
     private val upBtn    = ButtonClickable(ButtonClickableStyle.btn)
@@ -34,11 +29,12 @@ class GameScreen: AdvancedScreen() {
 
     // Body
     private val borders = Borders()
-    private val boxList = List<Box>(3) { Box(textBoxList[it], checkBoxGroup) }
+    private val carList = List<Car>(3) { Car() }
+    private val locator = Locator()
 
     // values
-    private val currentBoxFlow  = MutableStateFlow(boxList.first())
-    private var currentBoxIndex = 0
+    private val currentCarFlow  = MutableStateFlow(carList.first())
+    private var currentCarIndex = 0
 
 
 
@@ -55,7 +51,8 @@ class GameScreen: AdvancedScreen() {
 
     override fun World.createBodies() {
         createBorders()
-        createBoxList()
+        createCarList()
+        createLocator()
     }
 
     override fun AdvancedStage.addActorsOnStageUI() {
@@ -81,7 +78,7 @@ class GameScreen: AdvancedScreen() {
             setBounds(LG.up.x, LG.up.y, LG.up.w, LG.up.h)
             setOrigin(Align.center)
             rotation = 0f
-            setOnClickListener { currentBoxFlow.value.stateFlow.tryEmit(State.UP) }
+            setOnClickListener { currentCarFlow.value.stateFlow.tryEmit(Car.State.UP) }
         }
     }
 
@@ -91,7 +88,7 @@ class GameScreen: AdvancedScreen() {
             setBounds(LG.down.x, LG.down.y, LG.down.w, LG.down.h)
             setOrigin(Align.center)
             rotation = 180f
-            setOnClickListener { currentBoxFlow.value.stateFlow.tryEmit(State.STOP) }
+            setOnClickListener { currentCarFlow.value.stateFlow.tryEmit(Car.State.DOWN) }
         }
     }
 
@@ -101,7 +98,7 @@ class GameScreen: AdvancedScreen() {
             setBounds(LG.left.x, LG.left.y, LG.left.w, LG.left.h)
             setOrigin(Align.center)
             rotation = 90f
-            setOnClickListener { currentBoxFlow.value.stateFlow.tryEmit(State.LEFT) }
+            setOnClickListener { currentCarFlow.value.stateFlow.tryEmit(Car.State.LEFT) }
         }
     }
 
@@ -112,7 +109,7 @@ class GameScreen: AdvancedScreen() {
             setOrigin(Align.center)
             rotation = -90f
 
-            setOnClickListener { currentBoxFlow.value.stateFlow.tryEmit(State.RIGHT) }
+            setOnClickListener { currentCarFlow.value.stateFlow.tryEmit(Car.State.RIGHT) }
         }
     }
 
@@ -124,15 +121,15 @@ class GameScreen: AdvancedScreen() {
             rotation = -90f
 
             setOnClickListener {
-                when (boxList.size) {
-                    currentBoxIndex.inc() -> currentBoxIndex = 0
-                    else                  -> currentBoxIndex++
+                when (carList.size) {
+                    currentCarIndex.inc() -> currentCarIndex = 0
+                    else                  -> currentCarIndex++
                 }
-                currentBoxFlow.value = boxList[currentBoxIndex]
+                currentCarFlow.value = carList[currentCarIndex]
             }
         }
 
-        updateCurrentBox()
+        updateCurrentCar()
     }
 
     // ------------------------------------------------------------------------
@@ -144,30 +141,27 @@ class GameScreen: AdvancedScreen() {
         }
     }
 
-    private fun createBoxList() {
-        var newX = LG.box.x
-        boxList.onEachIndexed { index, box ->
-            box.apply {
-                initialize(stageUI, layoutFigmaToGame, newX, LG.box.y, LG.box.w, LG.box.h)
-                newX += LG.box.w + LG.box.hs
-            }
+    private fun createCarList() {
+        var newX = LG.car.x
+        carList.onEachIndexed { index, car ->
+            if (index == 2) car.id = BodyId.CAR_2
 
-            if (index == 1) box.body.fixtureList.first().apply {
-                filterData = filterData.apply {
-                    categoryBits = Collision.Bits.BOX_2.bit
-                    maskBits = Collision.Bits.BORDERS.bit or Collision.Bits.BOX_1.bit
-                }
-            }
+            car.initialize(stageUI, layoutFigmaToGame, newX, LG.car.y, LG.car.w, LG.car.h)
+            newX += LG.car.w + LG.car.hs
         }
+    }
+
+    private fun createLocator() {
+        locator.initialize(stageUI, layoutFigmaToGame, LG.locator.x, LG.locator.y, LG.locator.w, LG.locator.h)
     }
 
     // ------------------------------------------------------------------------
     // Logic
     // ------------------------------------------------------------------------
 
-    private fun updateCurrentBox() {
+    private fun updateCurrentCar() {
         coroutineMain.launch {
-            currentBoxFlow.collect { box ->
+            currentCarFlow.collect { box ->
                 box.actor.check()
             }
         }

@@ -14,8 +14,8 @@ object Layout {
         val next  = LayoutData(1280f,580f,100f,100f)
 
         val borders = LayoutData(0f, 0f, 1400f, 700f)
-        val box     = LayoutData(194f, 270f, 80f, 80f, hs = 133f)
-        val arrow   = LayoutData(833f, 310f, 41f, 111f)
+        val car     = LayoutData(40f, 40f, 61f, 61f, hs = 20f)
+        val locator = LayoutData(538f, 188f, 324f, 324f)
     }
 
     data class LayoutData(

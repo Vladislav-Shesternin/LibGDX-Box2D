@@ -8,9 +8,13 @@ data class CheckBoxStyle(
     val checked: TextureRegion,
 ) {
     companion object {
-        val box get() = CheckBoxStyle(
+        val car get() = CheckBoxStyle(
             default = SpriteManager.GameRegion.DEFF.region,
             checked = SpriteManager.GameRegion.CHECK.region,
+        )
+        val locator get() = CheckBoxStyle(
+            default = SpriteManager.GameRegion.SENSOR_DEF.region,
+            checked = SpriteManager.GameRegion.SENSOR_DISCOVERED.region,
         )
     }
 }

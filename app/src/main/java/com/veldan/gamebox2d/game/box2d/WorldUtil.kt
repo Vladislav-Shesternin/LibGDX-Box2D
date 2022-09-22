@@ -3,16 +3,14 @@ package com.veldan.gamebox2d.game.box2d
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.math.Matrix4
 import com.badlogic.gdx.math.Vector2
-import com.badlogic.gdx.physics.box2d.Body
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer
+import com.badlogic.gdx.physics.box2d.ContactFilter
+import com.badlogic.gdx.physics.box2d.Fixture
 import com.badlogic.gdx.physics.box2d.World
-import com.badlogic.gdx.utils.Array
 import com.badlogic.gdx.utils.Disposable
 import com.veldan.gamebox2d.game.box2d.bodies.AbstractBody
-import com.veldan.gamebox2d.game.utils.Once
 import com.veldan.gamebox2d.game.utils.disposeAll
 import com.veldan.gamebox2d.utils.cancelCoroutinesAll
-import com.veldan.gamebox2d.utils.log
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -20,7 +18,7 @@ import kotlinx.coroutines.launch
 object WorldUtil: Disposable {
 
     private const val GRAVITY_X = 0f
-    private const val GRAVITY_Y = -9.8f
+    private const val GRAVITY_Y = 0f//-9.8f
     private const val TIME_STEP: Float = 1f / 60f
 
     private var accumulatorTime = 0f
@@ -36,6 +34,7 @@ object WorldUtil: Disposable {
 
     init {
         world.setContactListener(WorldContactListener)
+        world.setContactFilter(WorldContactFilter)
     }
 
     override fun dispose() {

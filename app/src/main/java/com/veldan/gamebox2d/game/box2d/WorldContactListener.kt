@@ -15,8 +15,8 @@ object WorldContactListener: ContactListener {
 
     override fun endContact(contact: Contact) {
         with(contact) {
-            (fixtureA.body.userData as AbstractBody).endContact((fixtureA.body.userData as AbstractBody))
-            (fixtureB.body.userData as AbstractBody).endContact((fixtureB.body.userData as AbstractBody))
+            (fixtureA.body.userData as AbstractBody).endContact((fixtureB.body.userData as AbstractBody))
+            (fixtureB.body.userData as AbstractBody).endContact((fixtureA.body.userData as AbstractBody))
         }
     }
 

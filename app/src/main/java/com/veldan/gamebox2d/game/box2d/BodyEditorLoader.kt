@@ -1,9 +1,11 @@
 package com.veldan.gamebox2d.game.box2d
 
 import com.badlogic.gdx.files.FileHandle
-import com.badlogic.gdx.math.Matrix3
 import com.badlogic.gdx.math.Vector2
-import com.badlogic.gdx.physics.box2d.*
+import com.badlogic.gdx.physics.box2d.Body
+import com.badlogic.gdx.physics.box2d.CircleShape
+import com.badlogic.gdx.physics.box2d.FixtureDef
+import com.badlogic.gdx.physics.box2d.PolygonShape
 import com.badlogic.gdx.utils.JsonReader
 import com.badlogic.gdx.utils.JsonValue
 
@@ -33,7 +35,7 @@ class BodyEditorLoader {
     // -------------------------------------------------------------------------
     fun attachFixture(body: Body, name: String, fd: FixtureDef, scale: Float = 1f) {
         val rbModel = internalModel.rigidBodies[name] ?: throw RuntimeException("Name '$name' was not found.")
-        val origin = Vector2().set(rbModel.origin).scale(scale)
+        val origin = Vector2().set(rbModel.origin).scl(scale)
         run {
             var i = 0
             val n = rbModel.polygons.size
@@ -44,7 +46,7 @@ class BodyEditorLoader {
                     var ii = 0
                     val nn = vertices.size
                     while (ii < nn) {
-                        vertices[ii] = newVec().set(polygon.vertices[ii]).scale(scale)
+                        vertices[ii] = newVec().set(polygon.vertices[ii]).scl(scale)
                         vertices[ii]?.sub(origin)
                         ii++
                     }
@@ -65,7 +67,7 @@ class BodyEditorLoader {
         val n = rbModel.circles.size
         while (i < n) {
             val circle = rbModel.circles[i]
-            val center = newVec().set(circle.center).scale(scale)
+            val center = newVec().set(circle.center).scl(scale)
             val radius = circle.radius * scale
             circleShape.position = center
             circleShape.radius = radius
@@ -83,7 +85,7 @@ class BodyEditorLoader {
 
     fun getOrigin(name: String, scale: Float = 1f): Vector2 {
         val rbModel = internalModel.rigidBodies[name] ?: throw RuntimeException("Name '$name' was not found.")
-        return Vector2(rbModel.origin).scale(scale)
+        return Vector2(rbModel.origin).scl(scale)
     }
 
     // -------------------------------------------------------------------------
@@ -186,5 +188,4 @@ class BodyEditorLoader {
         vectorPool.add(v)
     }
 
-    private fun Vector2.scale(scale: Float) = mul(Matrix3().scale(scale, scale))
 }
