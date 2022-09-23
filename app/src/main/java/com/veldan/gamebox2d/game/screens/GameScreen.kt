@@ -1,12 +1,16 @@
 package com.veldan.gamebox2d.game.screens
 
+import com.badlogic.gdx.math.Vector2
+import com.badlogic.gdx.physics.box2d.Fixture
+import com.badlogic.gdx.physics.box2d.QueryCallback
 import com.badlogic.gdx.physics.box2d.World
+import com.badlogic.gdx.scenes.scene2d.Actor
 import com.badlogic.gdx.utils.Align
 import com.veldan.gamebox2d.game.actors.button.ButtonClickable
 import com.veldan.gamebox2d.game.actors.button.ButtonClickableStyle
 import com.veldan.gamebox2d.game.box2d.WorldUtil
+import com.veldan.gamebox2d.game.box2d.bodies.AbstractBody
 import com.veldan.gamebox2d.game.box2d.bodies.BodyId
-import com.veldan.gamebox2d.game.box2d.bodies.Collision
 import com.veldan.gamebox2d.game.box2d.bodies.borders.Borders
 import com.veldan.gamebox2d.game.box2d.bodies.car.Car
 import com.veldan.gamebox2d.game.box2d.bodies.locator.Locator
@@ -14,6 +18,7 @@ import com.veldan.gamebox2d.game.manager.assets.SpriteManager
 import com.veldan.gamebox2d.game.utils.advanced.AdvancedScreen
 import com.veldan.gamebox2d.game.utils.advanced.AdvancedStage
 import com.veldan.gamebox2d.game.utils.disposeAll
+import com.veldan.gamebox2d.utils.log
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import com.veldan.gamebox2d.game.utils.Layout.Game as LG
@@ -35,6 +40,8 @@ class GameScreen: AdvancedScreen() {
     // values
     private val currentCarFlow  = MutableStateFlow(carList.first())
     private var currentCarIndex = 0
+
+    private val actorAABB = Actor()
 
 
 
@@ -61,11 +68,36 @@ class GameScreen: AdvancedScreen() {
         addLeftBtn()
         addRightBtn()
         addNextBtn()
+
+        addActor(actorAABB)
+        actorAABB.setBounds(40f, 250f, 150f, 70f)
+        actorAABB.debug()
     }
 
     override fun dispose() {
         super.dispose()
         disposeAll(WorldUtil)
+    }
+
+    override fun touchDragged(screenX: Int, screenY: Int, pointer: Int): Boolean {
+        viewportUI.unproject(Vector2(screenX.toFloat(), screenY.toFloat())).apply {
+            actorAABB.x = (x - actorAABB.width / 2)
+            actorAABB.y = (y - actorAABB.height / 2)
+        }
+
+        layoutFigmaToGame.apply {
+            WorldUtil.world.QueryAABB(
+                { fixture ->
+                    log("fix - ${fixture.body.userData as AbstractBody}")
+                    false
+                },
+                getX(actorAABB.x),
+                getY(actorAABB.y),
+                getX(actorAABB.x + actorAABB.width),
+                getY(actorAABB.y + actorAABB.height),
+            )
+        }
+        return false
     }
 
     // ------------------------------------------------------------------------

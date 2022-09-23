@@ -25,7 +25,7 @@ object WorldUtil: Disposable {
     private val coroutineMain   = CoroutineScope(Dispatchers.Main)
 
     val world         by lazy { World(Vector2(GRAVITY_X, GRAVITY_Y), true) }
-    val debugRenderer by lazy { Box2DDebugRenderer(true, true, false, true, true, true) }
+    val debugRenderer by lazy { Box2DDebugRenderer(true, true, true, true, true, true) }
     val bodyEditor    by lazy { BodyEditorLoader(Gdx.files.internal("physics/PhysicsData")) }
 
     val abstractBodies = mutableListOf<AbstractBody>()
