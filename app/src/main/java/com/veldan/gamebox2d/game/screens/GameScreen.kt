@@ -1,15 +1,15 @@
 package com.veldan.gamebox2d.game.screens
 
+import com.badlogic.gdx.math.MathUtils
 import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.physics.box2d.Fixture
-import com.badlogic.gdx.physics.box2d.QueryCallback
+import com.badlogic.gdx.physics.box2d.RayCastCallback
 import com.badlogic.gdx.physics.box2d.World
 import com.badlogic.gdx.scenes.scene2d.Actor
 import com.badlogic.gdx.utils.Align
 import com.veldan.gamebox2d.game.actors.button.ButtonClickable
 import com.veldan.gamebox2d.game.actors.button.ButtonClickableStyle
 import com.veldan.gamebox2d.game.box2d.WorldUtil
-import com.veldan.gamebox2d.game.box2d.bodies.AbstractBody
 import com.veldan.gamebox2d.game.box2d.bodies.BodyId
 import com.veldan.gamebox2d.game.box2d.bodies.borders.Borders
 import com.veldan.gamebox2d.game.box2d.bodies.car.Car
@@ -21,6 +21,9 @@ import com.veldan.gamebox2d.game.utils.disposeAll
 import com.veldan.gamebox2d.utils.log
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
+import kotlin.math.absoluteValue
+import kotlin.math.pow
+import kotlin.math.sqrt
 import com.veldan.gamebox2d.game.utils.Layout.Game as LG
 
 class GameScreen: AdvancedScreen() {
@@ -41,7 +44,7 @@ class GameScreen: AdvancedScreen() {
     private val currentCarFlow  = MutableStateFlow(carList.first())
     private var currentCarIndex = 0
 
-    private val actorAABB = Actor()
+    private val actorRayCast = Actor()
 
 
 
@@ -49,11 +52,18 @@ class GameScreen: AdvancedScreen() {
         super.show()
         setUIBackground(SpriteManager.GameRegion.BACKGROUND.region)
     }
-
+val d = Vector2()
     override fun render(delta: Float) {
         super.render(delta)
         WorldUtil.update(delta)
         WorldUtil.debug(viewportBox2d.camera.combined)
+
+        WorldUtil.world.rayCast(cb,
+            layoutFigmaToGame.getX(actorRayCast.x),
+            layoutFigmaToGame.getY(actorRayCast.y),
+            layoutFigmaToGame.getX(d.x),
+            layoutFigmaToGame.getY(d.y),
+        )
     }
 
     override fun World.createBodies() {
@@ -69,9 +79,9 @@ class GameScreen: AdvancedScreen() {
         addRightBtn()
         addNextBtn()
 
-        addActor(actorAABB)
-        actorAABB.setBounds(40f, 250f, 150f, 70f)
-        actorAABB.debug()
+        addActor(actorRayCast)
+        actorRayCast.setBounds(440f, 317f, 150f, 3f)
+        actorRayCast.debug()
     }
 
     override fun dispose() {
@@ -79,24 +89,18 @@ class GameScreen: AdvancedScreen() {
         disposeAll(WorldUtil)
     }
 
-    override fun touchDragged(screenX: Int, screenY: Int, pointer: Int): Boolean {
-        viewportUI.unproject(Vector2(screenX.toFloat(), screenY.toFloat())).apply {
-            actorAABB.x = (x - actorAABB.width / 2)
-            actorAABB.y = (y - actorAABB.height / 2)
-        }
+    val cb = RayCastCallback { fixture, point, normal, fraction ->
+        actorRayCast.width = sqrt((layoutGameToFigma.getX(point.x) - actorRayCast.x).absoluteValue.pow(2) + (layoutGameToFigma.getY(point.y) - actorRayCast.y).absoluteValue.pow(2))
+        fraction
+    }
 
-        layoutFigmaToGame.apply {
-            WorldUtil.world.QueryAABB(
-                { fixture ->
-                    log("fix - ${fixture.body.userData as AbstractBody}")
-                    false
-                },
-                getX(actorAABB.x),
-                getY(actorAABB.y),
-                getX(actorAABB.x + actorAABB.width),
-                getY(actorAABB.y + actorAABB.height),
-            )
+    override fun touchDragged(screenX: Int, screenY: Int, pointer: Int): Boolean {
+
+        viewportUI.unproject(Vector2(screenX.toFloat(), screenY.toFloat())).apply {
+            actorRayCast.rotation = MathUtils.atan2((y - actorRayCast.y), (x - actorRayCast.x)) * MathUtils.radiansToDegrees
+            d.set(this)
         }
+        
         return false
     }
 
