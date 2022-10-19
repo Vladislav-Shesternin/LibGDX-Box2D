@@ -61,3 +61,18 @@ fun List<Actor>.setFillParent() {
         }
     }
 }
+
+data class Size(
+    var width : Float = 0f,
+    var height: Float = 0f,
+) {
+    fun set(width: Float, height: Float) {
+        this.width = width
+        this.height = height
+    }
+
+    fun set(size: Size) {
+        width = size.width
+        height = size.height
+    }
+}

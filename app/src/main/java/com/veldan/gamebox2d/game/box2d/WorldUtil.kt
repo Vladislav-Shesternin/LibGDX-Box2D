@@ -33,8 +33,8 @@ object WorldUtil: Disposable {
 
 
     init {
-        world.setContactListener(WorldContactListener)
         world.setContactFilter(WorldContactFilter)
+        world.setContactListener(WorldContactListener)
     }
 
     override fun dispose() {

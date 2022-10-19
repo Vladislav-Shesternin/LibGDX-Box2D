@@ -63,7 +63,6 @@ class SplashScreen : AdvancedScreen() {
     private fun loadAssets() {
         with(SpriteManager) {
             loadableAtlasList   = SpriteManager.EnumAtlas.values().toMutableList()
-            loadableTextureList = SpriteManager.EnumTexture.values().toMutableList()
             load(game.assetManager)
         }
         with(FontTTFManager) {

@@ -18,27 +18,27 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 
 abstract class AdvancedScreen(
-    val gameW : Float = 100f,
-    val gameH : Float = 50f,
-    val figmaW: Float = 1400f,
-    val figmaH: Float = 700f,
+    val uiW: Float = 1400f,
+    val uiH: Float = 700f,
+    val boxW : Float = 100f,
+    val boxH : Float = 50f,
 ) : ScreenAdapter(), AdvancedInputProcessor {
 
     private val viewportBack by lazy { FillViewport(Gdx.graphics.width.toFloat(), Gdx.graphics.height.toFloat()) }
     private val stageBack    by lazy { AdvancedStage(viewportBack) }
 
-    val viewportUI by lazy { FitViewport(figmaW, figmaH) }
+    val viewportUI by lazy { FitViewport(uiW, uiH) }
     val stageUI    by lazy { AdvancedStage(viewportUI) }
 
-    val viewportBox2d by lazy { FitViewport(gameW, gameH) }
+    val viewportBox2d by lazy { FitViewport(boxW, boxH) }
 
     val inputMultiplexer    = InputMultiplexer()
     val backBackgroundImage = Image()
     val uiBackgroundImage   = Image()
 
-    val coroutineMain = CoroutineScope(Dispatchers.Main)
-    val layoutFigmaToGame = LayoutUtil(gameW, gameH, figmaW, figmaH)
-    val layoutGameToFigma = LayoutUtil(figmaW, figmaH, gameW, gameH)
+    val coroutineMain        = CoroutineScope(Dispatchers.Main)
+    val sizeConverterUIToBox = SizeConverter(Size(uiW, uiH), Size(boxW, boxH))
+    val sizeConverterBoxToUI = SizeConverter(Size(boxW, boxH), Size(uiW, uiH))
 
 
 
@@ -46,7 +46,7 @@ abstract class AdvancedScreen(
         stageBack.addActor(backBackgroundImage)
         stageUI.apply {
             addActor(uiBackgroundImage)
-            WorldUtil.world.createBodies()
+            createBodies()
             addActorsOnStageUI()
         }
 
@@ -80,7 +80,7 @@ abstract class AdvancedScreen(
         return super.keyDown(keycode)
     }
 
-    open fun World.createBodies() {}
+    open fun createBodies() {}
     open fun AdvancedStage.addActorsOnStageUI() {}
 
 
@@ -95,7 +95,7 @@ abstract class AdvancedScreen(
     fun setUIBackground(texture: TextureRegion) {
         uiBackgroundImage.apply {
             drawable = TextureRegionDrawable(texture)
-            setSize(figmaW, figmaH)
+            setSize(uiW, uiH)
         }
     }
 

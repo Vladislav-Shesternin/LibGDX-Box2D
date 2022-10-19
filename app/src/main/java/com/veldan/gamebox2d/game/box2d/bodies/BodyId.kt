@@ -4,5 +4,4 @@ enum class BodyId {
     CAR,
     CAR_2,
     BORDERS,
-    LOCATOR,
 }

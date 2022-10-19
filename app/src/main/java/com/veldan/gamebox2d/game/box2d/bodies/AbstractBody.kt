@@ -5,7 +5,8 @@ import com.badlogic.gdx.physics.box2d.BodyDef
 import com.badlogic.gdx.physics.box2d.FixtureDef
 import com.badlogic.gdx.utils.Disposable
 import com.veldan.gamebox2d.game.box2d.WorldUtil
-import com.veldan.gamebox2d.game.utils.LayoutUtil
+import com.veldan.gamebox2d.game.utils.Size
+import com.veldan.gamebox2d.game.utils.SizeConverter
 import com.veldan.gamebox2d.game.utils.advanced.AdvancedGroup
 import com.veldan.gamebox2d.game.utils.advanced.AdvancedStage
 import com.veldan.gamebox2d.utils.cancelCoroutinesAll
@@ -21,16 +22,17 @@ abstract class AbstractBody: Disposable {
 
     open val actor: AdvancedGroup? = null
 
-    lateinit var stage                : AdvancedStage
-    lateinit var layoutUtilFigmaToGame: LayoutUtil
-    lateinit var layoutUtilGameToFigma: LayoutUtil
+    lateinit var stageUI             : AdvancedStage
+    lateinit var sizeConverterUIToBox: SizeConverter
+    lateinit var sizeConverterBoxToUI: SizeConverter
 
-    val size          = Vector2()
+    val size          = Size()
+    val position      = Vector2()
     val coroutineMain = CoroutineScope(Dispatchers.Main)
 
-    val scale  by lazy { layoutUtilFigmaToGame.getScale(size.x) }
-    val body   by lazy { WorldUtil.world.createBody(bodyDef).apply { userData = this@AbstractBody } }
+    val scale  by lazy { sizeConverterUIToBox.getScale(size.width) }
     val center by lazy { WorldUtil.bodyEditor.getOrigin(name, scale) }
+    val body   by lazy { WorldUtil.world.createBody(bodyDef).apply { userData = this@AbstractBody } }
 
 
 
@@ -38,12 +40,8 @@ abstract class AbstractBody: Disposable {
         cancelCoroutinesAll(coroutineMain)
     }
 
-
-
-    open fun AdvancedGroup.addActorsOnGroup() {}
-
     open fun render() {
-        renderGroup()
+        renderActor()
     }
 
     open fun beginContact(contactBody: AbstractBody) {}
@@ -52,56 +50,53 @@ abstract class AbstractBody: Disposable {
 
 
 
-    private fun AdvancedStage.addGroup() {
-        actor?.let {
-            addActor(it)
-            layoutUtilGameToFigma.setPosition(it, body.position.x - center.x, body.position.y - center.y)
-            it.setSize(size.x, size.y)
-            it.addActorsOnGroup()
+    private fun addActor() {
+        actor?.apply {
+            stageUI.addActor(this)
+            setBounds(position.x, position.y, size.width, size.height)
         }
     }
 
-    private fun renderGroup() {
+    private fun renderActor() {
         actor?.apply {
-            layoutUtilGameToFigma.apply {
-                x = getX(body.position.x - center.x)
-                y = getY(body.position.y - center.y)
-                setOrigin(getX(center.x), getY(center.y))
+            sizeConverterBoxToUI.apply {
+                x = getSizeX(body.position.x - center.x)
+                y = getSizeY(body.position.y - center.y)
+                setOrigin(getSizeX(center.x), getSizeY(center.y))
             }
             rotation = Math.toDegrees(body.angle.toDouble()).toFloat()
         }
     }
 
-    private fun attachFixture() {
+    private fun createBody() {
         WorldUtil.bodyEditor.attachFixture(body, name, fixtureDef, scale)
+        WorldUtil.abstractBodies.add(this)
+        actor?.let { addActor() }
     }
 
 
 
     fun initialize(
-        stage     : AdvancedStage,
-        layoutUtil: LayoutUtil,
-        x         : Float,
-        y         : Float,
-        width     : Float,
-        height    : Float
+        stageUI             : AdvancedStage,
+        sizeConverterUIToBox: SizeConverter,
+        sizeConverterBoxToUI: SizeConverter,
+        position            : Vector2,
+        size                : Size,
     ) {
+        this.stageUI              = stageUI
+        this.sizeConverterUIToBox = sizeConverterUIToBox
+        this.sizeConverterBoxToUI = sizeConverterBoxToUI
+        this.position.set(position)
+        this.size.set(size)
 
-        this.stage            = stage
-        layoutUtilFigmaToGame = layoutUtil.apply {
-            layoutUtilGameToFigma = LayoutUtil(figmaW, figmaH, gameW, gameH)
+        with(sizeConverterUIToBox) {
+            bodyDef.position.set(
+                getSizeX(position.x) + center.x,
+                getSizeY(position.y) + center.y
+            )
         }
-        size.set(width, height)
 
-        bodyDef.position.set(
-            layoutUtilFigmaToGame.getX(x) + center.x,
-            layoutUtilFigmaToGame.getY(y) + center.y
-        )
-
-        attachFixture()
-        WorldUtil.abstractBodies.add(this)
-
-        actor?.let { stage.addGroup() }
+        createBody()
     }
 
 }

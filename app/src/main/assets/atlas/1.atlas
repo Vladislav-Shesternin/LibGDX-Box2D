@@ -1,0 +1,33 @@
+1.png
+size: 1611, 704
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+borders
+  rotate: false
+  xy: 2, 2
+  size: 1400, 700
+  orig: 1400, 700
+  offset: 0, 0
+  index: -1
+btn_deff
+  rotate: false
+  xy: 1404, 2
+  size: 100, 100
+  orig: 100, 100
+  offset: 0, 0
+  index: -1
+btn_press
+  rotate: false
+  xy: 1506, 2
+  size: 100, 100
+  orig: 100, 100
+  offset: 0, 0
+  index: -1
+background
+  rotate: false
+  xy: 1608, 2
+  size: 1, 1
+  orig: 1, 1
+  offset: 0, 0
+  index: -1

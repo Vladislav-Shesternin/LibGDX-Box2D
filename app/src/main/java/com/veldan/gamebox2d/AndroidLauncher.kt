@@ -51,6 +51,11 @@ class AndroidLauncher : FragmentActivity(), AndroidFragmentApplication.Callbacks
         showLoader()
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        exit()
+    }
+
     override fun exit() {
         finishAndRemoveTask()
         exitProcess(0)
@@ -62,15 +67,6 @@ class AndroidLauncher : FragmentActivity(), AndroidFragmentApplication.Callbacks
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         navController = findNavController(R.id.nav_host_fragment)
-    }
-
-    private fun setStartDestination(
-        @IdRes destinationId: Int,
-        args: Bundle? = null
-    ) {
-        with(navController) {
-            navInflater.inflate(R.navigation.nav_graph).apply { setStartDestination(destinationId) }.also { setGraph(it, args) }
-        }
     }
 
 }
